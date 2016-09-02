@@ -1,0 +1,147 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------ LaTeX-Template für Abschlussarbeiten, Prof. Thomas Görne, Dezember 2012 --------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---- Header (mit Formateinstellugen) laden, Inputencoding prüfen ------
+
+\input{hawmt-abschlussarbeits-header}
+
+%\usepackage[applemac]{inputenc} % Inputencoding für Mac
+%\usepackage[latin1]{inputenc} % Inputencoding für PC/Win
+\usepackage[utf8]{inputenc} % Inputencoding, universell
+%\usepackage[utf8x]{inputenc} % Inputencoding, universell
+
+
+%------------------------ Titelblatt-Layout laden ----------------------------------
+
+\input{hawmt-bachelor-titelblatt}
+%\input{hawmt-master-titelblatt}
+
+%---------------------------- Titeldefinitionen --------------------------------------
+
+\newcommand{\vorname}{Maria}
+\newcommand{\nachname}{Mustermann}
+\newcommand{\matrikelnummer}{1234567}
+
+\newcommand{\titel}{Titel Titel Titel Titel\\[0.2ex]
+				\Large Untertitel Unter btitel Untertitel Untertitel}
+
+\newcommand{\erstpruef}{Prof. Vorname Nachname}
+\newcommand{\zweitpruef}{Prof. Vorname Nachname}
+
+%\date{vorläufige Fassung vom \today}   % praktisch für Vorab-Versionen.
+\date{\sffamily Hamburg, 2. 2. 2020}  % Abgabedatum!
+
+%--------------------------------------------------------------------------------------
+%----------------------------- hier gehts los! --------------------------------------
+%--------------------------------------------------------------------------------------
+
+\begin{document}
+\selectlanguage{ngerman}
+\maketitle           % Titelseite erzeugen
+\newpage
+\tableofcontents % Inhaltsverzeichnis erzeugen
+\newpage
+
+
+%------------ Zusammenfassung / Abstract ------------------
+
+\thispagestyle{empty}
+\selectlanguage{english}
+\section*{\centering\abstractname}
+Form and layout of this \LaTeX-template incorporate the guidelines for theses in the Media Technology Department \glqq Richtlinien zur Erstellung schriftlicher Arbeiten, vorrangig Bachelor-Thesis (BA) und Master-Thesis (MA) im Department Medientechnik in der Fa\-kul\-tät DMI an der HAW Hamburg\grqq\ in the version of December 6, 2012 by Prof.\ Wolfgang Willaschek.
+
+The thesis should be printed single-sided (simplex). The binding correction (loss at the left aper edge due to binding) might be adjusted, according to the type of binding. This template incorporates a binding correction as BCOR=1mm (suitable for adhesive binding) in the \LaTeX\ document header.
+
+{\bfseries This is the english version of the opening abstract} (don't forget to set \LaTeX's language setting back to ngerman after the english text).
+
+
+\selectlanguage{ngerman}
+\section*{\centering\abstractname}
+Diese \LaTeX-Vorlage berücksichtigt in Form und Layout die Vorgaben für Abschlussarbeiten im Department Medientechnik \glqq Richtlinien zur Erstellung schriftlicher Arbeiten, vorrangig Bachelor-Thesis (BA) und Master-Thesis (MA) im Department Medientechnik in der Fakultät DMI an der HAW Hamburg\grqq, Fassung vom 6. Dezember 2012 von Prof. Wolfgang Willaschek.
+
+Der Ausdruck soll einseitig erfolgen (Simplex). Je nach Bindung ist ggf. die Bindekorrektur (Verlust am linken Seitenrand durch die Bindung) noch anzupassen. In dieser Vorlage ist eine Bindekorrektur im header der \LaTeX-Datei mit BCOR=1mm für Klebebindung eingestellt.
+
+{\bfseries Das ist die deutsche Version der vorangestellten Zusammenfassung. Beide Versionen -- englisch und deutsch -- sind verbindlich!}
+
+\newpage
+
+%--------------------------- Text -------------------------------
+
+\input{chapter/01_motivation.tex}
+
+
+\appendix
+\chapter{Material}
+
+\section{Fragebögen, Messprotokolle etc.}
+In den Anhängen landen ggf. Listings, Fragebögen, Datenblätter, Messprotokolle, Skizzen zu Versuchsaufbauten und ähnliches Material zur Arbeit. Im \LaTeX-Dokument leitet der Befehl appendix die Anhänge ein.
+
+
+
+%--------------------- VERZEICHNISSE ----------------
+
+\listoffigures % Abbildungsverzeichnis erzeugen
+\listoftables % Tabellenverzeichnis erzeugen
+
+%--------------------- LITERATURLISTE ---------------
+% Die Einträge sollen alphabetisch sortiert sein.
+
+\begin{thebibliography}{}
+
+% Formatierung für Internetquelle
+% Grundregel: Name, Vorname (falls vorhanden), Vö-Jahr (falls vorhanden), Titel in Anführungszeichen, URL, Datum des letzten Aufrufs
+% zur Formatierung der URL unbedingt den url-Befehl benutzen!!!
+\bibitem[Blu-ray Disc Association(2005)]{bluray}
+Blu-ray Disc Association:
+\emph{White paper Blu-ray Disc Format 2.B Audio Visual Application, Format Specifications for BD-ROM},
+\url{http://www.blu-raydisc.com/Assets/downloadablefile/2b_bdrom_audiovisualapplication_0305-12955-15269.pdf}, 2005, letzter Zugriff: 1. 10. 2012
+
+% Formatierung für Aufsatz / Paper: Titel in Anführungszeichen, Zeitschriftentitel kursiv
+\bibitem[Dooley \& Streicher(1982)]{dooley_streicher}
+Dooley, Wesley L.  \& Streicher, Ronald D.:
+\glqq M--S Stereo: A Powerful Technique for Working in Stereo\grqq,
+\emph{Journ. Audio Engineering Society} vol. 30 (10), 1982
+
+% Formatierung für Fachbuch, Diplomarbeit o.Ä.: Titel kursiv
+\bibitem[Kuttruff(1991)]{kuttruff}
+Kuttruff, Heinrich:
+\emph{Room Acoustics}, 3. Aufl., Elsevier 1991
+
+% Formatierung für Fachbuch mit Herausgeber und mehreren Autoren
+\bibitem[Spehr(2009)]{spehr}
+Spehr, Georg (Hrsg.):
+\emph{Funktionale Klänge}, transcript 2009
+
+% Formatierung für ein einzelnes Kapitel eines speziellen Autors aus einem Fachbuch mit mehreren Autoren
+\bibitem[Sowodniok(2009)]{sowodniok}
+Sowodniok, Ulrike:
+\glqq Funktionaler Stimmklang -- Ein Prozess mit Nachhalligkeit\grqq,
+in: Spehr, Georg (Hrsg.): \emph{Funktionale Klänge}, transcript 2009
+
+% Formatierung für Aufsatz / Paper: Titel in Anführungszeichen, Zeitschriftentitel kursiv
+\bibitem[Stephenson(1990)]{stephenson}
+Stephenson, Uwe:
+\glqq Comparison of the Mirror Image Source Method and the Sound Particle Simulation Method\grqq,
+\emph{Applied Acoustics} vol. 29, 1990
+
+
+\end{thebibliography}
+
+%--------------------- EIGENSTÄNDIGKEITSERKLÄRUNG ---------------
+\clearpage\thispagestyle{empty}
+\eigen  % im header definiert
+%--------------------------------------- ENDE ------------------------------------
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
