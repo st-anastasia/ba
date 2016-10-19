@@ -1,0 +1,27 @@
+\chapter{Grundlagen}
+
+\section{Client/Server Model}
+
+Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client/Server Model zu Grunde.
+
+Der Client ist ein Programm des Benutzers und ist dafür zuständig den Inhalt der Applikation oder Webseite auf dem Bildschirm in benutzerfreundlicher Art und Weise zu verarbeiten. Ein solcher typischer Client ist der Web Browser.
+
+Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus.
+Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
+
+Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bilder, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben
+Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
+
+Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folgt aus:
+
+Historisch ergeben, nutzen Client und Server das Übertragungsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
+
+[launchschool] beschreibt das Problem wie folgt:
+
+"When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful..."
+
+D.h, dass es eine Reihe von verschiedenen Techniken gibt, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
+
+vgl. https://launchschool.com/books/http/read/background#briefhistory
+https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works
+
