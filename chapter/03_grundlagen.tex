@@ -16,12 +16,10 @@ Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folg
 
 Historisch ergeben, nutzen Client und Server das Übertragungsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
 
-[launchschool] beschreibt das Problem wie folgt:
+\citep[Background]{launchschool} beschreibt das Problem wie folgt:
 
 "When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful..."
 
 D.h, dass es eine Reihe von verschiedenen Techniken gibt, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
 
-vgl. https://launchschool.com/books/http/read/background#briefhistory
-https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works
-
+Vgl. \citep[Background]{launchschool}, \citep{culloca}
