@@ -1,20 +1,19 @@
 \chapter{Grundlagen}
 
 \section{Client/Server Model}
+\label{sec:client_server}
 
 Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client/Server Model zu Grunde.
 
 Der Client ist ein Programm des Benutzers und ist dafür zuständig den Inhalt der Applikation oder Webseite auf dem Bildschirm in benutzerfreundlicher Art und Weise zu verarbeiten. Ein solcher typischer Client ist der Web Browser.
 
-Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus.
-Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
+Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus. Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
 
-Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bilder, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben
-Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
+Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
 
 Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folgt aus:
 
-Historisch ergeben, nutzen Client und Server das Übertragungsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
+Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
 
 \citep[Background]{launchschool} beschreibt das Problem wie folgt:
 
@@ -23,3 +22,34 @@ Historisch ergeben, nutzen Client und Server das Übertragungsprotokoll HTTP fü
 D.h, dass es eine Reihe von verschiedenen Techniken gibt, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
 
 Vgl. \citep[Background]{launchschool}, \citep{culloca}
+
+\section{HTTP}
+
+In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikationsprotokoll HTTP verwendet wird. Ein Protokoll zeichnet sich zunächst durch 3 grundlegende Eigenschaften aus:
+
+\begin{itemize} 
+\item Syntax - Datenformat und Kodierung
+\item Semantik - Steuerungsinformation und Fehlerbehandlung
+\item Zeitablauf - Geschwindigkeitsanpassung und Reihenfolge
+\end{itemize}
+
+dubost zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
+
+"When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing."
+
+Weiterhin beschreibt dubost, dass in einem online Kommunikationsprotokoll die gleichen Elemente vorkommen. Die Syntax, ist die Abfolge von Zeichen, etwa Bezeichnern die für das Schreiben des Protokolls verwendet werden. Die Semantik ist die Bedeutung, die mit diesen Bezeichnern assoziiert wird. Und schließlich der Zeitablauf ist eine vorgegeben Reihenfolge, in der Client und Server diese 
+Bezeichner austauschen.
+
+HTTP ist dabei ein sog. Application Level Protocol, d.h, dass es in der Abstraktionsebene höher angesiedelt ist. Es setzt wiederum auf eine Reihe weiterer Protokolle auf, welche sich etwa um die Übertragung der eigentlichen Datenpakete oder die physikalische Übertragung der elektrischen Signale kümmern. HTTP selbst beschreibt hingegen die Bedeutung und das Format der gesamten übertragenen Nachricht.
+
+\begin{listing}[H]
+\begin{minted}{http}
+GET / HTTP/1.1
+Host: www.opera.com
+User-Agent: Opera
+\end{minted}
+\caption{HTTP GET Anfrage.}
+\label{lst:http-get}
+\end{listing}
+
+\section{CGI}

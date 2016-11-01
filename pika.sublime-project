@@ -5,8 +5,7 @@
 			"path": "."
 		}
 	],
-
    "settings": {
-        "TEXroot": "master.tex"
+      "TEXroot": "master.tex"
     }
 }
