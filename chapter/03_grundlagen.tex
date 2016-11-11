@@ -33,7 +33,7 @@ In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikat
 \item Zeitablauf - Geschwindigkeitsanpassung und Reihenfolge
 \end{itemize}
 
-dubost zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
+\citep{dubost} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
 
 "When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing."
 
@@ -42,14 +42,48 @@ Bezeichner austauschen.
 
 HTTP ist dabei ein sog. Application Level Protocol, d.h, dass es in der Abstraktionsebene höher angesiedelt ist. Es setzt wiederum auf eine Reihe weiterer Protokolle auf, welche sich etwa um die Übertragung der eigentlichen Datenpakete oder die physikalische Übertragung der elektrischen Signale kümmern. HTTP selbst beschreibt hingegen die Bedeutung und das Format der gesamten übertragenen Nachricht.
 
+Folgend ist eine HTTP GET Anfrage aufgelistet:
+
 \begin{listing}[H]
 \begin{minted}{http}
 GET / HTTP/1.1
 Host: www.opera.com
 User-Agent: Opera
 \end{minted}
-\caption{HTTP GET Anfrage.}
-\label{lst:http-get}
+\caption{HTTP GET Request}
 \end{listing}
+
+Diese Nachricht spezifiziert, dass der Client eine Ressource erhalten möchte.
+Die Ressource, die der Client erhalten möchte befindet sich im root-Verzeichnis
+Die Übertragung soll mittels HTTP version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \textit{www.opera.com} befindet. Ferner teilt der Client einen sog. HTTP Header, namens \texit{User-Agent} Informationen über das Programm, welches für die Kommunikation verwendet wurde.
+
+Eine Antwort vom Server könnte dabei wie folgt aussehen:
+
+\begin{listing}[H]
+\begin{minted}{http}
+HTTP/1.1 200 OK
+Date: Wed, 23 Nov 2011 19:41:37 GMT
+Server: Apache
+Content-Type: text/html; charset=utf-8
+Set-Cookie: language=none; path=/; domain=www.opera.com; 
+  expires=Thu, 25-Aug-2030 19:41:38 GMT
+Set-Cookie: language=en; path=/; domain=.opera.com; 
+  expires=Sat, 20-Nov-2030 19:41:38 GMT
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+
+<!DOCTYPE html>
+<html lang="en">
+…
+\end{minted}
+\caption{HTTP GET Response}
+\end{listing}
+
+Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie für Menschen verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und Schließlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
+
+Weitere HTTP Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT. 
+Jede von denen hat eine unterschiedliche Rolle. Siehe \citep[Kap. 4]{http_spec}. 
+
+Vgl. \citep{dubost}
 
 \section{CGI}
