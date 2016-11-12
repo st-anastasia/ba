@@ -54,7 +54,7 @@ User-Agent: Opera
 
 Diese Nachricht spezifiziert, dass der Client eine Ressource erhalten möchte.
 Die Ressource, die der Client erhalten möchte befindet sich im root-Verzeichnis
-Die Übertragung soll mittels HTTP version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \emph{www.opera.com} befindet. Ferner teilt der Client einen sog. HTTP Header, namens \emph{User-Agent} Informationen über das Programm, welches für die Kommunikation verwendet wurde.
+Die Übertragung soll mittels HTTP version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \emph{www.opera.com}befindet. Ferner teilt der Client einen sog. HTTP Header, namens \emph{User-Agent} Informationen über das Programm, welches für die Kommunikation verwendet wurde.
 
 Eine Antwort vom Server könnte dabei wie folgt aussehen:
 
@@ -85,7 +85,7 @@ Jede von denen hat eine unterschiedliche Rolle. Siehe \citep[Kap. 4]{http_spec}.
 
 Vgl. \citep{dubost}
 
-\section{CGI}
+\section{Serverseitige Applikationen}
 
 Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver, namens httpd, war nur in der Lage statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch, machte der Überfluss an online Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten Daten, wie den Suchbegriff, an den Server abzuschicken und der Server in der Lage sein musste diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
 
@@ -93,13 +93,11 @@ Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte s
 
 Folgend ist ein exemplarisches CGI "Hello World" Programm dargestellt. Ein Benutzer, namens Doug, gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL: 
 
-
 \begin{minted}{http}
 http://example.com/cgi-bin/hello.pl?username=Doug
 \end{minted}
 
-Wenn der Webserver diese Anfrage bekommt, weiß er wie er die URL in zwei Teile trennt: Denn Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Benutzereingabe Teil (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über STDIN an das \emph{hello.pl} Script weiter. Alles was das Script nun tun muss, ist den QUERY\_STRING nach dem Schlüssel 
-\emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel "Hello user" Programm ist in \ref{lst:hello-pl} abgebildet. 
+Wenn der Webserver diese Anfrage bekommt, weiß er wie er die URL in zwei Teile trennt: Denn Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Benutzereingabe Teil (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über STDIN an das \emph{hello.pl} Script weiter. Alles, was das Script nun tun muss, ist den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel "Hello user" Programm ist in \ref{lst:hello_pl} abgebildet. 
 
 \begin{listing}[H]
 \begin{minted}{perl}
@@ -112,8 +110,47 @@ Wenn der Webserver diese Anfrage bekommt, weiß er wie er die URL in zwei Teile 
   print "Hello $username!\n";
 \end{minted}
 \caption{"Hello user" CGI script}
-\label{lst:hello-pl}
+\label{lst:hello_pl}
 \end{listing} 
 
-Ein solches serverseitiges Programm, generiert gewoehnlich dynamische Inhalte, indem es die Information dafür aus einer Datenbank bezieht. Heutige serverseitige Webandwendungen nutzen weiterhin entweder eine Weiterentwicklung der CGI Schnittstelle oder ein ähnliches Prinzip.
+Ein solches serverseitiges Programm, generiert gewöhnlich dynamische Inhalte, indem es die Information dafür aus einer Datenbank bezieht. Heutige serverseitige Webanwendungen nutzen weiterhin entweder eine Weiterentwicklung der CGI Schnittstelle oder ein ähnliches Prinzip.
+
+Vgl. \citep[Kap. 1.1]{bekman}
+
+Im Kapitel \ref{sec:client_server} wurde auf die Diskrepanz hingewiesen, dass HTTP ein zustandsloses Protokoll ist, eine Webanwendung jedoch Zustandshaftigkeit benötigt, um Benutzersitzungen, etwa Besuch und Einkauf in einem Webshop, auseinanderzuhalten. Eine solche Session kann von dem Client und Server Programm
+künstlich aufrecht erhalten.
+
+Dabei generiert das serverseitige Programm einen Session Identifier beim ersten Besuch des Benutzers und sendet es an den Client. Der Client wiederum sendet diese  ID beim jeder weiteren Anfrage an den Server mit. Ein Mechanismus für Benutzersessions im Web ist das Setzen von HTTP Cookies, welche dann automatisch beim den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind  Übertragung mittels custom HTTP Header oder Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
+
+Siehe \citep[Stateful Web Applications]{launchschool}  
+
+\section{Serverseitige Architektur}
+
+In Objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model, View, Controller Pattern vorherrschend.
+
+Galilio schreibt: "Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle."
+
+Unabhängig von der jeweiligen Abwandlung des MVC Pattern gilt, dass der Controller für Benutzereingaben, das Model für den Zustand und der View für das Darstellen dieses Zustands verantwortlich ist. Vgl. Galilio  8.2.3
+
+Serverseitige Webanwendungen interpretieren MVC wie folgt. Benutzerinteraktionen führen weitgehend zu Anfragen einer komplett neuen Ressource, e.g:
+
+\begin{minted}{http}
+GET http://example.com/articles
+GET http://example.com/articles/1
+GET http://example.com/articles/1/comments
+\end{minted}
+
+Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden.
+
+
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/server_side_mvc} 
+\caption{Serverseitiges MVC}\label{server_side_mvc}
+\end{figure}
+
+
+
+
+
 
