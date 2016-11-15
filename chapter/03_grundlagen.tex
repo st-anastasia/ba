@@ -85,7 +85,9 @@ Jede von denen hat eine unterschiedliche Rolle. Siehe \citep[Kap. 4]{http_spec}.
 
 Vgl. \citep{dubost}
 
-\section{Serverseitige Applikationen}
+\section{Serverseitige Webanwendungen}
+
+\subsection{Grundprinzip}
 
 Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver, namens httpd, war nur in der Lage statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch, machte der Überfluss an online Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten Daten, wie den Suchbegriff, an den Server abzuschicken und der Server in der Lage sein musste diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
 
@@ -124,9 +126,9 @@ Dabei generiert das serverseitige Programm einen Session Identifier beim ersten 
 
 Siehe \citep[Stateful Web Applications]{launchschool}  
 
-\section{Serverseitige Architektur}
+\subsection{Architektur}
 
-In Objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model, View, Controller Pattern vorherrschend.
+In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model, View, Controller Pattern vorherrschend.
 
 Galilio schreibt: "Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle."
 
@@ -140,7 +142,7 @@ GET http://example.com/articles/1
 GET http://example.com/articles/1/comments
 \end{minted}
 
-Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden.
+Jedes ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden.
 
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
@@ -149,8 +151,21 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 \caption{Serverseitiges MVC}\label{server_side_mvc}
 \end{figure}
 
+\section{Clientseitige Webanwendungen}
+
+\subsection{Grundprinzip}
+
+\subsection{Architektur}
+
+Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und ein somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt. 
+
+Auch hier wird bei einer objektorientierten Umsetzung das MVC Pattern bzw. eine Abwandlung davon verwendet. Dabei werden Benutzereingaben direkt von einem dafür zuständigen Controller verarbeitet. Der Controller leitet die Anfrage an das Model weiter, welches mit einem Webservice interagieren kann. Anschließend benachrichtigt der Controller das View über die Änderung des Zustands der Applikation. Schließlich sorgt das View für die direkte DOM Manipulation eines bestimmten Teilbereich der Seite.
+
+Die meisten Clientseitige Frameworks führen eine Technik namens "Databinding" ein.
+Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden und aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter oder sog. ViewModel verstanden werden kann.
 
 
+    
 
 
 
