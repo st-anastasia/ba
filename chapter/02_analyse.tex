@@ -2,7 +2,7 @@
 
 \section{Einleitung}
 
-In dem Kapitel \hyperref[sec:motivation]{Motivation} wurde geschildert, dass eine Web Photoverwaltung Software als Exempel für die Zielsetzungen dieser Arbeit dienen wird. Nun soll analysiert werden welche Realanforderungen notwendig sind um den zuvor definierten \hyperref[sec:zielsetzung]{Zielsetzungen} gerecht zu werden.
+In dem Kapitel \hyperref[sec:motivation]{Motivation} wurde geschildert, dass eine Web-Photoverwaltungssoftware als Exempel für die Zielsetzungen dieser Arbeit dienen wird. Nun soll analysiert werden, welche Realanforderungen notwendig sind, um den zuvor definierten \hyperref[sec:zielsetzung]{Zielsetzungen} gerecht zu werden.
 
 \section{User Experience}
 
@@ -12,30 +12,29 @@ Folgend werden Anforderungen beschrieben, die sich mit dem Nutzungserlebnis und 
 
 Die Hauptanforderung an die Webanwendung besteht darin dem Benutzer das an eine native Applikation angelehnte Nutzungserlebnis zu gewährleisten. Die bei einer
 klassischen Webanwendung entstehenden Ladezeiten, welche nach jeder Benutzerinteraktion durch das erneute Laden und Darstellen des gesamten Inhaltes
-auftreten sollen vermieden werden.
+auftreten, sollen vermieden werden.
 
 \subsection{Flaches Design}
 
-Das Benutzerinterface der Anwendung soll unter Anwendung der Paradigmen vom flachem Design minimalistisch jedoch mit klar erkennbaren Aktionsaufrufen gestaltet werden.
+Das Benutzerinterface der Anwendung soll unter Anwendung der Paradigmen vom flachen Design minimalistisch, jedoch mit klar erkennbaren Aktionsaufrufen, gestaltet werden.
 
 \subsection{Responsive Design}
 
 Die Webanwendung soll sich auf potentiell unterschiedliche Displaygrößen anpassen. Das Benutzerinterface soll hier jedoch nicht komplett für jede
 mögliche Abstufung der Displaygröße neu gestaltet werden. Es sollen Layout Regeln verwendet werden, die es dem gleichen Interface erlauben seine Elemente
-bei shrinkender bzw. wachsender Größe neu zu positionieren.  
+bei schrumpfender bzw. wachsender Größe neu zu positionieren.
 
 \subsection{Photo Zentrierung}
 
-Ein besonderes Unterproblem der Adaptierung an verschiedene Gerätedisplays ist die Photo Betrachtung. Hier sind sowohl die Auflösung des Photos, als auch des Displays der Software nicht zu Implementierungszeit sondern erst zur Laufzeit bekannt. Um das Photo in der Gesamtheit auf einem beliebigen Display zu betrachten, soll es zur Laufzeit sowohl in der Detailansicht als auch innerhalb seines Platzhalters in der Gesamtübersicht zentriert werden. 
+Ein besonderes Unterproblem der Adaptierung an verschiedene Gerätedisplays ist die Photobetrachtung. Hier sind sowohl die Auflösung des Photos als auch des Displays für die Software nicht zu Implementierungszeit, sondern erst zur Laufzeit bekannt. Um das Photo in der Gesamtheit auf einem beliebigen Display zu betrachten, soll es zur Laufzeit sowohl in der Detailansicht als auch innerhalb seines Platzhalters in der Gesamtübersicht zentriert werden.
 
 \section{User Stories}
 
-In diesem Unterkapitel werden die einzelnen Features der Beispiel Applikation definiert.
+In diesem Unterkapitel werden die einzelnen Features der Beispiel-Applikation deffiniert.
 
 \subsection{Authentifizierung}
 
-Die Photosoftware soll Benutzern nur anhand einer Benutzerkennung und Passworts 
-den Zugang gewähren. Unberechtigter Zugriff soll folglich mit entsprechender Fehlermeldung verweigert werden.
+Die Photosoftware soll den Benutzern nur anhand einer Benutzerkennung und eines Passworts den Zugang gewähren. Unberechtigter Zugriff soll folglich mit entsprechender Fehlermeldung verweigert werden.
 
 \subsection{Navigation Menü}
 
@@ -48,20 +47,19 @@ Dem Benutzer soll eine Auflistung seiner gespeicherten Photos dargestellt werden
 
 \subsection{Paginierung/Nachladen der Photos}
 
-Falls sich sehr viele Photos in der \hyperref[ssec:photo_galerie]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden weitere Bilder in Batches nachzuladen.
+Falls sich sehr viele Photos in der \hyperref[ssec:photo_galerie]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
 
 \subsection{Photo Details}
 
-Der Benutzer soll in der Lage sein, Photos mit Metadaten wie Name und Beschreibung zu annotieren. Bei der Auswahl eines einzelnen Photos in 
-der Galerie sollen diese annotierten Photo Information dargestellt werden.
+Der Benutzer soll in der Lage sein, Photos mit Metadaten wie Name und Beschreibung zu annotieren. Bei der Auswahl eines einzelnen Photos in der Galerie sollen diese annotierten Photoinformationen dargestellt werden.
 
 \subsection{Photo Großansicht}
 
-Dem Benutzer soll ermöglicht werden ein bestimmtes Photo in der vollständiger Größe zu betrachten.
+Dem Benutzer soll ermöglicht werden, ein bestimmtes Photo in der vollständiger Größe zu betrachten.
 
 \subsection{Photo Slider}
 
-Wenn der Benutzer die Detailansicht eines Photos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Photo zu navigieren. 
+Wenn der Benutzer die Detailansicht eines Photos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Photo zu navigieren.
 
 \subsection{Photo Freitext Suche}
 \label{ssec:photo_freitext_suche}
@@ -70,11 +68,11 @@ Der Benutzer soll in Beschreibungen und Namen nach seinen Photos durch Eingabe v
 
 \subsection{Autovervollständigung der Freitextsuche}
 
-Die Freitext Suche aus \ref{ssec:photo_freitext_suche} soll aus den in der gesamten Photosammlung befindenden Benamungen und Beschreibungen während der 
+Die Freitext-Suche aus \ref{ssec:photo_freitext_suche} soll aus den in der gesamten Photosammlung befindenden Benennungen und Beschreibungen während der
 Sucheingabe vervollständigt werden.
 
 \subsection{Photos nach Erstellungsdatum Filtern}
 
-Der Benutzer soll in der Lage sein nur Photos aus einem von ihm gewählten Zeitraum zu betrachten. 
+Der Benutzer soll in der Lage sein, nur Photos aus einem von ihm gewählten Zeitraum zu betrachten.
 
 
