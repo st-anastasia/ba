@@ -3,17 +3,17 @@
 \section{Client/Server Model}
 \label{sec:client_server}
 
-Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client/Server Model zu Grunde.
+Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client-/Server-Model zu Grunde.
 
-Der Client ist ein Programm des Benutzers und ist dafür zuständig den Inhalt der Applikation oder Webseite auf dem Bildschirm in benutzerfreundlicher Art und Weise zu verarbeiten. Ein solcher typischer Client ist der Web Browser.
+Der Client ist ein Programm des Benutzers und ist dafür zuständig, den Inhalt der Applikation oder Webseite auf dem Bildschirm in benutzerfreundlicher Art und Weise zu verarbeiten. Ein solcher typischer Client ist der Web Browser.
 
 Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus. Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
 
-Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
+Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet, sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben, Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
 
 Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folgt aus:
 
-Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
+Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll-Implementierung einfach zu halten und um Serverressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Fehlerfall muss ebenfalls nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
 
 \cite[Background]{Parikh:2015} beschreibt das Problem wie folgt:
 
@@ -27,17 +27,17 @@ Vgl. \cite[Background]{Parikh:2015}, \cite{Culloca:2006}
 
 In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikationsprotokoll HTTP verwendet wird. Ein Protokoll zeichnet sich zunächst durch 3 grundlegende Eigenschaften aus:
 
-\begin{itemize} 
+\begin{itemize}
 \item Syntax - Datenformat und Kodierung
 \item Semantik - Steuerungsinformation und Fehlerbehandlung
 \item Zeitablauf - Geschwindigkeitsanpassung und Reihenfolge
 \end{itemize}
 
-\cite{Dubost:2012} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
+\cite{Dubost:2012} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern auch aus der realen Welt stammen:
 
 "When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing."
 
-Weiterhin beschreibt \cite{Dubost:2012}, dass in einem online Kommunikationsprotokoll die gleichen Elemente vorkommen. Die Syntax, ist die Abfolge von Zeichen, etwa Bezeichnern die für das Schreiben des Protokolls verwendet werden. Die Semantik ist die Bedeutung, die mit diesen Bezeichnern assoziiert wird. Und schließlich der Zeitablauf ist eine vorgegeben Reihenfolge, in der Client und Server diese Bezeichner austauschen.
+Weiterhin beschreibt \cite{Dubost:2012}, dass in einem Online-Kommunikationsprotokoll die gleichen Elemente vorkommen: die Syntax - die Abfolge von Zeichen, etwa Bezeichnern, die für das Schreiben des Protokolls verwendet werden; die Semantik - die Bedeutung, die mit diesen Bezeichnern assoziiert wird; und schließlich der Zeitablauf - eine vorgegebene Reihenfolge, in der Client und Server diese Bezeichner austauschen.
 
 HTTP ist dabei ein sog. Application Level Protocol, d.h, dass es in der Abstraktionsebene höher angesiedelt ist. Es setzt wiederum auf eine Reihe weiterer Protokolle auf, welche sich etwa um die Übertragung der eigentlichen Datenpakete oder die physikalische Übertragung der elektrischen Signale kümmern. HTTP selbst beschreibt hingegen die Bedeutung und das Format der gesamten übertragenen Nachricht.
 
@@ -53,7 +53,7 @@ User-Agent: Opera
 \end{listing}
 
 Diese Nachricht spezifiziert, dass der Client eine Ressource erhalten möchte.
-Die Ressource, die der Client erhalten möchte befindet sich im root-Verzeichnis
+Die Ressource, die der Client erhalten möchte, befindet sich im root-Verzeichnis.
 Die Übertragung soll mittels HTTP version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \emph{www.opera.com}befindet. Ferner teilt der Client einen sog. HTTP Header, namens \emph{User-Agent} Informationen über das Programm, welches für die Kommunikation verwendet wurde.
 
 Eine Antwort vom Server könnte dabei wie folgt aussehen:
@@ -64,9 +64,9 @@ HTTP/1.1 200 OK
 Date: Wed, 23 Nov 2011 19:41:37 GMT
 Server: Apache
 Content-Type: text/html; charset=utf-8
-Set-Cookie: language=none; path=/; domain=www.opera.com; 
+Set-Cookie: language=none; path=/; domain=www.opera.com;
   expires=Thu, 25-Aug-2030 19:41:38 GMT
-Set-Cookie: language=en; path=/; domain=.opera.com; 
+Set-Cookie: language=en; path=/; domain=.opera.com;
   expires=Sat, 20-Nov-2030 19:41:38 GMT
 Vary: Accept-Encoding
 Transfer-Encoding: chunked
@@ -78,9 +78,9 @@ Transfer-Encoding: chunked
 \caption{HTTP GET Response}
 \end{listing}
 
-Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie für Menschen verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und Schließlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
+Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie einer verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und letzendlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
 
-Weitere HTTP Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT. 
+Weitere HTTP-Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT.
 Jede von denen hat eine unterschiedliche Rolle. Siehe \cite[Kap. 4]{Fielding:2014}. 
 
 Vgl. \cite{Dubost:2012}
@@ -89,46 +89,46 @@ Vgl. \cite{Dubost:2012}
 
 \subsection{Grundprinzip}
 
-Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver, namens httpd, war nur in der Lage statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch, machte der Überfluss an online Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten Daten, wie den Suchbegriff, an den Server abzuschicken und der Server in der Lage sein musste diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
+Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver namens httpd war nur in der Lage, statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch machte der Überfluss an Online-Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten, Daten, wie den Suchbegriff, an den Server abzuschicken und der Server seinerseits im Stande sein sein musste, diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
 
-Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard um externe Applikationen mit Webservern zu verbinden, um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur in der Lage sein vom STDIN zu lesen und auf STDOUT zu schreiben.  
+Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard, um externe Applikationen mit Webservern zu verbinden und um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur die Fähigkeit besitzen, sein vom STDIN zu lesen und auf STDOUT zu schreiben.
 
-Folgend ist ein exemplarisches CGI "Hello World" Programm dargestellt. Ein Benutzer, namens Doug, gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL: 
+Folgend ist ein exemplarisches CGI "Hello World" Programm dargestellt. Ein Benutzer namens Doug gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL:
 
 \begin{minted}{http}
 http://example.com/cgi-bin/hello.pl?username=Doug
 \end{minted}
 
-Wenn der Webserver diese Anfrage bekommt, weiß er wie er die URL in zwei Teile trennt: Denn Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Benutzereingabe Teil (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über STDIN an das \emph{hello.pl} Script weiter. Alles, was das Script nun tun muss, ist den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel "Hello user" Programm ist in \ref{lst:hello_pl} abgebildet. 
+Wenn der Webserver diese Anfrage bekommt, weiß er, wie er die URL in zwei Teile trennt: den Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Teil mit der Benutzereingabe (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über STDIN an das \emph{hello.pl} Script weiter. Die Aufagbe des Scriptes ist nun, den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel "Hello user" Programm ist in \ref{lst:hello_pl} abgebildet.
 
 \begin{listing}[H]
 \begin{minted}{perl}
   #!/usr/bin/perl
-  
+
   use CGI qw(:standard);
   my $username = param('username') || "unknown";
-  
+
   print "Content-type: text/plain\n\n";
   print "Hello $username!\n";
 \end{minted}
 \caption{"Hello user" CGI script}
 \label{lst:hello_pl}
-\end{listing} 
+\end{listing}
 
-Ein solches serverseitiges Programm, generiert gewöhnlich dynamische Inhalte, indem es die Information dafür aus einer Datenbank bezieht. Heutige serverseitige Webanwendungen nutzen weiterhin entweder eine Weiterentwicklung der CGI Schnittstelle oder ein ähnliches Prinzip.
+Ein solches serverseitiges Programm generiert für gewöhnlich dynamische Inhalte, indem es die Information dafür aus einer Datenbank bezieht. Heutige serverseitige Webanwendungen nutzen weiterhin entweder eine Weiterentwicklung der CGI Schnittstelle oder ein ähnliches Prinzip.
 
 Vgl. \cite[Kap. 1.1]{Bekman:2003}
 
 Im Kapitel \ref{sec:client_server} wurde auf die Diskrepanz hingewiesen, dass HTTP ein zustandsloses Protokoll ist, eine Webanwendung jedoch Zustandshaftigkeit benötigt, um Benutzersitzungen, etwa Besuch und Einkauf in einem Webshop, auseinanderzuhalten. Eine solche Session kann von dem Client und Server Programm
-künstlich aufrecht erhalten.
+künstlich aufrecht erhalten werden.
 
-Dabei generiert das serverseitige Programm einen Session Identifier beim ersten Besuch des Benutzers und sendet es an den Client. Der Client wiederum sendet diese  ID beim jeder weiteren Anfrage an den Server mit. Ein Mechanismus für Benutzersessions im Web ist das Setzen von HTTP Cookies, welche dann automatisch beim den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind  Übertragung mittels custom HTTP Header oder Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
+Dabei generiert das serverseitige Programm einen Session-Identifier beim ersten Besuch des Benutzers und sendet es an den Client. Der Client wiederum sendet diese  ID bei jeder weiteren Anfrage an den Server mit. Ein Mechanismus für die Benutzersessions im Web ist das Setzen von HTTP-Cookies, welche dann automatisch bei den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind  Übertragung mittels custom HTTP Header oder Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
 
-Siehe \cite[Stateful Web Applications]{Parikh:2015}  
+Siehe \cite[Stateful Web Applications]{Parikh:2015}
 
 \subsection{Architektur}
 
-In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model, View, Controller Pattern vorherrschend.
+In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model-View-Controller Pattern vorherrschend.
 
 Galilio schreibt: "Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle."
 
@@ -142,8 +142,8 @@ GET http://example.com/articles/1
 GET http://example.com/articles/1/comments
 \end{minted}
 
-Jedes ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden. Siehe \ref{fig:server_side_mvc}
-{}
+Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche sich nur um den neuen Inhalt von der vorherigen unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML-Template-Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde ein HTML-Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model-Daten ersetzt werden. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden. Siehe \ref{fig:server_side_mvc}
+
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/server_side_mvc} 
