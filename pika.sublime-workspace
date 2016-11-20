@@ -125,10 +125,19 @@
 			}
 		},
 		{
+			"file": "chapter/literature.tex",
+			"settings":
+			{
+				"buffer_size": 1318,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "chapter/03_grundlagen.tex",
 			"settings":
 			{
-				"buffer_size": 8860,
+				"buffer_size": 17632,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -471,6 +480,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"Kap.",
+			"kap.",
 			"Hello",
 			"build",
 			"citep",
@@ -596,9 +607,7 @@
 			"brony_store",
 			"blue_grey-400",
 			"'",
-			"md",
-			"show_onboarding_widget",
-			"onboarding_widget"
+			"md"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -645,7 +654,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -670,7 +679,7 @@
 							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 159.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -678,19 +687,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "chapter/03_grundlagen.tex",
+					"file": "chapter/literature.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8860,
+						"buffer_size": 1318,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8522,
-								8527
+								1156,
+								1168
 							]
 						],
 						"settings":
@@ -698,7 +707,36 @@
 							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2010.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "chapter/03_grundlagen.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17632,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16186,
+								16186
+							]
+						],
+						"settings":
+						{
+							"spell_check": true,
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3467.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -752,7 +790,7 @@
 	},
 	"output.latextools":
 	{
-		"height": 260.0
+		"height": 114.0
 	},
 	"pinned_build_system": "",
 	"project": "pika.sublime-project",

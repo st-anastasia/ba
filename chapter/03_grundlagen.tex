@@ -15,13 +15,13 @@ Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folg
 
 Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll Implementierung einfach zu halten und um Server Ressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Falle von muss ebenfalls Nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
 
-\citep[Background]{launchschool} beschreibt das Problem wie folgt:
+\cite[Background]{Parikh:2015} beschreibt das Problem wie folgt:
 
 "When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful..."
 
 D.h, dass es eine Reihe von verschiedenen Techniken gibt, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
 
-Vgl. \citep[Background]{launchschool}, \citep{culloca}
+Vgl. \cite[Background]{Parikh:2015}, \cite{Culloca:2006}
 
 \section{HTTP}
 
@@ -33,11 +33,11 @@ In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikat
 \item Zeitablauf - Geschwindigkeitsanpassung und Reihenfolge
 \end{itemize}
 
-\citep{dubost} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
+\cite{Dubost:2012} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern aus der realen Welt stammen: 
 
 "When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing."
 
-Weiterhin beschreibt \citep{dubost}, dass in einem online Kommunikationsprotokoll die gleichen Elemente vorkommen. Die Syntax, ist die Abfolge von Zeichen, etwa Bezeichnern die für das Schreiben des Protokolls verwendet werden. Die Semantik ist die Bedeutung, die mit diesen Bezeichnern assoziiert wird. Und schließlich der Zeitablauf ist eine vorgegeben Reihenfolge, in der Client und Server diese Bezeichner austauschen.
+Weiterhin beschreibt \cite{Dubost:2012}, dass in einem online Kommunikationsprotokoll die gleichen Elemente vorkommen. Die Syntax, ist die Abfolge von Zeichen, etwa Bezeichnern die für das Schreiben des Protokolls verwendet werden. Die Semantik ist die Bedeutung, die mit diesen Bezeichnern assoziiert wird. Und schließlich der Zeitablauf ist eine vorgegeben Reihenfolge, in der Client und Server diese Bezeichner austauschen.
 
 HTTP ist dabei ein sog. Application Level Protocol, d.h, dass es in der Abstraktionsebene höher angesiedelt ist. Es setzt wiederum auf eine Reihe weiterer Protokolle auf, welche sich etwa um die Übertragung der eigentlichen Datenpakete oder die physikalische Übertragung der elektrischen Signale kümmern. HTTP selbst beschreibt hingegen die Bedeutung und das Format der gesamten übertragenen Nachricht.
 
@@ -81,9 +81,9 @@ Transfer-Encoding: chunked
 Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie für Menschen verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und Schließlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
 
 Weitere HTTP Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT. 
-Jede von denen hat eine unterschiedliche Rolle. Siehe \citep[Kap. 4]{http_spec}. 
+Jede von denen hat eine unterschiedliche Rolle. Siehe \cite[Kap. 4]{Fielding:2014}. 
 
-Vgl. \citep{dubost}
+Vgl. \cite{Dubost:2012}
 
 \section{Serverseitige Webanwendungen}
 
@@ -117,14 +117,14 @@ Wenn der Webserver diese Anfrage bekommt, weiß er wie er die URL in zwei Teile 
 
 Ein solches serverseitiges Programm, generiert gewöhnlich dynamische Inhalte, indem es die Information dafür aus einer Datenbank bezieht. Heutige serverseitige Webanwendungen nutzen weiterhin entweder eine Weiterentwicklung der CGI Schnittstelle oder ein ähnliches Prinzip.
 
-Vgl. \citep[Kap. 1.1]{bekman}
+Vgl. \cite[Kap. 1.1]{Bekman:2003}
 
 Im Kapitel \ref{sec:client_server} wurde auf die Diskrepanz hingewiesen, dass HTTP ein zustandsloses Protokoll ist, eine Webanwendung jedoch Zustandshaftigkeit benötigt, um Benutzersitzungen, etwa Besuch und Einkauf in einem Webshop, auseinanderzuhalten. Eine solche Session kann von dem Client und Server Programm
 künstlich aufrecht erhalten.
 
 Dabei generiert das serverseitige Programm einen Session Identifier beim ersten Besuch des Benutzers und sendet es an den Client. Der Client wiederum sendet diese  ID beim jeder weiteren Anfrage an den Server mit. Ein Mechanismus für Benutzersessions im Web ist das Setzen von HTTP Cookies, welche dann automatisch beim den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind  Übertragung mittels custom HTTP Header oder Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
 
-Siehe \citep[Stateful Web Applications]{launchschool}  
+Siehe \cite[Stateful Web Applications]{Parikh:2015}  
 
 \subsection{Architektur}
 
@@ -142,27 +142,73 @@ GET http://example.com/articles/1
 GET http://example.com/articles/1/comments
 \end{minted}
 
-Jedes ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden.
-
-
+Jedes ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche von der vorherigen sich nur um den neuen Inhalt unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML Template Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden. Siehe \ref{fig:server_side_mvc}
+{}
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/server_side_mvc} 
-\caption{Serverseitiges MVC}\label{server_side_mvc}
+\caption{Serverseitiges MVC}\label{fig:server_side_mvc}
 \end{figure}
 
 \section{Clientseitige Webanwendungen}
 
 \subsection{Grundprinzip}
 
+In dem Aufsatz, der den Namen \emph{Ajax} geprägt hat schrieb Garret: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
+
+Schon in den 90er Jahren implementierten Browser Hersteller Scripting Möglichkeiten
+für Webseiten. Es enstand die Möglichkeit, Script an den Client Rechner zusammen mit dem Markup auszuliefern und interaktive Animation auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
+
+Später ermöglichte die Implementierung der XMLHttpRequest Schnittstelle HTTP Anfragen aus Javascript unabhängig von dem Browser Client auszuführen. Dies legte den Grundstein für die von Garret unter dem Begriff \emph{Ajax} zusammengefasste Sammlung von Techniken und somit die Enstehung echter clientseitiger Webanwendungen.
+
+So schreibt Garret "Ajax isn’t a technology. It’s really several technologies, each flourishing in its own right, coming together in powerful new ways." Und er definiert die Komponenten, welche Ajax ausmachen:
+
+\begin{itemize} 
+\item standards-basierte Darstellung, unter Verwendung von XHTML und CSS 
+\item dynamische Darstellung und Interkation, unter Verwendung des Document Object Model
+\item Datenaustausch und Manipulation mit Hilfe von XML und XSLT
+\item Asynchrone Datenabfragen, unter Verwendung des XMLHttpRequest
+\item Javascript, welches das Ganze zusammenbindet
+\end{itemize}
+
+Anstatt eine Webseite am Anfang der Benutzersitzung zu laden, lädt der Browser eine Ajax Engine - implementiert in Javascript. Diese Engine ist sowohl verantwortlich für das Rendern des Benutzerinterfaces als auch für die Kommunikation zwischen dem Server seitens des Benutzers. 
+
+Die von Garret formulierten Ajax Bestandteile gelten noch heute. Allerdings spielt das Datenformat XML keine primäre Rolle. Es ist kein bestimmtes Datenaustausch Format vorgeschrieben, wobei überwiegend das kompakte JSON Format zur Übertragung benutzt wird. Der Schnittstellen Name - XMLHttpRequest blieb aus Kompatibilitätsgründen erhalten. Ab ECMAScript6 existiert eine neue HTTP Api, namens \emph{fetch}.
+
+\subsection{Datenübetragung}
+
+Die meist konventionelle Art und Weise, in der Ajax Applikationen mit dem Server kommunizieren, ist eine sog. REST Api. REST steht für representational state transfer.    
+
+\begin{itemize} 
+\item \emph{representational} bezieht sich darauf wie eine Representation eine Ressource übertragen wird.
+\item \emph{state transfer} bezieht sich darauf dass HTTP ein zustandsloses Protokol ist und dass alles was der Server braucht, um eine Anfrage zu verarbeiten, sich in der Anfrage selbst befindet.
+\end{itemize}
+
+Die Grundideen hinter REST wurde auf Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von von Links, um verwandte Inhalte zu finden sind Faktoren welche definieren, was REST ist und wie auf das Web und den Schnittstellen Design zutrifft. 
+
+Alle Aktionen innerhalb REST konzentrieren sich also um Ressourcen und somit stellen das Erzeugen (Create), Lesen (Read), Aktualisieren ( Update) und Löschen (Delete) die einzigen Aktionen da, welche auf diese Ressourcen angewendet werden. Das Akronym welches diese vier Aktionen beschreibt ist demnach \emph{CRUD}. Beispielweise würde innerhalb des REST Paradigma, um einen Benutzer einzuloggen, nicht etwa eine Remote Procedure \emph{User.login(username, password)} aufgerufen, sondern eine Ressource \emph{UserSession} mit den Attributen \emph{username, password} auf dem Server erstellt.
+
+Eine anschauliche Art REST Schnittstellen zu Implementieren ist alle Aktion auf zwei Kriterien zu brechen 
+
+\begin{itemize}
+ \item \emph{Was} - Auf welche Ressource wird eingewirkt ?
+ \item \emph{Wie} - Was passiert mit der Ressource ?
+\end{itemize}
+
 \subsection{Architektur}
 
-Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und ein somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt. 
+Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt. 
 
 Auch hier wird bei einer objektorientierten Umsetzung das MVC Pattern bzw. eine Abwandlung davon verwendet. Dabei werden Benutzereingaben direkt von einem dafür zuständigen Controller verarbeitet. Der Controller leitet die Anfrage an das Model weiter, welches mit einem Webservice interagieren kann. Anschließend benachrichtigt der Controller das View über die Änderung des Zustands der Applikation. Schließlich sorgt das View für die direkte DOM Manipulation eines bestimmten Teilbereich der Seite.
+Siehe \ref{fig:client_side_mvc}.
 
-Die meisten Clientseitige Frameworks führen eine Technik namens "Databinding" ein.
-Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden und aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter oder sog. ViewModel verstanden werden kann.
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/client_side_mvc} 
+\caption{Clientseitiges MVC}\label{fig:client_side_mvc}
+\end{figure}
+
+Die meisten Clientseitige Frameworks führen eine Technik namens "Databinding" ein. Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden und aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
 
 
     
