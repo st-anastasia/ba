@@ -154,11 +154,11 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 
 \subsection{Grundprinzip}
 
-In dem Aufsatz, der den Namen \emph{Ajax} geprägt hat schrieb \cite{Garrett:2005}: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
+In dem Aufsatz, der den Namen \emph{Ajax} geprägt, hat schrieb \cite{Garrett:2005}: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
 
-Schon in den 90er Jahren implementierten Browser Hersteller Scripting Möglichkeiten für Webseiten. Es enstand die Möglichkeit, Scripte an den Client Rechner zusammen mit dem Markup auszuliefern, um interaktive Animation auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
+Schon in den 90er Jahren implementierten Browser Hersteller Skripting Möglichkeiten für Webseiten. Es enstand die Möglichkeit, Programmcode an den Client Rechner zusammen mit dem Markup auszuliefern, um interaktive Animationen auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
 
-Im weiteren Verlauf ermöglichte die Implementierung der XMLHttpRequest Schnittstelle HTTP Anfragen aus Javascript unabhängig von dem Browser Client auszuführen. Dies legte den Grundstein für die von Garret unter dem Begriff \emph{Ajax} zusammengefasste Sammlung von Techniken und somit die Enstehung echter clientseitiger Webanwendungen.
+Im weiteren Verlauf ermöglichte die Implementierung der XMLHttpRequest Schnittstelle, HTTP Anfragen aus Javascript unabhängig von dem Browser Client auszuführen. Dies legte den Grundstein für die von Garret unter dem Begriff \emph{Ajax} zusammengefasste Sammlung von Techniken und somit die Enstehung echter clientseitiger Webanwendungen.
 
 So schreibt \cite{Garrett:2005} weiter: \enquote{Ajax isn`t a technology. It`s really several technologies, each flourishing in its own right, coming together in powerful new ways.} Und er definiert die Komponenten, welche Ajax ausmachen.
 
@@ -185,7 +185,7 @@ Die meist konventionelle Art und Weise, in der Ajax Applikationen mit dem Server
 \item \emph{state transfer} bezieht sich darauf dass HTTP ein zustandsloses Protokol ist und dass alles was der Server braucht, um eine Anfrage zu verarbeiten, sich in der Anfrage selbst befindet.
 \end{itemize}
 
-Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden sind Faktoren welche definieren, was REST ist und wie auf das Web und den Schnittstellen Design zutrifft. 
+Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden sind Faktoren, welche definieren, was REST ist und wie es auf das Web und den Schnittstellen Design zutrifft. 
 
 Alle Aktionen innerhalb REST konzentrieren sich also um Ressourcen und somit stellen das Erzeugen (Create), Lesen (Read), Aktualisieren ( Update) und Löschen (Delete) die einzigen Aktionen da, welche auf diese Ressourcen angewendet werden. Das Akronym welches diese vier Aktionen beschreibt ist demnach \emph{CRUD}. Beispielweise würde innerhalb des REST Paradigma, um einen Benutzer einzuloggen, nicht etwa eine Remote Procedure \emph{User.login(username, password)} aufgerufen, sondern eine Ressource \emph{UserSession} mit den Attributen \emph{username, password} auf dem Server erstellt.
 
@@ -196,7 +196,7 @@ Eine anschauliche Art REST Schnittstellen zu Implementieren ist alle Aktion auf 
  \item \emph{Wie} - Was passiert mit der Ressource ?
 \end{itemize}
  
-Folgend ist tabelarisch die Akzentuirung des "Was" und des "Wie" auf den Design einer REST API für den BEnutzerlogin dargestellt.
+Folgend ist tabelarisch die Akzentuirung des "Was" und des "Wie" auf den Design einer REST API für den Benutzerlogin dargestellt.
 
 \begin{center}
     \begin{tabular}{ | p{5cm} | l | l | l | l |}
