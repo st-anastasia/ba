@@ -154,9 +154,9 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 
 \subsection{Grundprinzip}
 
-In dem Aufsatz, der den Namen \emph{Ajax} geprägt, hat schrieb \cite{Garrett:2005}: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
+In dem Aufsatz, der den Namen \emph{Ajax} geprägt hat, schrieb \cite{Garrett:2005}: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
 
-Schon in den 90er Jahren implementierten Browser Hersteller Skripting Möglichkeiten für Webseiten. Es enstand die Möglichkeit, Programmcode an den Client Rechner zusammen mit dem Markup auszuliefern, um interaktive Animationen auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
+Schon in den 90er Jahren implementierten Browserhersteller Skripting Möglichkeiten für Webseiten. Es enstand die Möglichkeit, Programmcode an den Client Rechner zusammen mit dem Markup auszuliefern, um interaktive Animationen auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
 
 Im weiteren Verlauf ermöglichte die Implementierung der XMLHttpRequest Schnittstelle, HTTP Anfragen aus Javascript unabhängig von dem Browser Client auszuführen. Dies legte den Grundstein für die von Garret unter dem Begriff \emph{Ajax} zusammengefasste Sammlung von Techniken und somit die Enstehung echter clientseitiger Webanwendungen.
 
@@ -225,10 +225,150 @@ Siehe \ref{fig:client_side_mvc}.
 \caption{Clientseitiges MVC}\label{fig:client_side_mvc}
 \end{figure}
 
-Die meisten Clientseitige Frameworks führen eine Technik namens "Databinding" ein. Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden und aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
+Die meisten clientseitigen Frameworks führen eine Technik namens ``Databinding'' ein. Dabei wird, einst aus einem Markup Template erstelltes, View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
 
 
-    
+\section{Responsive Webdesign}
 
+\cite[S.8]{Marcotte:2011} führt den Beggriff Responsive Webdesign mit folgenden Worten ein:
+
+\enquote{But web designers, facing a changing landscape of new devices and contexts, are now forced to overcome the constraints we’ve imposed on the web’s innate  exibility.
+We need to let go.
+Rather than creating disconnected designs, each tailored to a particular device or browser, we should instead treat them as facets of the same experience. In other words, we can craft sites that are not only more  exible, but that can adapt to the media that renders them.
+In short, we need to practice responsive web design}
+
+Hierfür legte Marcotte 3 Grundelemente fest:
+
+\begin{itemize}
+ \item Flexibles, rasterbasiertes Layout
+ \item Flexible Bilder und Medien
+ \item Media Queries, ein Modul aus der CSS3 Spezifikation
+\end{itemize}
+
+Üblicherweise platzieren Webdesigner die Webseitenelemente auf ein imaginäres Raster. Somit sind bestimmte Komponenten aneinander anhand dieser virtuellen Linien ausgerichtet. In Abb. \ref{fig:grid} sieht man ein solches Raster. Das Design besteht hier aus zwei Textspalten \emph{main} - 566px breit und \emph{other} - 331 px breit. Diese befinden sich wiederum in einem umschließendem  \emph{blog} 900 px Container, welcher wiederum in den \emph{page} Container eingebunden ist. Die Elemente definieren entsprechende Abstände (\emph{margin} ), so dass aus Breite der Elemente und der Abstände sich eine Textpositionierung anhand der virtuellen Grid Linien ergibt, wie in der Abb dargestellt.
+
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/grid} 
+\caption{Webdesign Raster}\label{fig:grid}
+\end{figure}
+
+Das obige Layout kann durch folgenden CSS code erzeugt werden:
+
+\begin{listing}[H]
+\begin{minted}{css}
+  #page {
+    margin: 36px auto;
+    width: 960px;
+  }
+  .blog {
+    margin: 0 auto 53px;
+    width: 900px;
+  }
+  .blog .main {
+    float: left;
+    width: 566px;
+  }
+  .blog .other {
+    float: right;
+    width: 331px;
+  }
+\end{minted}
+\caption{Raster CSS}
+\label{lst:grid_css}
+\end{listing}
+
+Um nun von einem starren Raster auf ein flexibles Raster zu kommen, welches sich an Bildschirmgrößen anpasst, werden feste Pixel Angaben durch relative Prozentangaben ersetzt. Hierfür wird eine einfach Umrechnungsformel verwendet - $target / context = result$
+
+Wenn also sich das Target Element \emph{main} mit 566px Breite sich bei einem festen Raster innerhalb des Kontextelementes \emph{blog} mit 900px Breite befindet, ergibt sich dafür laut $566 / 900$ eine 62.8888889\% Breite:
+ 
+\begin{listing}[H]
+\begin{minted}{css}
+  .blog .main {
+    float: left;
+    width: 62.8888889%;
+  }
+\end{minted}
+\caption{Flexibles Raster CSS}
+\label{lst:flex_grid_css}
+\end{listing}
+
+Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Fontgrößen Angaben angewendet. Daraus ergibt sich ein anpassbares Raster(siehe Abb. \ref{fig:flex_grid}).
+
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/flex_grid} 
+\caption{Flexibles Webdesign Raster}\label{fig:flex_grid}
+\end{figure}
+
+Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container sine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing. 
+
+\begin{listing}[H]
+\begin{minted}{html}
+<div class="figure">
+  <p>
+    <img src="robot.jpg" alt="" />
+    <b class="figcaption">Lo, the robot walks</b>
+  </p>
+</div>
+\end{minted}
+\caption{Container mit Bild Markup}
+\label{lst:image_container_markup}
+\end{listing}
+ 
+\begin{listing}[H]
+\begin{minted}{css}
+ .figure {
+    float: right;
+    margin-bottom: 0.5em;
+    margin-left: 2.53164557;
+    width: 48.7341772%;
+}
+\end{minted}
+\caption{Container mit Bild CSS}
+\label{lst:image_container_css}
+\end{listing}
+
+Diese Einstellung allein wird aber nicht ausreichen. Sollte das Bild in Wirklichkeit größer sein, als sich Platz dafür resultierend aus der dynamischen Breitenangabe und der jeweiligen Gerätauflösung ergibt, wird es standardmäßig mit Scrollbalken innerhalb seines Containers in original Größe gerendert.
+
+Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen Fällen wird einfach das Gleiche Skalierverhlaten für das Bild gewünscht, wie für den Rest des Inhalts. Hierfür sorgt eine \emph{max-width: 100\%} Einstellung auf das Bildelement selbst. 
+
+\begin{listing}[H]
+\begin{minted}{css}
+.figure {
+    float: right;
+    margin-bottom: 0.5em;
+    margin-left: 2.53164557;
+    width: 48.7341772%;
+}
+
+.figure img {
+  max-width: 100%;
+}
+\end{minted}
+\caption{Bildskalierung}
+\label{lst:scalable_image}
+\end{listing}
+
+
+Es kann aber auch ausreichen sein, dass einfach ein bestimmter Bildausschnitt gerendert wird, so im Falle von Hintergrundbildern. Dieses wird mit Hilfe einer \emph{overflow: hidden\%} css Regel erreicht auf dem Context Container des Bildes erreicht. 
+
+\begin{listing}[H]
+\begin{minted}{css}
+.figure {
+  overflow: hidden;
+}
+.feature img {
+  display: block;
+  max-width: auto;
+}
+\end{minted}
+\caption{Bildausschnitt}
+\label{lst:cropped_image}
+\end{listing}
+
+Denkbar wäre auch die Absicht ein komplett anderes, eventuell ähnliches aber unterschiedlich arrangiertes Bild für kleinere Auflösungen zu laden, im Falle von Grafiken beispielsweise. Dieses erfordert jedoch eine zusätzliche Implementierung auf der Serverseite.
+
+In dieser Arbeit wird eine weitere Technik für den Fotoslider geschildert, wobei das Foto nicht nur mit dem Inhlat skallieren, sondern ebenfalls zentriert sein muss.
 
 
