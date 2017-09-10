@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------ LaTeX-Template für Abschlussarbeiten, Prof. Thomas Görne, Dezember 2012 --------
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -67,10 +67,10 @@ Der Ausdruck soll einseitig erfolgen (Simplex). Je nach Bindung ist ggf. die Bin
 \newpage
 
 %--------------------------- Text -------------------------------
-
 \input{chapter/01_motivation.tex}
 \input{chapter/02_analyse.tex}
 \input{chapter/03_grundlagen.tex}
+\input{chapter/05_implementierung.tex}
 
 \appendix
 \chapter{Material}
@@ -79,17 +79,17 @@ Der Ausdruck soll einseitig erfolgen (Simplex). Je nach Bindung ist ggf. die Bin
 In den Anhängen landen ggf. Listings, Fragebögen, Datenblätter, Messprotokolle, Skizzen zu Versuchsaufbauten und ähnliches Material zur Arbeit. Im \LaTeX-Dokument leitet der Befehl appendix die Anhänge ein.
 
 
-
 %--------------------- VERZEICHNISSE ----------------
 
 \listoffigures % Abbildungsverzeichnis erzeugen
 \listoftables % Tabellenverzeichnis erzeugen
+\printglossaries
 
 %--------------------- LITERATURLISTE ---------------
 % Die Einträge sollen alphabetisch sortiert sein.
 
 \bibliographystyle{dinat} 
-\bibliography{literature/literature}
+\bibliography{literature/index}
 
 %--------------------- EIGENSTÄNDIGKEITSERKLÄRUNG ---------------
 \clearpage\thispagestyle{empty}

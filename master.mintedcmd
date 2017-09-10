@@ -1,0 +1,1 @@
+pygmentize -l bash -f latex -P commandprefix=PYG -F tokenmerge -o "master.out.pyg" "master.pyg" 

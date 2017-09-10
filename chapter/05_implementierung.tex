@@ -1,0 +1,129 @@
+\chapter{Implementierung}
+
+\section{Einleitung}
+
+In 1 wurde bestimmt, dass diese Arbeit die Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat 3.4 gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss.
+
+\section{Build Konfiguration}
+
+Um die Ajax Engine zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g ES2016) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
+
+Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \textit{index.bundle.css} und \textit{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business Logik der Anwendung verantwortlich \ref{lst:index_html} .
+
+\begin{listing}[H]
+\begin{minted}{html}
+<!doctype html>
+
+<head>
+  <title>Pika</title>
+</head>
+...
+
+<script src="build/vendor.bundle.js"></script>
+<script src="build/index.bundle.js"></script>
+</body>
+</html>
+
+\end{minted}
+\caption{index.html}
+\label{lst:index_html}
+\end{listing}
+
+\textit{Webpack} setzt auf das in ES2015 eingeführte Modules Feature auf. Hierbei deklariert man ein Entry Script in der \textit{webpack} Konfigurationsdatei. (ähnlich dem main File eines herkömmlichen Programms). \textit{Webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylessheets als auch Scripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in \ref{lst:index_html} dargestellt zu einzelnen Files gebündelt.
+
+In \ref{lst:webpack_config} ist ein Auszug aus der \textit{Pika} Builld Config zum Transpilieren von  \textit{ES2016} JavaScript Standard zu \textit{ES5} Standard mit Hilfe des \textit{babel-loader}, sowie von  \textit{SASS} zu \textit{CSS} mit Hilfe des \textit{sass-loader} dargestellt.
+
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+{
+  entry: {
+    index: ['./index.js']
+  },
+  module: {
+    rules: [
+      {test: /\.scss$/, use: ['sass-loader']},
+      {test: /\.js$/, use: ['babel-loader']}
+    ]
+  }
+}
+\end{minted}
+\caption{webpack.config.js}
+\label{lst:webpack_config}
+\end{listing}
+
+Für diese Applikation werden insgesamt folgende Regeln deklariert:
+
+\begin{itemize}
+ \item Herkömmliche CSS Bündelung aus anderen Paketen
+ \item Statische Assets Einbindung und Fingerprinting für besseres Browsercaching
+ \item Präprozessing von ES2016 zu ES5 für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   
+ \item Präprozessing von SASS zu CSS für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung
+ \item Präprozessing durch \textit{Pugs} (ehemal. \textit{Jade}) templates zu HTML für bessere Markup Lesbarkeit
+ \item Extrahierung des separaten CSS bundles
+ \item Trennung von Vendor und Applikations Code in einzelne Bundles
+\end{itemize}
+
+\section{Projekt Struktur}
+
+In zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor.
+So organisiert man etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen. Es ergibt sich etwas folgender Aufbau
+
+Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. 
+
+Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt.
+
+Für die im Kapitel Design vorgestellten Domain Bereiche ergibt sich daher folgende Verzeichnis Struktur.
+
+\begin{listing}[H]
+\begin{minted}{bash}
+# Detail Fotoansicht und Metadateneingabe 
+|-- photo-detail 
+|   |-- controller.js
+|   |-- form-component.js
+|   |-- form.jade
+|   |-- index.jade
+|   |-- index.js
+|   |-- index.scss
+|   |-- toolbar-component.js
+|   `-- toolbar.jade
+
+# Foto Gallery und Suche
+|-- photos
+|   |-- client.js
+|   |-- controller.js
+|   |-- gallery.js
+|   |-- index.jade
+|   |-- index.js
+|   |-- index.scss
+|   |-- toolbar-component.js
+|   `-- toolbar.jade
+
+# Authentifizierung und Session Handling
+|-- session
+|   |-- controller.js
+|   |-- index.js
+|   `-- session.js
+
+# Menünavigation
+|-- side-menu
+|   |-- index.jade
+|   |-- index.js
+|   `-- index.scss
+
+# Übergreifender Code
+|-- http-interceptor.js
+|-- index.js
+|-- index.scss
+|-- routes.js
+`-- theming.js
+\end{minted}
+\caption{Directory Structure}
+\label{lst:directorty_structure}
+\end{listing}
+\section{Layout}
+
+
+
+
+
