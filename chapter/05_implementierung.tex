@@ -4,11 +4,11 @@
 
 In 1 wurde bestimmt, dass diese Arbeit die Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat 3.4 gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss.
 
-\section{Build Konfiguration}
+\section{Grund Setup}
 
-Um die Ajax Engine zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g ES2016) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
+Um die Ajax Engine zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \textit{ES2016}) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
 
-Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \textit{index.bundle.css} und \textit{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business Logik der Anwendung verantwortlich \ref{lst:index_html} .
+Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \textit{index.bundle.css} und \textit{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business Logik der Anwendung verantwortlich (siehe \ref{lst:index_html}).
 
 \begin{listing}[H]
 \begin{minted}{html}
@@ -17,6 +17,7 @@ Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html
 <head>
   <title>Pika</title>
 </head>
+<body ng-app="pika">
 ...
 
 <script src="build/vendor.bundle.js"></script>
@@ -29,10 +30,10 @@ Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html
 \label{lst:index_html}
 \end{listing}
 
-\textit{Webpack} setzt auf das in ES2015 eingeführte Modules Feature auf. Hierbei deklariert man ein Entry Script in der \textit{webpack} Konfigurationsdatei. (ähnlich dem main File eines herkömmlichen Programms). \textit{Webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylessheets als auch Scripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in \ref{lst:index_html} dargestellt zu einzelnen Files gebündelt.
+\gls{webpack} setzt auf das in \textit{ES2015} eingeführte Modules Feature auf. 
+Hierbei wird ein Entry Skript in der \textit{Webpack} Konfigurationsdatei deklariert. (ähnlich dem Main File eines herkömmlichen Programms). \textit{Webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylessheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Listing \ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.
 
-In \ref{lst:webpack_config} ist ein Auszug aus der \textit{Pika} Builld Config zum Transpilieren von  \textit{ES2016} JavaScript Standard zu \textit{ES5} Standard mit Hilfe des \textit{babel-loader}, sowie von  \textit{SASS} zu \textit{CSS} mit Hilfe des \textit{sass-loader} dargestellt.
-
+In Listing \ref{lst:webpack_config} ist ein Auszug aus der \textit{Pika} Builld Konfiguration zum Transpilieren von  \textit{ES2016} JavaScript Standard zu \textit{ES5} Standard mit Hilfe des \textit{babel-loader}, sowie von  \textit{SASS} zu \textit{CSS} mit Hilfe des \textit{sass-loader} dargestellt.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -57,23 +58,39 @@ Für diese Applikation werden insgesamt folgende Regeln deklariert:
 \begin{itemize}
  \item Herkömmliche CSS Bündelung aus anderen Paketen
  \item Statische Assets Einbindung und Fingerprinting für besseres Browsercaching
- \item Präprozessing von ES2016 zu ES5 für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   
- \item Präprozessing von SASS zu CSS für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung
+ \item Präprozessing von \textit{ES2016} zu \textit{ES5} für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   
+ \item Präprozessing von \textit{SASS} zu \textit{CSS} für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung
  \item Präprozessing durch \textit{Pugs} (ehemal. \textit{Jade}) templates zu HTML für bessere Markup Lesbarkeit
- \item Extrahierung des separaten CSS bundles
+ \item Extrahierung des separaten \textit{CSS} bundles
  \item Trennung von Vendor und Applikations Code in einzelne Bundles
 \end{itemize}
 
+Wie bereits oben erwähnt bekommt der Benutzer eine einzelne Seite mit den gebündeltet scripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  
+
+Listing \ref{lst:index_html} zeigt, dass der \textit{body} Tag hierfür mit dem enstprechenden Attribut \textit{ng-app="pika"} markiert wordern ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhlalt des \textit{body} Tags übernehmen kann, ist schlußendlich der folgednde Afruf im \textit{index.js} File notwendig. 
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+  import angular from 'angular';
+  angular.module('pika', [ 
+    //list of submodules 
+  ])
+\end{minted}
+\end{listing}
+
+
 \section{Projekt Struktur}
 
-In zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor.
-So organisiert man etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen. Es ergibt sich etwas folgender Aufbau
+In zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Es ergibt sich etwa folgender Aufbau:
+
+TODO: Aufbau
 
 Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. 
 
 Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt.
 
-Für die im Kapitel Design vorgestellten Domain Bereiche ergibt sich daher folgende Verzeichnis Struktur.
+Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche - Menünavigation (\textit{side-menu}), Authentifizierung und Session Handling (\textit{session}), Foto Gallerie und Suche (\textit{photos}), Detail Fotoansicht und Metadateneingabe (\textit{photo-detail}).
+Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
 
 \begin{listing}[H]
 \begin{minted}{bash}
@@ -110,9 +127,9 @@ Für die im Kapitel Design vorgestellten Domain Bereiche ergibt sich daher folge
 |   |-- index.jade
 |   |-- index.js
 |   `-- index.scss
+|-- http-interceptor.js
 
 # Übergreifender Code
-|-- http-interceptor.js
 |-- index.js
 |-- index.scss
 |-- routes.js
@@ -121,6 +138,67 @@ Für die im Kapitel Design vorgestellten Domain Bereiche ergibt sich daher folge
 \caption{Directory Structure}
 \label{lst:directorty_structure}
 \end{listing}
+
+AngularJS erlaubt eine Modularisierung vorzunehmen um etwa Konflikte im Dependency Injection Container zu vermeiden. Entsprechend der Domain aufteilung lässt sich also jeder einzelne Bereich als ein einzelenes Angular Modul abbilden.
+
+Hierbei exportiert jedes einzelne Module seine eigene Angular API Deklaration (siehe \ref{lst:module_export}). Dise Exports werden schließlich im dem \textit{index.js} File an das \texit{Pika} Hauptmodul übergeben ( siehe \ref{lst:module_build}).
+
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+//photos/index.js
+import angular from 'angular';
+
+import client from './client';
+import gallery from './gallery';
+import controller from './controller';
+import toolbarComponent from './toolbar-component.js';
+
+export default angular.module('pika.photos', [
+  client.name,
+  gallery.name,
+  controller.name,
+  toolbarComponent.name
+]);
+ 
+\end{minted}
+\caption{Modul Export}
+\label{lst:module_export}
+\end{listing}
+
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+//index.js
+import session from './session';
+import sideMenu from './side-menu';
+import photos from './photos';
+import photoDetail from './photo-detail';
+
+import HttpInterceptor from './http-interceptor';
+import routesConfig from './routes';
+import themingConfig from './theming';
+
+angular.module('pika', [
+  'ui.router',
+  'ngMaterial',
+  'ngFileUpload',
+  sideMenu.name,
+  session.name,
+  photos.name,
+  photoDetail.name
+]).factory('httpInterceptor', HttpInterceptor)
+  .config(routesConfig)
+  .config(themingConfig)
+  .config(($httpProvider) => {
+    $httpProvider.interceptors.push('httpInterceptor');
+  });
+\end{minted}
+\caption{Modul Zusassammenbau}
+\label{lst:module_build}
+\end{listing}
+
+
 \section{Layout}
 
 
