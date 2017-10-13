@@ -5,6 +5,7 @@
 In 1 wurde bestimmt, dass diese Arbeit die Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat 3.4 gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss.
 
 \section{Grund Setup}
+\label{sec:grund_setup}
 
 Um die Ajax Engine zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \textit{ES2016}) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
 
@@ -65,7 +66,7 @@ Für diese Applikation werden insgesamt folgende Regeln deklariert:
  \item Trennung von Vendor und Applikations Code in einzelne Bundles
 \end{itemize}
 
-Wie bereits oben erwähnt bekommt der Benutzer eine einzelne Seite mit den gebündeltet scripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  
+Wie bereits oben erwähnt bekommt der Benutzer eine einzelne Seite mit den gebündelten Skripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  
 
 Listing \ref{lst:index_html} zeigt, dass der \textit{body} Tag hierfür mit dem enstprechenden Attribut \textit{ng-app="pika"} markiert wordern ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhlalt des \textit{body} Tags übernehmen kann, ist schlußendlich der folgednde Afruf im \textit{index.js} File notwendig. 
 
@@ -166,7 +167,6 @@ export default angular.module('pika.photos', [
 \label{lst:module_export}
 \end{listing}
 
-
 \begin{listing}[H]
 \begin{minted}{javascript}
 //index.js
@@ -174,10 +174,6 @@ import session from './session';
 import sideMenu from './side-menu';
 import photos from './photos';
 import photoDetail from './photo-detail';
-
-import HttpInterceptor from './http-interceptor';
-import routesConfig from './routes';
-import themingConfig from './theming';
 
 angular.module('pika', [
   'ui.router',
@@ -187,21 +183,98 @@ angular.module('pika', [
   session.name,
   photos.name,
   photoDetail.name
-]).factory('httpInterceptor', HttpInterceptor)
-  .config(routesConfig)
-  .config(themingConfig)
-  .config(($httpProvider) => {
-    $httpProvider.interceptors.push('httpInterceptor');
-  });
+])
 \end{minted}
-\caption{Modul Zusassammenbau}
+\caption{Modul Zusammenbau}
 \label{lst:module_build}
 \end{listing}
 
 
 \section{Layout}
 
+\section{Routing}
 
+Da Pika immer noch eine Webanwendung ist und im Browser ausgeführt wird, erwarten Benutzer, dass das Navigieren zwischen einzelnen Bereichen der Applikation mit einer Veränderung der URL in der Adresszeile des Browsers einhergeht. Ebenfalls soll es möglich sein zu einem bestimmten Bereich zu gelangen, indem man eine URL direkt in die Adresszeile des Browsers eingibt.
+
+In \ref{sec:client_server} wurde jedoch erläutert, dass mit einer neuen Adresseingabe auch eine separate HTTP Anfrage verbunden ist. AngularJS bietet daher ein Routing Mechanismus an, welcher das Standardverhalten der Browser bei Adresseingaben kapert. 
+
+URL Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code. Stellt dieser eine Adresse fest, welche in der Routingkonfiguration festgelegt wurde, so wird ein entsprechender Controller aufgerufen und seine Ausgabe in dem Hauptlayoutplatzhalter gerendert. 
+
+
+\begin{listing}[H]
+\begin{minted}{html}
+<body ng-app="pika" layout="row" layout-fill>
+<div layout="column" layout-fill ng-cloak="">
+  <side-menu />
+  <ui-view role="main" layout="column" layout-fill></ui-view>
+</div>
+</body>
+\end{minted}
+\caption{Hauptlayout}
+\label{lst:main_layout}
+\end{listing}
+
+\ref{lst:main_layout} zeigt den restlichen Inhalt der \textit{index.html} Datei. Entscheidend ist die Direktive \textit{ng-app="pika"}. Sie sorgt dafür, dass das in \textit{index.js} \ref{lst:module_build} deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
+
+Der Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\textit{side-menu} ) und dem jeweiligen Inhalt des Routers (\textit{ui-view}). 
+
+Letztendlich brauch das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. \ref{lst:routing_config} zeigt einen Auszug dieser  
+Konfiguration.
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+import photosTemplate from './photos/index.jade';
+import photoDetailTemplate from './photo-detail/index.jade';
+
+function routesConfig($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('photos', {
+      url: '/photos/:page?search',
+      template: photosTemplate,
+      controller: 'photosController',
+      controllerAs: '$ctrl',
+      resolve: { authenticate: authenticate }
+    })
+    .state('photo-detail', {
+      url: '/photo-detail/:id',
+      template: photoDetailTemplate,
+      controller: 'photoDetailController',
+      controllerAs: '$ctrl',
+      resolve: { authenticate: authenticate }
+    });
+}
+
+\end{minted}
+\caption{routes.js}
+\label{lst:routing_config}
+\end{listing}
+
+Die Adresseingabe von \textit{https://pika.cloud/photos?page=7} führt entsprechend zum Instanziieren des \textit{PhotosController}. Dieser rendert die Seite 7 der Photogalerie in den \textit{ui-view}. Ein Klick auf den Link hinter der Miniansicht eines Bildes ruft die URL \textit{https://pika.cloud/photo-details/p13tr3} auf sorgt entsprechend, dass der \textit{PhotoDetailController} die Großansicht des Photos mit der ID  \textit{p13tr3} rendert. 
+
+\section{Authentifizierung}
+
+\subsection{Grundverfahren}
+
+Kapitel \ref{sec:authentication} definiert die Anforderung zur Benutzerauthentifizierung. Die Grundvorgehensweise dabei schildert sich wie folgt:
+
+\begin{itemize}
+  \item Der Benutzer gibt seine Anmeldedaten beim initialen Aufruf der Anwendung ein.
+  \item Die Anmeldedaten werden auf dem Server validiert.
+  \item Nach positiver Prüfung erhält der Benutzer einen Session Token.
+  \item Der Client speichert den Session Token permanent ab.
+  \item Der Session Token wird mit jeder weiteren Anfrage an den Server gesendet. 
+\end{itemize}
+
+Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{sec:client_server} geschilderte Problem der Zustandsbehaftung in dem zustandslosen HTTP Protokoll.
+Jede HTTP Anfrage erhält schließlich einen eindeutigen Session Token über den der Server den Benutzer authentifizieren kann. 
+
+Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
+
+Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigen implementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf.
+Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. 
+Für den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahren, welches einer solchen Richtlinie aus dem JWT Standard folgt. 
+
+\subsection{Session Modul}
 
 
 
