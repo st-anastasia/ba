@@ -116,30 +116,51 @@
 	"buffers":
 	[
 		{
-			"file": "master.tex",
-			"settings":
-			{
-				"buffer_size": 4447,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "chapter/literature.tex",
-			"settings":
-			{
-				"buffer_size": 1318,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "chapter/03_grundlagen.tex",
 			"settings":
 			{
-				"buffer_size": 17632,
+				"buffer_size": 24778,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\\chapter{Implementierung}\n\n\\section{Einleitung}\n\nIn 1 wurde bestimmt, dass diese Arbeit die Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat 3.4 gezeigt, dass hierfür eine komplette \\textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss.\n\n\\section{Grund Setup}\n\\label{sec:grund_setup}\n\nUm die Ajax Engine zu bündeln, kommt \\gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \\textit{ES2016}) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.\n\nDas Resultat eines solchen Builds ist eine einzige HTML Seite \\textit{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \\textit{index.bundle.css} und \\textit{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business Logik der Anwendung verantwortlich (siehe \\ref{lst:index_html}).\n\n\\begin{listing}[H]\n\\begin{minted}{html}\n<!doctype html>\n\n<head>\n  <title>Pika</title>\n</head>\n<body ng-app=\"pika\">\n...\n\n<script src=\"build/vendor.bundle.js\"></script>\n<script src=\"build/index.bundle.js\"></script>\n</body>\n</html>\n\n\\end{minted}\n\\caption{index.html}\n\\label{lst:index_html}\n\\end{listing}\n\n\\gls{webpack} setzt auf das in \\textit{ES2015} eingeführte Modules Feature auf. \nHierbei wird ein Entry Skript in der \\textit{Webpack} Konfigurationsdatei deklariert. (ähnlich dem Main File eines herkömmlichen Programms). \\textit{Webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylessheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Listing \\ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.\n\nIn Listing \\ref{lst:webpack_config} ist ein Auszug aus der \\textit{Pika} Builld Konfiguration zum Transpilieren von  \\textit{ES2016} JavaScript Standard zu \\textit{ES5} Standard mit Hilfe des \\textit{babel-loader}, sowie von  \\textit{SASS} zu \\textit{CSS} mit Hilfe des \\textit{sass-loader} dargestellt.\n\n\\begin{listing}[H]\n\\begin{minted}{javascript}\n{\n  entry: {\n    index: ['./index.js']\n  },\n  module: {\n    rules: [\n      {test: /\\.scss$/, use: ['sass-loader']},\n      {test: /\\.js$/, use: ['babel-loader']}\n    ]\n  }\n}\n\\end{minted}\n\\caption{webpack.config.js}\n\\label{lst:webpack_config}\n\\end{listing}\n\nFür diese Applikation werden insgesamt folgende Regeln deklariert:\n\n\\begin{itemize}\n \\item Herkömmliche CSS Bündelung aus anderen Paketen\n \\item Statische Assets Einbindung und Fingerprinting für besseres Browsercaching\n \\item Präprozessing von \\textit{ES2016} zu \\textit{ES5} für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   \n \\item Präprozessing von \\textit{SASS} zu \\textit{CSS} für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung\n \\item Präprozessing durch \\textit{Pugs} (ehemal. \\textit{Jade}) templates zu HTML für bessere Markup Lesbarkeit\n \\item Extrahierung des separaten \\textit{CSS} bundles\n \\item Trennung von Vendor und Applikations Code in einzelne Bundles\n\\end{itemize}\n\nWie bereits oben erwähnt bekommt der Benutzer eine einzelne Seite mit den gebündelten Skripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  \n\nListing \\ref{lst:index_html} zeigt, dass der \\textit{body} Tag hierfür mit dem enstprechenden Attribut \\textit{ng-app=\"pika\"} markiert wordern ist. Man spricht hier auch von einer \\gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhlalt des \\textit{body} Tags übernehmen kann, ist schlußendlich der folgednde Afruf im \\textit{index.js} File notwendig. \n\n\\begin{listing}[H]\n\\begin{minted}{javascript}\n  import angular from 'angular';\n  angular.module('pika', [ \n    //list of submodules \n  ])\n\\end{minted}\n\\end{listing}\n\n\n\\section{Projekt Struktur}\n\nIn zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Es ergibt sich etwa folgender Aufbau:\n\nTODO: Aufbau\n\nDieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. \n\nPika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \\footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \\cite{Kukic:2014} detailliert dargestellt.\n\nDie Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche - Menünavigation (\\textit{side-menu}), Authentifizierung und Session Handling (\\textit{session}), Foto Gallerie und Suche (\\textit{photos}), Detail Fotoansicht und Metadateneingabe (\\textit{photo-detail}).\nEs ergibt sich daher die Verzeichnis Struktur aus Listing \\ref{lst:directorty_structure}.\n\n\\begin{listing}[H]\n\\begin{minted}{bash}\n# Detail Fotoansicht und Metadateneingabe \n|-- photo-detail \n|   |-- controller.js\n|   |-- form-component.js\n|   |-- form.jade\n|   |-- index.jade\n|   |-- index.js\n|   |-- index.scss\n|   |-- toolbar-component.js\n|   `-- toolbar.jade\n\n# Foto Gallery und Suche\n|-- photos\n|   |-- client.js\n|   |-- controller.js\n|   |-- gallery.js\n|   |-- index.jade\n|   |-- index.js\n|   |-- index.scss\n|   |-- toolbar-component.js\n|   `-- toolbar.jade\n\n# Authentifizierung und Session Handling\n|-- session\n|   |-- controller.js\n|   |-- index.js\n|   `-- session.js\n\n# Menünavigation\n|-- side-menu\n|   |-- index.jade\n|   |-- index.js\n|   `-- index.scss\n|-- http-interceptor.js\n\n# Übergreifender Code\n|-- index.js\n|-- index.scss\n|-- routes.js\n`-- theming.js\n\\end{minted}\n\\caption{Directory Structure}\n\\label{lst:directorty_structure}\n\\end{listing}\n\nAngularJS erlaubt eine Modularisierung vorzunehmen um etwa Konflikte im Dependency Injection Container zu vermeiden. Entsprechend der Domain Aufteilung lässt sich also jeder einzelne Bereich als ein einzelenes Angular Modul abbilden.\n\nHierbei exportiert jedes einzelne Module seine eigene Angular API Deklaration (siehe \\ref{lst:module_export}). Dise Exports werden schließlich im dem \\textit{index.js} File an das \\texit{Pika} Hauptmodul übergeben ( siehe \\ref{lst:module_build}).\n\n\n\\begin{listing}[H]\n\\begin{minted}{javascript}\n//photos/index.js\nimport angular from 'angular';\n\nimport client from './client';\nimport gallery from './gallery';\nimport controller from './controller';\nimport toolbarComponent from './toolbar-component.js';\n\nexport default angular.module('pika.photos', [\n  client.name,\n  gallery.name,\n  controller.name,\n  toolbarComponent.name\n]);\n \n\\end{minted}\n\\caption{Modul Export}\n\\label{lst:module_export}\n\\end{listing}\n\n\\begin{listing}[H]\n\\begin{minted}{javascript}\n//index.js\nimport session from './session';\nimport sideMenu from './side-menu';\nimport photos from './photos';\nimport photoDetail from './photo-detail';\n\nangular.module('pika', [\n  'ui.router',\n  'ngMaterial',\n  'ngFileUpload',\n  sideMenu.name,\n  session.name,\n  photos.name,\n  photoDetail.name\n])\n\\end{minted}\n\\caption{Modul Zusammenbau}\n\\label{lst:module_build}\n\\end{listing}\n\n\n\\section{Layout}\n\n\\section{Routing}\n\nDa Pika immer noch eine Webanwendung ist und im Browser ausgeführt wird, erwarten Benutzer, dass das Navigieren zwischen einzelnen Bereichen der Applikation mit einer Veränderung der URL in der Adresszeile des Browsers einhergeht. Ebenfalls soll es möglich sein zu einem bestimmten Bereich zu gelangen, indem man eine URL direkt in die Adresszeile des Browsers eingibt.\n\nIn \\ref{sec:client_server} wurde jedoch erläutert, dass mit einer neuen Adresseingabe auch eine separate HTTP Anfrage verbunden ist. AngularJS bietet daher ein Routing Mechanismus an, welcher das Standardverhalten der Browser bei Adresseingaben kapert. \n\nURL Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code. Stellt dieser eine Adresse fest, welche in der Routingkonfiguration festgelegt wurde, so wird ein entsprechender Controller aufgerufen und seine Ausgabe in dem Hauptlayoutplatzhalter gerendert. \n\n\n\\begin{listing}[H]\n\\begin{minted}{html}\n<body ng-app=\"pika\" layout=\"row\" layout-fill>\n<div layout=\"column\" layout-fill ng-cloak=\"\">\n  <side-menu />\n  <ui-view role=\"main\" layout=\"column\" layout-fill></ui-view>\n</div>\n</body>\n\\end{minted}\n\\caption{Hauptlayout}\n\\label{lst:main_layout}\n\\end{listing}\n\n\\ref{lst:main_layout} zeigt den restlichen Inhalt der \\textit{index.html} Datei. Entscheidend ist die Direktive \\textit{ng-app=\"pika\"}. Sie sorgt dafür, dass das in \\textit{index.js} \\ref{lst:module_build} deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.\n\nDer Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\\textit{side-menu} ) und dem jeweiligen Inhalt des Routers (\\textit{ui-view}). \n\nLetztendlich brauch das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. \\ref{lst:routing_config} zeigt einen Auszug dieser  \nKonfiguration.\n\n\\begin{listing}[H]\n\\begin{minted}{javascript}\nimport photosTemplate from './photos/index.jade';\nimport photoDetailTemplate from './photo-detail/index.jade';\n\nfunction routesConfig($stateProvider, $urlRouterProvider) {\n  $stateProvider\n    .state('photos', {\n      url: '/photos/:page?search',\n      template: photosTemplate,\n      controller: 'photosController',\n      controllerAs: '$ctrl',\n      resolve: { authenticate: authenticate }\n    })\n    .state('photo-detail', {\n      url: '/photo-detail/:id',\n      template: photoDetailTemplate,\n      controller: 'photoDetailController',\n      controllerAs: '$ctrl',\n      resolve: { authenticate: authenticate }\n    });\n}\n\n\\end{minted}\n\\caption{routes.js}\n\\label{lst:routing_config}\n\\end{listing}\n\nDie Adresseingabe von \\textit{https://pika.cloud/photos?page=7} führt entsprechend zum Instanziieren des \\textit{PhotosController}. Dieser rendert die Seite 7 der Photogalerie in den \\textit{ui-view}. Ein Klick auf den Link hinter der Miniansicht eines Bildes ruft die URL \\textit{https://pika.cloud/photo-details/p13tr3} auf sorgt entsprechend, dass der \\textit{PhotoDetailController} die Großansicht des Photos mit der ID  \\textit{p13tr3} rendert. \n\n\\section{Authentifizierung}\n\n\\subsection{Grundverfahren}\n\nKapitel \\ref{sec:authentication} definiert die Anforderung zur Benutzerauthentifizierung. Die Grundvorgehensweise dabei schildert sich wie folgt:\n\n\\begin{itemize}\n  \\item Der Benutzer gibt seine Anmeldedaten beim initialen Aufruf der Anwendung ein.\n  \\item Die Anmeldedaten werden auf dem Server validiert.\n  \\item Nach positiver Prüfung erhält der Benutzer einen Session Token.\n  \\item Der Client speichert den Session Token permanent ab.\n  \\item Der Session Token wird mit jeder weiteren Anfrage an den Server gesendet. \n\\end{itemize}\n\nDas obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \\ref{sec:client_server} geschilderte Problem der Zustandsbehaftung in dem zustandslosen HTTP Protokoll.\nJede HTTP Anfrage erhält schließlich einen eindeutigen Session Token über den der Server den Benutzer authentifizieren kann. \n\nFür die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.\n\nDie Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigen implementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf.\nTatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. \nFür den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahren, welches einer solchen Richtlinie aus dem JWT Standard folgt. \n\n\\subsection{Realisierung}\n\nDie \\textit{SessionController#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \\textit{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung der Antwort in einer Instanzvariable des Controllers abgelegt und per Databinding im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users mit dem JWT Session Token. \n\nDiese Daten müssen nun permanent abgelegt werden. Und sie müssen für andere Komponenten im System verfügbar gemacht werden. Um Zustand zwischen verschieden Bereichen der Applikation zu teilen, bietet AngularJS ein Dependency Injection Mechanismus. Die Aufgabe der User\n\n\n\n",
+			"file": "chapter/05_implementierung.tex",
+			"file_size": 13883,
+			"file_write_time": 131524837570000000,
+			"settings":
+			{
+				"buffer_size": 13829,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "chapter/02_analyse.tex",
+			"settings":
+			{
+				"buffer_size": 4298,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "master.tex",
+			"settings":
+			{
+				"buffer_size": 4531,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "authenticate for every route\nsession controller\nsession model + local storage\nhttp interceptor\njwt token header http request",
+			"settings":
+			{
+				"buffer_size": 124,
+				"line_ending": "Unix",
+				"name": "authenticate for every route"
 			}
 		}
 	],
@@ -333,15 +354,17 @@
 	],
 	"file_history":
 	[
+		"/Users/andreas.winschu/projects/ba/pika/pika.sublime-project",
+		"/Users/andreas.winschu/projects/ba/pika/pika.sublime-",
+		"/Users/andreas.winschu/projects/ba/pika/hawmt-abschlussarbeits-header.tex",
+		"/Users/andreas.winschu/projects/ba/pika/chapter/literature.tex",
 		"/Users/andreas.winschu/projects/ba/pika/chapter/03_grundlagen.tex",
 		"/Users/andreas.winschu/projects/ba/pika/chapter/01_motivation.tex",
 		"/Users/andreas.winschu/projects/ba/pika/master.tex",
 		"/Users/andreas.winschu/Library/Application Support/Sublime Text 3/Packages/User/LaTeXTools.sublime-settings",
 		"/Users/andreas.winschu/projects/ba/_template/LaTeX-Win-Abschlussarbeits-Template.tex",
-		"/Users/andreas.winschu/projects/ba/pika/hawmt-abschlussarbeits-header.tex",
 		"/Users/andreas.winschu/bin/immo.rb",
 		"/Users/andreas.winschu/projects/ba/pika/chapter/02_analyse.tex",
-		"/Users/andreas.winschu/projects/ba/pika/pika.sublime-project",
 		"/Users/andreas.winschu/.zshrc",
 		"/Users/andreas.winschu/projects/ba/_template/LaTeX-Win-Abschlussarbeits-Template.aux",
 		"/Users/andreas.winschu/ba/draft",
@@ -458,17 +481,15 @@
 		"/Users/andreas.winschu/projects/star-wars-crawl/crawl.css",
 		"/Users/andreas.winschu/projects/star-wars-crawl/index.html",
 		"/Users/andreas.winschu/projects/star-wars-crawl/README.md",
-		"/Users/andreas.winschu/projects/star-wars-crawl/main.js",
-		"/Users/andreas.winschu/projects/star-wars-crawl/javascripts",
-		"/Users/andreas.winschu/xing/welcome/.git/MERGE_MSG"
+		"/Users/andreas.winschu/projects/star-wars-crawl/main.js"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 101.0,
 		"where_history":
 		[
 			"<project>",
@@ -480,6 +501,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"itemize",
+			"listing",
+			"lst",
 			"Kap.",
 			"kap.",
 			"Hello",
@@ -604,10 +628,7 @@
 			"op_recruiter_overview",
 			"premium_registration_overview",
 			"BRONY_NAME",
-			"brony_store",
-			"blue_grey-400",
-			"'",
-			"md"
+			"brony_store"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -654,80 +675,24 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "master.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4447,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 159.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "chapter/literature.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1318,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1156,
-								1168
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "chapter/03_grundlagen.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17632,
+						"buffer_size": 24778,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16186,
-								16186
+								77,
+								52
 							]
 						],
 						"settings":
@@ -736,10 +701,132 @@
 							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3467.0,
+						"translation.y": 8363.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "chapter/05_implementierung.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13829,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13825,
+								13825
+							]
+						],
+						"settings":
+						{
+							"spell_check": true,
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5408.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "chapter/02_analyse.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4298,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2158,
+								2132
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 351.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "master.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4531,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2594,
+								2594
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 233.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 124,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								77,
+								77
+							]
+						],
+						"settings":
+						{
+							"auto_name": "authenticate for every route",
+							"default_dir": "/Users/andreas.winschu/projects/ba/pika",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -762,11 +849,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -806,12 +900,16 @@
 		"selected_items":
 		[
 			[
-				"grund",
-				"chapter/03_grundlagen.tex"
-			],
-			[
 				"master",
 				"master.tex"
+			],
+			[
+				"05",
+				"chapter/05_implementierung.tex"
+			],
+			[
+				"grund",
+				"chapter/03_grundlagen.tex"
 			],
 			[
 				"moti",
@@ -1312,10 +1410,6 @@
 			[
 				"_over",
 				"app/views/rest/widgets/_overview_tour.json.jbuilder"
-			],
-			[
-				"sho_li",
-				"app/views/signup/minireg/show_lightbox.html.erb"
 			]
 		],
 		"width": 0.0
@@ -1338,11 +1432,11 @@
 		],
 		"width": 1204.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": false,
