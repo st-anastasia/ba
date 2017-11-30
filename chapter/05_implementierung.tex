@@ -79,8 +79,72 @@ Listing \ref{lst:index_html} zeigt, dass der \textit{body} Tag hierfür mit dem 
 \end{minted}
 \end{listing}
 
+\section{Routing}
+\label{sec:routing}
+
+Da Pika immer noch eine Webanwendung ist und im Browser ausgeführt wird, erwarten Benutzer, dass das Navigieren zwischen einzelnen Bereichen der Applikation mit einer Veränderung der URL in der Adresszeile des Browsers einhergeht. Ebenfalls soll es möglich sein zu einem bestimmten Bereich zu gelangen, indem man eine URL direkt in die Adresszeile des Browsers eingibt.
+
+In \ref{sec:client_server} wurde jedoch erläutert, dass mit einer neuen Adresseingabe auch eine separate HTTP Anfrage verbunden ist. AngularJS bietet daher ein Routing Mechanismus an, welcher das Standardverhalten der Browser bei Adresseingaben kapert. 
+
+URL Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code. Stellt dieser eine Adresse fest, welche in der Routingkonfiguration festgelegt wurde, so wird ein entsprechender Controller aufgerufen und seine Ausgabe in dem Hauptlayoutplatzhalter gerendert. 
+
+
+\begin{listing}[H]
+\begin{minted}{html}
+<body ng-app="pika" layout="row" layout-fill>
+<div layout="column" layout-fill ng-cloak="">
+  <side-menu />
+  <ui-view role="main" layout="column" layout-fill></ui-view>
+</div>
+</body>
+\end{minted}
+\caption{Hauptlayout}
+\label{lst:main_layout}
+\end{listing}
+
+Listing \ref{lst:main_layout} zeigt den restlichen Inhalt der \textit{index.html} Datei. Entscheidend ist die Direktive \textit{ng-app="pika"}. Sie sorgt dafür, dass das in \textit{index.js} (\ref{lst:module_build}) deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
+
+Der Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\textit{side-menu} ) und dem jeweiligen Inhalt des Routers (\textit{ui-view}). 
+
+Letztendlich braucht das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. Listing \ref{lst:routing_config} zeigt einen Auszug dieser Konfiguration. In dieser Arbeit wird ein 3rd Party Router, namens \textit{UI-Router} verwendet. (Der Standardrouter ist bereits für den exemplarischen Anwendungsfall dieser Arbeit sehr eingeschränkt. Die Notwendigkeit für den UI-Router wird im weiteren Verlauf deutlich).
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+import photosTemplate from './photos/index.jade';
+import photoDetailTemplate from './photo-detail/index.jade';
+
+function routesConfig($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('photos', {
+      url: '/photos/:page?search',
+      template: photosTemplate,
+      controller: 'photosController',
+      controllerAs: '$ctrl',
+      resolve: { authenticate: authenticate }
+    })
+    .state('photo-detail', {
+      url: '/photo-detail/:id',
+      template: photoDetailTemplate,
+      controller: 'photoDetailController',
+      controllerAs: '$ctrl',
+      resolve: { authenticate: authenticate }
+    });
+}
+
+\end{minted}
+\caption{routes.js}
+\label{lst:routing_config}
+\end{listing}
+
+Die obige Konfiguration definiert folgendes Verhalten:
+Die Adresseingabe von \textit{https://pika.cloud/photos?page=7} führt zum Instanziieren des \textit{PhotosController}. Dieser rendert die Seite 7 der Photogalerie in den \textit{ui-view}. Ein Klick auf den Link hinter der Miniansicht eines Bildes ruft die URL \textit{https://pika.cloud/photo-details/p13tr3} auf und sorgt entsprechend dafür, dass der \textit{PhotoDetailController} die Großansicht des Photos mit der ID  \textit{p13tr3} rendert.
 
 \section{Projekt Struktur}
+\label{sec:project_structure}
+
+Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche -  Authentifizierung und Session Handling (\textit{session}), Menünavigation (\textit{side-menu}), Foto Gallerie und Suche (\textit{photos}), Detail Fotoansicht und Metadateneingabe (\textit{photo-detail}). Entprechend dieser Domainbereiche wird die Modularisierung vorgenommen.
+
+\subsection{Verzeichnis Struktur}
 
 In zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Es ergibt sich etwa folgender Aufbau:
 
@@ -88,10 +152,8 @@ TODO: Aufbau
 
 Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. 
 
-Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt.
+Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt. Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
 
-Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche - Menünavigation (\textit{side-menu}), Authentifizierung und Session Handling (\textit{session}), Foto Gallerie und Suche (\textit{photos}), Detail Fotoansicht und Metadateneingabe (\textit{photo-detail}).
-Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
 
 \begin{listing}[H]
 \begin{minted}{bash}
@@ -140,9 +202,11 @@ Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_st
 \label{lst:directorty_structure}
 \end{listing}
 
-AngularJS erlaubt eine Modularisierung vorzunehmen um etwa Konflikte im Dependency Injection Container zu vermeiden. Entsprechend der Domain Aufteilung lässt sich also jeder einzelne Bereich als ein einzelenes Angular Modul abbilden.
+\subsection{Modul Struktur}
 
-Hierbei exportiert jedes einzelne Module seine eigene Angular API Deklaration (siehe \ref{lst:module_export}). Dise Exports werden schließlich im dem \textit{index.js} File an das \textit{Pika} Hauptmodul übergeben ( siehe \ref{lst:module_build}).
+AngularJS erlaubt eine Modularisierung vorzunehmen um etwa Konflikte im Dependency Injection Container zu vermeiden. Entsprechend der Domain Aufteilung lässt sich also jeder einzelne Bereich als ein einzelnes Angular Modul abbilden.
+
+Hierbei exportiert jedes einzelne Module seine eigene Angular API Deklaration (siehe \ref{lst:module_export}). Diese Exports werden schließlich im dem \textit{index.js} File an das \textit{Pika} Hauptmodul übergeben ( siehe \ref{lst:module_build}).
 
 
 \begin{listing}[H]
@@ -189,74 +253,28 @@ angular.module('pika', [
 \label{lst:module_build}
 \end{listing}
 
+\subsection{Komponenten Struktur}
 
-\section{Layout}
+Kapitel \ref{} erläutert das Paradigma der clientseitigen Javascript MVC Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand. 
 
-\section{Routing}
+Sie besteht aus mehreren weiteren Einheiten - einem View, einem Controller und einem bist mehreren Models. In dieser Arbeit nimmt der Controller, wie am Ende von  Kapitel \ref{} geschildert eine Presenter Rolle ein. D.h. er speichert nicht nur die Rohdaten für die Darstellung, sondern exakt den Zustand des Benutzerinterfaces. 
 
-Da Pika immer noch eine Webanwendung ist und im Browser ausgeführt wird, erwarten Benutzer, dass das Navigieren zwischen einzelnen Bereichen der Applikation mit einer Veränderung der URL in der Adresszeile des Browsers einhergeht. Ebenfalls soll es möglich sein zu einem bestimmten Bereich zu gelangen, indem man eine URL direkt in die Adresszeile des Browsers eingibt.
+Betrachtet an dem Prozess der Photogalerie Darstellung bedeutet es beispielsweise, dass der entsprechende PhotosController die Daten exakt in der Form speichert wie diese betrachtet werden. Die Darstellung der Photogalerie ist nach Monat der Aufnahme gruppiert, die Rohdaten werden aber üblicherweise von eine Serverschnittselle als sortierte Liste zurückkommen. Es ist demnach die Aufgabe des Controllers in der Presenter Rolle, die Daten aus einer Liste gruppiert nach Aufnahme Monat abzulegen. Dafür kann er natürlich weitere Model Services hinzuziehen. Der View Markup bleibt somit sehr schlicht. Dieses Vorgehen ergibt eine Maximum aus Trennung von visueller Darstellung und Applikationslogik.
 
-In \ref{sec:client_server} wurde jedoch erläutert, dass mit einer neuen Adresseingabe auch eine separate HTTP Anfrage verbunden ist. AngularJS bietet daher ein Routing Mechanismus an, welcher das Standardverhalten der Browser bei Adresseingaben kapert. 
+Komponenten in Angular können entweder durch URL Routing in einem Platzhalter ausgetauscht werden (siehe \ref{sec:routing}) oder direkt durch eine Angular Direktive als eine Art Custom HTML Tag instaziert werden, falls sich ihr Verhalten nicht auf die URL Änderung auswirken muss. 
 
-URL Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code. Stellt dieser eine Adresse fest, welche in der Routingkonfiguration festgelegt wurde, so wird ein entsprechender Controller aufgerufen und seine Ausgabe in dem Hauptlayoutplatzhalter gerendert. 
+Für diese Arbeit ergibt sich folgende generelle Komponenten Gliederung:
 
-
-\begin{listing}[H]
-\begin{minted}{html}
-<body ng-app="pika" layout="row" layout-fill>
-<div layout="column" layout-fill ng-cloak="">
-  <side-menu />
-  <ui-view role="main" layout="column" layout-fill></ui-view>
-</div>
-</body>
-\end{minted}
-\caption{Hauptlayout}
-\label{lst:main_layout}
-\end{listing}
-
-\ref{lst:main_layout} zeigt den restlichen Inhalt der \textit{index.html} Datei. Entscheidend ist die Direktive \textit{ng-app="pika"}. Sie sorgt dafür, dass das in \textit{index.js} \ref{lst:module_build} deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
-
-Der Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\textit{side-menu} ) und dem jeweiligen Inhalt des Routers (\textit{ui-view}). 
-
-Letztendlich brauch das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. \ref{lst:routing_config} zeigt einen Auszug dieser  
-Konfiguration. In dieser Arbeit wird ein 3rd Party Router, namens \textit{UI-Router} verwendet.
-(Der Standardrouter ist bereits für den exemplarischen Andwendungsfall dieser Arbeit sehr eingeschränkt. Die Notwendigkeit für den UI-Router wird im weiteren Verlauf deutlich).
-
-\begin{listing}[H]
-\begin{minted}{javascript}
-import photosTemplate from './photos/index.jade';
-import photoDetailTemplate from './photo-detail/index.jade';
-
-function routesConfig($stateProvider, $urlRouterProvider) {
-  $stateProvider
-    .state('photos', {
-      url: '/photos/:page?search',
-      template: photosTemplate,
-      controller: 'photosController',
-      controllerAs: '$ctrl',
-      resolve: { authenticate: authenticate }
-    })
-    .state('photo-detail', {
-      url: '/photo-detail/:id',
-      template: photoDetailTemplate,
-      controller: 'photoDetailController',
-      controllerAs: '$ctrl',
-      resolve: { authenticate: authenticate }
-    });
-}
-
-\end{minted}
-\caption{routes.js}
-\label{lst:routing_config}
-\end{listing}
-
-Die Adresseingabe von \textit{https://pika.cloud/photos?page=7} führt entsprechend zum Instanziieren des \textit{PhotosController}. Dieser rendert die Seite 7 der Photogalerie in den \textit{ui-view}. Ein Klick auf den Link hinter der Miniansicht eines Bildes ruft die URL \textit{https://pika.cloud/photo-details/p13tr3} auf sorgt entsprechend, dass der \textit{PhotoDetailController} die Großansicht des Photos mit der ID  \textit{p13tr3} rendert. 
-
-Zusät
+\begin{itemize}
+\item Die vier Hauptdomainbereiche - session, side-menu, photos, photo-details - bilden entsprechende Komponenten und bestehen aus einem Hauptcontroller und, session ausgenommen, aus einem zugehörigen Markup Template in \gls{jade} syntax. 
+\item Photos- und PhotoDetails Controller werden über URL Routing angesprochen
+\item Die Hauptbereiche besitzen weitere Komponenten Gliederungen, wie PhotoToolbar, PhotoDetails Toolbar, PhotoForm. Sie werden als Direktiven im Markup initialisiert.
+\end{itemize}
 
 \section{Session Handling}
 
 \subsection{Grundverfahren}
+\label{sec:session_handling_basics}
 
 Kapitel \ref{sec:authentication} definiert die Anforderung zur Benutzerauthentifizierung. Die Grundvorgehensweise dabei schildert sich wie folgt:
 
@@ -268,27 +286,25 @@ Kapitel \ref{sec:authentication} definiert die Anforderung zur Benutzerauthentif
   \item Der Session Token wird mit jeder weiteren Anfrage an den Server gesendet. 
 \end{itemize}
 
-Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{sec:client_server} geschilderte Problem der Zustandsbehaftung in dem zustandslosen HTTP Protokoll.
-Jede HTTP Anfrage erhält schließlich einen eindeutigen Session Token über den der Server den Benutzer authentifizieren kann. 
+Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{sec:client_server} geschilderte Problem der Zustandsbehaftung in dem zustandslosen HTTP Protokoll. Jede HTTP Anfrage erhält durch die obige Technik schließlich einen eindeutigen Session Token, über den der Server den Benutzer authentifizieren kann. 
 
 Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
 
 Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigen implementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf.
 Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. 
-Für den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahren, welches einer solchen Richtlinie aus dem JWT Standard folgt. 
+
+Für den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber, welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahren, welches einer solchen Richtlinie aus dem JWT Standard folgt. 
 
 \subsection{Authentifizierung}
 
-Den Aufruf der Root URL bearbeitet die \textit{SessionController\#index} Methode und rendert das Logn Formular, wenn der Benutzer nicht eigeloggt ist.
+Den Aufruf der Root URL bearbeitet die \textit{SessionController\#index} Methode und rendert das Login Formular, wenn der Benutzer nicht eingeloggt ist (siehe \ref{lst:session_handling}).
 
-Die \textit{SessionController\#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \textit{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung der Antwort in einer Instanzvariable des Controllers abgelegt und per Databinding im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users mit dem JWT Session Token. 
+Die \textit{SessionController\#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \textit{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung der Antwort in einer Instanzvariable des Controllers abgelegt und per Databinding im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users inklusive des JWT Session Tokens. 
 
-Diese Daten müssen nun permanent abgelegt werden. Dieese Aufgaben übernimmt das \textit{Session} Objekt. Der \textit{SessionController} leitet die Daten des gegenwärtigen Users an die \textit{Session\#authorize} methode weiter. Darauf legt das Session Objekt diese über den \gls{LocalStorage} Mechanismus des Browsers ab. 
+Diese Daten müssen nun permanent abgelegt werden. Diese Aufgaben übernimmt das \textit{Session} Objekt. Der \textit{SessionController} leitet die Daten des gegenwärtigen Users an die \textit{Session\#authorize} Methode weiter. Darauf legt das Session Objekt diese über den \gls{localstorage} Mechanismus des Browsers ab. 
 
-Beim erneuten Instaziieren des Session Objekts liest dessen Konstruktor das Token aus dem LocalStorage. Wird der \textit{SessionController\#index} erneut aufgerufen, prüft der \textit{SessionController} über \textit{Session\#isAuthenticated}, ob ein \textit{User} Objekt bekannt ist und übergibt das Rendering an den \textit{PhotosController}. Der Benutzer ist somit eingeloggt udn sieht die Photogallerie.
-
-Nach dem die erfolgreiche Authentifizierung des Users abgeschlossen ist, müssen einzelne Bereiche der Applikation nur für eingeloggte Nutzer authoriziert werden. Hierfür muss das Session Objekt für andere Komponenten im System verfügbar gemacht werden. Solche Abhängigkeiten werden in AngularJS über einen \gls{Dependency Injection} Mechanismus aufgelöst. Der DI Kontainer kümmert sich um die Instanziierung aller registrierten Objekte. Es kann hier festgelegt wrden ob eine Abhängigkeit nur ein Mal pro Modul als \gls{Angular Service} verfügbar ist, oder jedes Mal neu mit Hilfe einer \gls{Angular Factory} instanziiert wird, wenn sie gebraucht wird. 
-
+Beim erneuten Instanziieren des Session Objekts liest dessen Konstruktor das Token aus dem LocalStorage. Wird der \textit{SessionController\#index} erneut aufgerufen, prüft der \textit{SessionController} über \textit{Session\#isAuthenticated}, ob ein \textit{User} Objekt bekannt ist und übergibt das Rendering an den \textit{PhotosController}. Dies wird über die Router Schnittstelle \textit{this.\$state.go('photos')} erreicht. Der Befehl verändert die Adresszeile des Browsers auf die unter dem  \textit{photos} Schlüssel konfigurierte URL. Ebenfalls unter diesem Schlüssel in der Routerkonfiguration
+wird festgelegt, dass der \textit{PhotosController} für die Navigation auf die obige URL zuständig ist. Angular sorgt dafür, dass der entsprechende Controller instanziiert wird und das Rendering übernimmt. Der Benutzer ist somit eingeloggt und sieht die Photogalerie.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -309,7 +325,7 @@ class SessionController {
     const _this = this;
     this.$http.post('/api/session-token', this.user)
     .then((response) => {
-      _this.session.auth(response.data);
+      _this.session.authenticate(response.data);
       _this.$state.go('photos');
     });
   }
@@ -325,7 +341,7 @@ class Session {
     this.user = JSON.parse(localStorage.getItem('user')) || {};
   }
 
-  auth(user) {
+  authenticate(user) {
     this.user = user;
     localStorage.setItem('user', JSON.stringify(user));
   }
@@ -343,8 +359,98 @@ export default angular.module('session.session', [])
 \label{lst:session_handling}
 \end{listing}
 
-\subsection{Authorizierung}
+\subsection{Autorisierung}
 
-Die \textit{Session} Klasse wird als Service regestriert, da dessen Instanz mit den User Daten über alle anforderdenen Komponenten einmalig verfügbar sein muss. Eine weitere Stelle wo der authentifizierte Zustand geprüft wird, ist der Router. Alle Routes im System müssen den Benutzer zurück auf das Login Formular weiterleiten, wenn dieser nicht eingeloggt ist.
+Nach dem die erfolgreiche Authentifizierung des Users abgeschlossen ist, müssen einzelne Bereiche der Applikation nur für eingeloggte Nutzer autorisiert werden. Hierfür muss das Session Objekt für andere Komponenten im System verfügbar gemacht werden. 
 
+Solche Abhängigkeiten werden in AngularJS über das \gls{di} Mechanismus aufgelöst. Der DI Con­tai­ner kümmert sich um die Instanziierung aller registrierten Objekte. Es kann hier festgelegt werden ob eine Abhängigkeit nur ein Mal pro Modul als \gls{ng-service} verfügbar ist, oder jedes Mal neu mit Hilfe einer \gls{ng-factory} instanziiert wird, wenn sie gebraucht wird. 
+Die \textit{Session} Klasse wird als Service registriert, da dessen Instanz mit den User Daten über alle anfordernden Komponenten einmalig verfügbar sein muss. 
+
+Eine Stelle, wo der authentifizierte Zustand geprüft wird, ist der Router. Alle Routes im System müssen den Benutzer zurück auf das Login Formular weiterleiten, wenn dieser nicht eingeloggt ist (siehe \ref{lst:route_authorization}).
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+//routes.js
+function routesConfig($stateProvider, $urlRouterProvider) {
+  $stateProvider
+  // ...
+    .state('photos', {
+      url: '/photos/:page?search',
+      template: photosTemplate,
+      controller: 'photosController',
+      controllerAs: '$ctrl',
+      resolve: { authenticate: authenticate }
+    })
+  // ... 
+}
+
+function authenticate($q, $state, $timeout, session) {
+  if (session.isAuthenticated()) {
+    return $q.when();
+  }
+
+  $timeout(function() {
+    $state.go('session');
+  })
+
+  return $q.reject();
+}
+
+\end{minted}
+\caption{Session Handling}
+\label{lst:route_authorization}
+\end{listing}
+
+Über das \textit{resolve} keyword lässt sich in der Router Konfiguration eine \textit{authenticate} Funktion anhängen. Diese wird immer aufgerufen, wenn der eine Routeänderung auf die entsprechende Route passiert. Der Returnwert dieser Funktion - ein erfolgreich/nicht erfolgreich aufgelöstes Promise Objekt - bestimmt darüber, ob die Route Änderung wirklich durchgeführt werden darf.
+
+Diese Entscheidung kann die \textit{authenticate} Funktion einfach treffen, indem es die API des injecteten Session Objektes \textit{session.isAuthenticated()} in Anspruch nimmt.
+
+Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss auch das Session Objekt bei allen HTTP Aufrufen bekannt sein, da diese erst mit dem validen Token aus dem Session Objekt auf dem Server autorisiert werden. 
+
+Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \textit{fetch} API darstellt. Über einen sog. \textit{HTTP Interceptor} lässt sich das Setzen für des nötigen Autorisierungheaders konfigurieren (siehe \ref{lst:http_interceptor}).
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+//http-interceptor.js
+export default function (session) {
+  return {
+    request: (config) => {
+      if (session.isAuthenticated()) {
+        config.headers.Authorization = `Bearer ${session.user.token}`;
+      }
+      return config;
+    }
+  };
+};
+
+\end{minted}
+\caption{HTTP Interceptor}
+\label{lst:http_interceptor}
+\end{listing}
+
+Der HTTP Client lässt sich wie jede Abhängikeit in Angular über den DI Container übergeben. Nach der korrekten Registrierung des HTTP Interceptor muss bei der Benutzung des Client nichts weiter beachtet werden (Siehe \ref{lst:http_client}).
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+//photos-client.js
+class PhotosClient {
+  constructor($http {
+    this.$http = $http;
+  }
+
+  // ...
+
+  findById(id) {
+    return this.$http.get(`/api/photos/${id}`);
+  }
+
+  // ...
+}  
+
+\end{minted}
+\caption{HTTP Client Verwendung}
+\label{lst:http_clientseitigen}
+\end{listing}
 
