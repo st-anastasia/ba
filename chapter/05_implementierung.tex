@@ -397,7 +397,7 @@ function authenticate($q, $state, $timeout, session) {
 }
 
 \end{minted}
-\caption{Session Handling}
+\caption{Route Autorisierung}
 \label{lst:route_authorization}
 \end{listing}
 
@@ -405,9 +405,11 @@ function authenticate($q, $state, $timeout, session) {
 
 Diese Entscheidung kann die \textit{authenticate} Funktion einfach treffen, indem es die API des injecteten Session Objektes \textit{session.isAuthenticated()} in Anspruch nimmt.
 
-Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss auch das Session Objekt bei allen HTTP Aufrufen bekannt sein, da diese erst mit dem validen Token aus dem Session Objekt auf dem Server autorisiert werden. 
+Das oben beschrieben Verfahren der Route Autorisierung ist offensichtlich keine Sicherheitsmaßnahme, da das Ganze in dem Client Code passiert. Es dient, wie angedeutet, lediglich der notwendigen User Experience - der User soll immer auf das Login Formular umgeleitet werden, falls nicht richtig autorisiert. 
 
-Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \textit{fetch} API darstellt. Über einen sog. \textit{HTTP Interceptor} lässt sich das Setzen für des nötigen Autorisierungheaders konfigurieren (siehe \ref{lst:http_interceptor}).
+Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss ein Server jeded HTTP Anfrage auf das valide Session Token prüfen, da diese auch losgelöst von dem Angular Client von einem potentiellen Angreifer durchgeführt werden können. Das Session Objekt muss demnach bei allen HTTP Aufrufen bekannt sein. 
+
+Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \textit{fetch} API darstellt. Über einen sog. \textit{HTTP Interceptor} lässt sich das Setzen des nötigen Autorisierungheaders einmalig konfigurieren (siehe \ref{lst:http_interceptor}).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -451,6 +453,63 @@ class PhotosClient {
 
 \end{minted}
 \caption{HTTP Client Verwendung}
-\label{lst:http_clientseitigen}
-\end{listing}
+\label{lst:http_client}
+\end{listing} 
 
+\section{Menüführung}
+
+In Kapitel .. wurde ein Seitenmenü für die Hauptnavigation der Applikation und ein jeweils ein Untermenü für die Unterbereiche, wie die Galerieansicht oder Photo Detail Ansicht entworfen. Das Haupt Seitenmenü bleibt während des gesamten Nutzererlbnis gleich, während die Untermenüs sich je nach Kontext ändern können.
+
+In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponete über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird.
+
+Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController definiert Daten für die Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht ein Mal auf die Navigation selbst reagieren, da diese von dem Router übernommen wird. Er bringt lediglich eine Schnittstelle zum ein- und ausklappen des Seitenmenüs. Dieses Verhalten bringt die Angular \texit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird.
+
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+//photos-client.js
+class PhotosClient {
+  constructor($http {
+    this.$http = $http;
+  }
+
+  // ...
+
+  findById(id) {
+    return this.$http.get(`/api/photos/${id}`);
+  }
+
+  // ...
+}  
+
+\end{minted}
+\caption{HTTP Client Verwendung}
+\label{lst:http_client}
+\end{listing} 
+
+
+\begin{listing}[H]
+\begin{minted}{text}
+
+//side-menu/index.jade
+md-sidenav.md-sidenav-left(/* ... */)
+  // ...
+  md-content
+    md-list(flex='')
+      md-list-item(ng-repeat='item in sideMenuController.menu')
+        md-icon.blue_grey-400.material-icons.step {{item.icon}}
+        p a(href='item.link')
+            {{item.title}}
+     
+    md-button(ng-click='sideMenuController.close()', class='md-primary') Close
+
+
+
+\end{minted}
+\caption{Side Menu View}
+\label{lst:side_menu_view}
+\end{listing} 
+
+
+Die verschiedenen Kontext Untermenüs werden von der jeweiligen Hauptkomponente аls direktive in Markup eingebunden.
