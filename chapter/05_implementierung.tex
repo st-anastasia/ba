@@ -460,37 +460,62 @@ class PhotosClient {
 
 In Kapitel .. wurde ein Seitenmenü für die Hauptnavigation der Applikation und ein jeweils ein Untermenü für die Unterbereiche, wie die Galerieansicht oder Photo Detail Ansicht entworfen. Das Haupt Seitenmenü bleibt während des gesamten Nutzererlbnis gleich, während die Untermenüs sich je nach Kontext ändern können.
 
-In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponete über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird.
+In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente аls direktive in Markup eingebunden. Dies hat eben der Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Photogallerie benötigt beispielsweise ein Suchfeld, während das die Detailansicht ein Button für das Anzeigen der Metadaten enthält.
 
-Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController definiert Daten für die Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht ein Mal auf die Navigation selbst reagieren, da diese von dem Router übernommen wird. Er bringt lediglich eine Schnittstelle zum ein- und ausklappen des Seitenmenüs. Dieses Verhalten bringt die Angular \texit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird.
+Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Listing \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht Mal auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
 
 
 \begin{listing}[H]
 \begin{minted}{javascript}
 
-//photos-client.js
-class PhotosClient {
-  constructor($http {
-    this.$http = $http;
+import angular from 'angular';
+import template from './index.jade';
+
+class SideMenuController {
+
+  /** @ngInject */
+  constructor($mdSidenav) {
+    this.$mdSidenav = $mdSidenav;
+    this.initMenu();
+    this.initAdminMenu();
   }
 
-  // ...
-
-  findById(id) {
-    return this.$http.get(`/api/photos/${id}`);
+  initMenu() {
+    this.menu = [
+      {
+        link: '/photos',
+        title: 'Photos',
+        icon: 'image',
+      },
+      {
+        link: '/settings',
+        title: 'Settings',
+        icon: 'settings',
+      },
+      //...
+    ];
   }
 
-  // ...
-}  
+  close() {
+    this.$mdSidenav('left').close();
+  }
+}
+
+export default angular.module('pika.side-menu', [])
+  .component('sideMenu', {
+    template: template(),
+    controller: SideMenuController,
+    controllerAs: 'sideMenuController',
+  });
+
 
 \end{minted}
-\caption{HTTP Client Verwendung}
-\label{lst:http_client}
+\caption{SideMenuController}
+\label{lst:side_menu_controller}
 \end{listing} 
 
 
 \begin{listing}[H]
-\begin{minted}{text}
 
 //side-menu/index.jade
 md-sidenav.md-sidenav-left(/* ... */)
@@ -504,12 +529,26 @@ md-sidenav.md-sidenav-left(/* ... */)
      
     md-button(ng-click='sideMenuController.close()', class='md-primary') Close
 
-
-
-\end{minted}
 \caption{Side Menu View}
 \label{lst:side_menu_view}
 \end{listing} 
 
+Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt die Angular \texit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den Grund, dass hat den einfachen Grund, dass der Ausklappregler sich in dem Kontextmenü links. Der Button zum ausklappen lässt sich ebenfalls eine extra Komponent auslagern und in jede Kontext Toolbar integrieren. 
 
-Die verschiedenen Kontext Untermenüs werden von der jeweiligen Hauptkomponente аls direktive in Markup eingebunden.
+\section{Photo Galerie}
+
+Die Photogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Denn die Einzelansicht des Photos ist ebenfalls ein Art Galerie, da hier das Sliden zum nächsten und vorherigen Photo ermöglicht werden soll. Aus diesem Grund entsteht die Notwendigkeit das Laden von Photos in Chunks an ein separates Model - den \texit{PhotosService} auszulagern. 
+
+Der \texit{PhotosService} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Er speichert den aktuell geladenen Chunk an Photos sowie das aktuell ausgewählte Photo. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in dem Service sliden, wird der nächste Chunk geladen. Die Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar.
+
+
+
+Die Navigation zu \textit{/photos} rendert die Photo Galerie. Dies übernimmt  \texit{PhotosController#showPhotos}. 
+
+
+Der Controller deklariert eine Abhängigkeit auf den \textit{PhotosClient}, über den sich der HTTP GET Aufruf an den Server durchführen lässt. Die Antwort ist ein Array vom Photo Metadaten mit der URL zu dem eigentlichen File, Titel, Beschreibung und diversen Kameraeinstellungen in JSON Format. JSON wird in JavaScript durch einen Aufruf von \texit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen.
+
+
+
+
+
