@@ -460,7 +460,7 @@ class PhotosClient {
 
 In Kapitel .. wurde ein Seitenmenü für die Hauptnavigation der Applikation und ein jeweils ein Untermenü für die Unterbereiche, wie die Galerieansicht oder Photo Detail Ansicht entworfen. Das Haupt Seitenmenü bleibt während des gesamten Nutzererlbnis gleich, während die Untermenüs sich je nach Kontext ändern können.
 
-In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente аls direktive in Markup eingebunden. Dies hat eben der Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Photogallerie benötigt beispielsweise ein Suchfeld, während das die Detailansicht ein Button für das Anzeigen der Metadaten enthält.
+In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente als direktive in Markup eingebunden. Dies hat eben der Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Photogallerie benötigt beispielsweise ein Suchfeld, während das die Detailansicht ein Button für das Anzeigen der Metadaten enthält.
 
 Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Listing \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht Mal auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
 
@@ -516,9 +516,10 @@ export default angular.module('pika.side-menu', [])
 
 
 \begin{listing}[H]
+\begin{minted}{pug}
 
 //side-menu/index.jade
-md-sidenav.md-sidenav-left(/* ... */)
+md-sidenav.md-sidenav-left()
   // ...
   md-content
     md-list(flex='')
@@ -527,28 +528,318 @@ md-sidenav.md-sidenav-left(/* ... */)
         p a(href='item.link')
             {{item.title}}
      
-    md-button(ng-click='sideMenuController.close()', class='md-primary') Close
+    md-button(ng-click='sideMenuController.close()', class='md-primary') 
+      Close
 
+\end{minted}
 \caption{Side Menu View}
 \label{lst:side_menu_view}
 \end{listing} 
 
-Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt die Angular \texit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den Grund, dass hat den einfachen Grund, dass der Ausklappregler sich in dem Kontextmenü links. Der Button zum ausklappen lässt sich ebenfalls eine extra Komponent auslagern und in jede Kontext Toolbar integrieren. 
+Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt die Angular \textit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den Grund, dass hat den einfachen Grund, dass der Ausklappregler sich in dem Kontextmenü links. Der Button zum ausklappen lässt sich ebenfalls eine extra Komponent auslagern und in jede Kontext Toolbar integrieren. 
 
 \section{Photo Galerie}
+\label{sec:photo_gallery}
 
-Die Photogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Denn die Einzelansicht des Photos ist ebenfalls ein Art Galerie, da hier das Sliden zum nächsten und vorherigen Photo ermöglicht werden soll. Aus diesem Grund entsteht die Notwendigkeit das Laden von Photos in Chunks an ein separates Model - den \texit{PhotosService} auszulagern. 
+\subsection{Laden}
 
-Der \texit{PhotosService} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Er speichert den aktuell geladenen Chunk an Photos sowie das aktuell ausgewählte Photo. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in dem Service sliden, wird der nächste Chunk geladen. Die Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar.
+Die Photogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Denn die Einzelansicht des Photos ist ebenfalls ein Art Galerie, da hier das Sliden zum nächsten und vorherigen Photo ermöglicht werden soll. Aus diesem Grund entsteht die Notwendigkeit das Laden von Photos in Chunks an ein separates Model - die \textit{PhotosGallery} auszulagern. 
 
+Die \textit{PhotosGallery} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Er speichert den aktuell geladenen Chunk an Photos sowie das aktuell ausgewählte Photo. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in dem Service sliden, wird der nächste Chunk geladen. Die Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar.
 
+Die Navigation zu \textit{\/photos} rendert die Photo Galerie. Dies übernimmt  \textit{PhotosController\#showPhotos}. Der Controller deklariert eine Abhängigkeit auf den \textit{PhotosGallery}, welcher wiederum über den \textit{PhotosClient}den HTTP GET Aufruf an den Server durchführt. 
 
-Die Navigation zu \textit{/photos} rendert die Photo Galerie. Dies übernimmt  \texit{PhotosController#showPhotos}. 
-
-
-Der Controller deklariert eine Abhängigkeit auf den \textit{PhotosClient}, über den sich der HTTP GET Aufruf an den Server durchführen lässt. Die Antwort ist ein Array vom Photo Metadaten mit der URL zu dem eigentlichen File, Titel, Beschreibung und diversen Kameraeinstellungen in JSON Format. JSON wird in JavaScript durch einen Aufruf von \texit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen.
-
-
+Die Antwort ist ein Array vom Photo Metadaten mit der URL zu dem eigentlichen File, Titel, Beschreibung und diversen Kameraeinstellungen in JSON Format. JSON wird in JavaScript durch einen Aufruf von \textit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen. Die Photo Metadaten werden in der Instanzvariable \textit{photos} in der \textit{PhotosGallery} abgelegt. 
 
 
+\begin{listing}[H]
+\begin{minted}{javascript}
 
+class PhotosController {
+  /** @ngInject */
+  constructor($scope, $stateParams, $state, photosGallery) {
+    // ...
+    this.photosGallery = photosGallery;
+    this.showPhotos();
+  }
+
+  showPhots() {
+    //...
+    this.photosGallery.showPhotos(/**/);
+  }
+}
+
+class PhotosGallery {
+  /** @ngInject */
+  constructor(photosClient) {
+    this.client = photosClient;
+    this.photos = [];
+    // ...
+  }
+    
+  showPhotos(params) {
+    const self = this;
+    //...
+    return this.client.find(params).then(res => {
+      self.photos = res.data.photos; 
+      //...
+      return self.photos;
+    });
+  }
+
+}
+
+\end{minted}
+\caption{Photo Galerie}
+\label{lst:photo_gallery}
+\end{listing} 
+
+\subsection{Gruppieren}
+
+Nach dem die Photos erfolgreich geladen wurden müssen die Rohdaten für die Darstellung verarbeitet werden. Diese Arbeit zeigt die weitere Verarbeitung anhand automatisch, nach dem Monatsdatum, gruppierter Darstellung der Photos.
+
+Diese Logik ist spezifisch für die Galerieansicht und wird im PhotosController angewendet. Der Controller trägt sich als Watcher auf Änderungen des \textit{photos} Arrays im \textit{PhotoGallery} Service ein. 
+
+Nach einer Änderung des  \textit{photos} Arrays führt der Controller eine Grupperungsfunktion aus und legt das Endresultat in einer eigenen Instanzvariable ab. Der View rendert den Zustand der neuen Instanzvariable.
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+class PhotosController {
+  /** @ngInject */
+  constructor($scope, $stateParams, $state, photosGallery) {
+    // ...
+    this.photosGallery = photosGallery;
+    this.photos = {};
+
+    this.showPhotos();
+    this.initWatchers();
+  }
+
+  initWatchers() {
+    this.$scope.$watch(
+      () => { return this.photosGallery.photos }, 
+      this.filterPhotosByUploadMonth.bind(this)
+    );
+  }
+
+  // reduce a key value list, of month to photos array
+  // e.g
+  // { 'Jan' => [ {id: 1, ... }, {id: 2, ...}, ... }]
+  filterPhotosByUploadMonth(photos) {
+    this.photos = photos.reduce((photosByMonth, photo) => {
+      const uploadMonth = this.uploadMonth(photo);
+      if (!photosByMonth[uploadMonth]) photosByMonth[uploadMonth] = [];
+
+      photosByMonth[uploadMonth].push(photo);
+      return photosByMonth;
+    }, {});
+  }
+}
+
+\end{minted}
+\caption{Photo Gruppierung}
+\label{lst:photo_group}
+\end{listing} 
+
+\subsection{Paginieren}
+
+Für das laden von Photos in Chunks wird in dem Benutzerinterface eine simple Paginierung verwendet. Es werden Links auf zwei vorherigen und folgenden Seiten mit jeweils 50 Bildern angezeigt. E.g. [5, 6, 7, 8, 9]. 
+
+Das Laden des nächsten Chunks von Photos passiert durch das Clicken des entsprechenden Page Links und wird in der Browser Adresszeile abgebildet. Es kann aber auch durch das Sliden zum nächsten/vorherigen Photo in der Detailansicht passieren. Somit ist wiederum der PhotoGallery Service für die Paginierung verantwortlich.
+
+Der PhotosClient, über den letztendlich die Daten angefragt werden, akzeptiert einen \textit{page} Parameter, welchen er per http Query Parameter wiederum an den Server senden kann. Basierend auf der aktuell angefragten Seite, generiert der \textit{PhotoGallery} Service ein Array aus Seitenzeilen in einer Instanzvariable nach jedem Laden eines Photos Chunks. 
+
+Die Paginierung geschieht folgender Weise:
+
+\begin{itemize}
+  \item Der Benutzer lädt die \textit{/photos} Url ohne \textit{page} Parameter
+  \item Der \textit{PhotosGallery} Service lädt den Initialbatch \textit{1} mit 50 Photos 
+  \item Der \textit{PhotosGallery} Service generiert den ersten Bereich aus Seitenlinks [1,2,3,4,5]
+  \item Der \textit{PhotosController} rendert die Photos und die Seitenlinks.
+  \item Der Benutzer klickt auf einen der Links, e.g 5.
+  \item Der \textit{PhotosController} nimmt die Aktion, mit dem Seitenparameter entgegen, sorgt darauf für eine Route Änderung, welche die Seitenzahl enthält, e.g. \textit{\/photos\/5}
+  (Dieser Schritt ist notwendig, damit sich die Seitenzahl ebenfalls in der Adresszeile widerspiegelt und damit auch über die Adresszeile navigiert werden kann)
+  \item Der \textit{PhotosController} wird durch den Router neu initialisiert, liest den \textit{page} Parameter aus dem Router, fordert \textit{PhotosGallery} auf den neuen Batch zu laden.
+  \item Der \textit{PhotosGallery} Service fragt den entsprechenden Batch vom \textit{PhotosClient} an, legt den Batch in einer Instanzvariable ab, generiert neue Pagination Links.
+\end{itemize}
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+class PhotosController {
+  constructor(/**/) {
+    //...
+    this.showPhotos();
+  }
+
+  showPhotos() {
+    const page = parseInt(this.$stateParams.page, 10)
+    const search = this.$stateParams.search
+
+    this.photosGallery.showPhotos({page, search});
+  }
+
+  // triggered on page link click
+  showPage(page) {
+    this.$state.go(
+      'photos', 
+      { page, search: this.photosGallery.search },
+      { location: 'replace' }
+    );
+  }
+}
+
+class PhotoGallery {
+  showPhotos(params) {
+    //assign defaults in case no params passed
+    const findParams = {
+      search: params.search || this.search,
+      page: params.page || this.currentPage
+    }
+
+    const self = this;
+    return this.client.find(findParams).then(res => {
+      self.pthotos = res.data.photos;
+      self.totalSize = res.data.totalSize;
+      self.currentPage = findParams.page;
+      self.search = findParams.search;
+
+      self.paginate();
+      return self.photos;
+    });
+  }
+
+  paginate() {
+    let start = this.currentPage - 2;
+    let end = start + 5;
+    // ... handle edge cases ...
+    this.pages = _.range(start, end);
+  }
+}
+
+\end{minted}
+\caption{Paginierung}
+\label{lst:pagination}
+\end{listing} 
+
+\subsection{Rendering}
+\label{sec:rendering}
+
+Das Markup der Photo Galerie ist ein Logikfreies Rendering der oben erläuterten Datenstrukturen. Pro Monat der Aufnahmen wird eine GridList mit den Photokacheln gerendert und unten auf der Seite eine Zeile mit den Paginierunglinks angehängt.
+Pro Photo wird eine Grid Kachel \textit{md-grid-tile} erstellt. Das Photo selbst ist ein CSS \textit{background-image} Attribut der Kachel. Die Kachel erhält ebenfalls eine \textit{ng-click} Direktive mit entsprechender Aktion und Photo  ID, um bei einem Klick auf das Photo auf die Detailansicht zu gelangen.
+
+\begin{listing}[H]
+\begin{minted}{pug}
+
+photos-toolbar
+
+md-content()
+  div(ng-repeat='(uploadMonth, photos) in $ctrl.photos')
+
+    div {{uploadMonth}}
+
+    md-grid-list()
+      md-grid-tile(
+        ng-repeat='photo in photos'
+        ng-style="{ 'background-image': 'url(' + photo.src + ')'}"
+        ng-click="$ctrl.showPhoto(photo._id)"
+      )
+        md-grid-tile-footer
+          h3 {{photo.metadata.title}}
+{}
+  div(layout='row')
+    md-button(
+      ng-repeat='page in $ctrl.photosGallery.pages'
+      ng-click='$ctrl.showPage(page)'
+   ) {{page}}
+
+
+\end{minted}
+\caption{Photo Gallerie Markup}
+\label{lst:photo_group_jade}
+\end{listing} 
+
+\section{Photo Suche}
+
+Die Photo Suche verwendet für die Darstellung den exakt gleichen Code aus Kapitel \ref{sec:photo_gallery}. Die einzige Erweiterung, welche für die Suchefunktion notwendig ist, ist eine Weitergabe eines Suchbegriffes an den \textit{PhotoGallery} Service und wiederum an den HTTP Aufruf im \textit{PhotosClient}.
+
+Das Suchfeld wird in die galeriespezifische Toolbar Platziert. Nach der Eingabe wird ein Route Änderung über den Angular Router erzwungen. Die Route führt wie in dem Standardfall auf den \textit{PhotosController}, enthält jedoch einen Suchbegriff in Route Parameter. e.g \textit{/photos?search=hamburg}. 
+
+Der \textit{PhotosController} liest beim Laden der Photos, wie in \ref{lst:pagination} gezeigt, durch die \textit{showPhotos} Methode zusätzlich den  
+\textit{search} Parameter aus. Dieser wird dann an \textit{PhotoGellary.showPhotos} weitergereicht. 
+
+Letzendlich ist die Aufgabe des Servers enttprechend ein gefiltertes Ergebnis zurückzugeben. Der Suchbegriff muss zusätzlich zwischengespeichert werden, damit die Paginierung den Suchfilter beachtet.
+
+\section{Photo Details}
+\label{sec:photo_details}
+
+In \ref{sec:rendering} wird erwähnt, dass jede Photo Kachel eine Click Aktion zugewiesen bekommt, welche zur der Detailansicht eines Photos führt. Diese Aktion wird vom \textit{PhotosController} verarbeitet und ist eine triviale Routänderung auf den \textit{PhotoDetailsController} mit entsprechenden Photo ID Parameter in der URL.
+
+Der \textit{PhotoDetailsController} verwendet ebenfalls wie der \textit{PhotoDetailsController} den \textit{PhotoGallery} Service um die Daten für das einzelne Photo zu laden. Im Standardfall hat die PhotoGallery die Daten für das einzelne Photo bereits in dem \textit{photos} Array. Da ein Batch aus Photos eiene überschaubere Größe hat, reicht hier eine lineare Suche nach dem Eintrag mit entsprechender ID. 
+
+Das gefundene Photo Objekt inklusive der Photo Metadaten wird in der Instanzvariable \textit{currentPhoto} abgelegt und per Databinding gerendert. 
+
+Die Anzeige der Metadaten ist hinter eine weitere, von Rechts ausklappbare Sidebar (siehe \ref{fig:photo_form}) versteckt. Editierbare Werte wie Title und Beschreibung werden in Formularfelder dargestellt. Ein bidirektionales Databinding kopiert die Benutzereingaben in die entsprechende Felder des \textit{currentPhoto} Objekts. 
+
+Der PhotoDetails Controller registriert sich auf die \textit{onChanged } Events der Formularfelder und sendet nach einem kurzem Timeout die neuen bekannten Daten an den Server mit Hilfe des \textit{PhotoClient} Objektes. Somit ergibt sich ein sog.
+``In Place Editing'' Benutzererlebnis.
+
+\section{Photo Slider}
+\label{sec:photo_slider}
+
+Die Photo Detailansicht bittet gleichzeitig das Sliden zur Detailansicht des nächsten Photos. Daher musst der \textit{PhotoGallery} Service Objekt ebenfalls den aktuellen Index in dem \textit{photos} Batch beim Laden der Photo Details (\ref{sec:photo_details}) speichern.
+
+Grundsätzlich wird das Sliden zum nächsten bzw. vorherigen Photo durch ein Inkrementieren bzw. Dekrementieren des Indexes implentiert. Bei Indexänderung wird das entsprechende Photo in die \textit{currentPhoto} Variabe gelanden und gerendert.
+
+Es fndet eine Ausnahmebehandlung statt, wenn der Index außerhalb der Grenzen des zwischengespeicherten Batches an Photos wandert. Da die \textit{currentPage} Nummer auch gespeichert wird, kann an dieser Stelle der nächste/vorherige Batch an Photos geladen werden. Die \textit{PhotoGallery\#showPhotos} Methode aus \ref{lst:pagination} kann hier wiederverwendet werden. An dieser Stelle wird der Grund für die Auslagerung der Gallery Funktion in einen separaten Service besonders deutlich.
+
+Der folgende Pseudocode veranschaulicht das Verfahren unter Verzicht auf die Details der asynchronen JavaScript Programmierung.
+
+\begin{listing}[H]
+\begin{minted}{javascript}
+
+class PhotoGallery {
+  showPhotos(params) { /* ... */}
+
+  next() {
+    return this.slide(1);
+  }
+
+  prev() {
+    return this.slide(-1);
+  }
+
+
+  slide(step = 1) {
+    const nextIndex = this.currentIndex + step;
+    const nextPage = this.currentPage + Math.sign(step);
+
+    if (this.isIndexWithinPage(nextIndex)) {
+      this.setIndex(nextIndex);
+      return;
+    }
+
+    if (nextPage <= 0) {
+      return;
+    }
+
+    this.showPhotos({ page: nextPage });
+    // ... 
+    // reset index to 0 (for next) or size-1 for (prev)  
+  }
+
+  isIndexWithinPage(index) {
+    return index >= 0 && index < this.photos.length;
+  }
+
+   setIndex(index) {
+    this.currentPhoto = this.photos[index];
+    this.currentIndex = index;
+  }
+}
+
+\end{minted}
+\caption{Sliding}
+\label{lst:sliding}
+\end{listing} 
