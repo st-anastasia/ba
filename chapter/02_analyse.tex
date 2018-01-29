@@ -23,32 +23,35 @@ Das Benutzerinterface der Anwendung soll unter Anwendung der Paradigmen vom flac
 Die Webanwendung soll sich auf potentiell unterschiedliche Displaygrößen anpassen. Das Benutzerinterface soll hier jedoch nicht komplett für jede mögliche Abstufung der Displaygröße neu gestaltet werden. Es sollen Layout Regeln verwendet werden, die es dem gleichen Interface erlauben seine Elemente bei schrumpfender bzw. wachsender Größe neu zu positionieren.
 
 \subsection{Photo Zentrierung}
+\label{sec:spec:photo_centering}
 
 Ein besonderes Unterproblem der Adaptierung an verschiedene Gerätedisplays ist die Photobetrachtung. Hier sind sowohl die Auflösung des Photos als auch des Displays für die Software nicht zu Implementierungszeit, sondern erst zur Laufzeit bekannt. Um das Photo in der Gesamtheit auf einem beliebigen Display zu betrachten, soll es zur Laufzeit sowohl in der Detailansicht als auch innerhalb seines Platzhalters in der Gesamtübersicht zentriert werden.
 
 \section{User Stories}
 
-In diesem Unterkapitel werden die einzelnen Features der Beispiel-Applikation deffiniert.
+In diesem Unterkapitel werden die einzelnen Features der Beispiel-Applikation definiert.
 
 \subsection{Authentifizierung}
-\label{sec:authentication}
+\label{sec:spec:authentication}
 
-Die Photosoftware soll den Benutzern nur anhand einer Benutzerkennung und eines Passworts den Zugang gewähren. Unberechtigter Zugriff soll folglich mit entsprechender Fehlermeldung verweigert werden.
+Die Photosoftware soll den Benutzern nur anhand einer Benutzerkennung und eines Passworts den Zugang gewähren.
 
 \subsection{Navigation Menü}
+\label{sec:spec:menu}
 
 Der Benutzer soll im Stande sein zwischen den Hauptfunkionen der Anwendung aus jedem beliebigen Unterbereich zu navigieren.
 
 \subsection{Photo Galerie}
-\label{sec:photo_galerie}
+\label{sec:spec:photo_gallery}
 
 Dem Benutzer soll eine Auflistung seiner gespeicherten Photos dargestellt werden.
 
 \subsection{Paginierung/Nachladen der Photos}
 
-Falls sich sehr viele Photos in der \hyperref[ssec:photo_galerie]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
+Falls sich sehr viele Photos in der \hyperref[sec:spec:photo_gallery]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
 
 \subsection{Photo Details}
+\label{sec:spec:photo_details}
 
 Der Benutzer soll in der Lage sein, Photos mit Metadaten wie Name und Beschreibung zu annotieren. Bei der Auswahl eines einzelnen Photos in der Galerie sollen diese annotierten Photoinformationen dargestellt werden.
 
@@ -57,21 +60,19 @@ Der Benutzer soll in der Lage sein, Photos mit Metadaten wie Name und Beschreibu
 Dem Benutzer soll ermöglicht werden, ein bestimmtes Photo in der vollständiger Größe zu betrachten.
 
 \subsection{Photo Slider}
+\label{sec:spec:photo_slider}
+
 
 Wenn der Benutzer die Detailansicht eines Photos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Photo zu navigieren.
 
 \subsection{Photo Freitext Suche}
-\label{ssec:photo_freitext_suche}
+\label{sec:photo_search}
 
 Der Benutzer soll in Beschreibungen und Namen nach seinen Photos durch Eingabe von Freitext suchen können. Das Resultat der Suche soll ebenfalls wie die Photogalerie paginiert werden.
 
-\subsection{Autovervollständigung der Freitextsuche}
+\subsection{Photos nach Erstellungsmonat gruppieren}
+\label{sec:spec:photo_groups}
 
-Die Freitext-Suche aus \ref{ssec:photo_freitext_suche} soll aus den in der gesamten Photosammlung befindenden Benennungen und Beschreibungen während der
-Sucheingabe vervollständigt werden.
-
-\subsection{Photos nach Erstellungsdatum gruppieren}
-
-Der Benutzer soll in der Lage sein, nur Photos aus einem von ihm gewählten Zeitraum zu betrachten.
+Dem Benutzer soll ermöglicht werden Photos gruppiert nach Erstellungsmonat betrachten. Monatsgruppen werden in absteigender Reihenfolge dargestellt.
 
 
