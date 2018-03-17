@@ -1,5 +1,7 @@
 \chapter{Design}
 
+Das folgenden Kapitel beschreibt das User Experience Design für die in Kapitel \ref{sec:analysis} definierten Anforderungen.
+
 \section{Palette}
 
 \section{Authentifizierung}
@@ -12,8 +14,7 @@ Das Visual Design für die Authentifizierung (\ref{sec:spec:authentication}) ist
 \caption{Authentifizierung}\label{fig:login_form}
 \end{figure}
 
-Der Benutzer gibt hier seine Login Daten ein. Bei positiver Eingabe gelangt er
-in die Anwendung. Als Standardansicht wird die Photogallerie angezeigt.
+Der Benutzer gibt hier seine Login Daten ein. Bei positiver Eingabe gelangt er in die Anwendung. Als Standardansicht wird die Photogallerie angezeigt.
 
 \section{Navigations Menü}
 
@@ -44,6 +45,18 @@ Generell findet ein Umfluß der Bilder vom mehr auf weniger Spalten statt, bis l
 \caption{Photo Gallerie Small}\label{fig:gallery_small}
 \end{figure}
 
+Die beiden oberen Entwürfe zeigen ebenfalls die Gruppierung der Photos nach dem Erstellungsmonat (Anforderung \ref{sec:spec:photo_groups}) und die ein Suchfeld in der oberen Werkzeugleiste (Anforderung \ref{sec:spec:photo_search}). Die Eingabe eines Suchbegriffs führ instantan eine Suche durch, sobald mehr als 2 Zeichen eigegben werde. Das Ergebnis der Suche ist ebenfalls nach Erstellungsmonat gruppiert.
+
+\section{Paginierung}
+
+Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Andwendung dem Benutzer Paginierungs Links für jeweils 2 vorherige und kommende Photobatches ( siehe \ref{fig:pagination}).
+
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/form_normal} 
+\caption{Paginierung}\label{fig:pagination}
+\end{figure}
+
 \section{Photo Details}
 Die Anforderung der Hauptansicht und Metadaten Betrachtung und Bearbeitung (\ref{sec:spec:photo_details}) ist in dem Visual Design  \ref{fig:form_normal} für die Bildschirmgröße Large abgebildet. Der Benutzer gelangt in die Photo Details Ansicht mit dem Klick auf ein entsprechendes Photo. 
 
@@ -55,7 +68,7 @@ Die Metadaten Ansicht wird mit dem Klick auf das Info Icon von rechts ausgeklapp
 \caption{Photo Details Normal}\label{fig:form_normal}
 \end{figure}
 
-Auf kleineren Geräten nimmt entweder das Photo (Abb. \ref{fig:details_small}) oder das Metadaten Formular den gesamten Platz ein (Abb. \ref{fig:form_small}).
+Auf kleineren Geräten nimmt entweder das Photo (Abb. \ref{fig:details_small}) oder das Metadaten Formular den gesamten Platz ein (Abb. \ref{fig:form_small}). 
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -70,3 +83,8 @@ Auf kleineren Geräten nimmt entweder das Photo (Abb. \ref{fig:details_small}) o
 \end{figure}
 
 Die EXIF Kameradaten werden gesondert kategorisiert nach Erstellungsdatum, Kameraeinstellungen und Photodimensionen mit einem entsprechenden Icon pro Kategorie angezeigt.
+
+Die Abbildungen zeigen ebenfalls, dass das betrachtete Photo bei abnehmender Displaygröße proportionell herunterskaliert und immer auf dem Bildschirm zentriert wird (Anforderung \ref{sec:spec:photo_centering}).
+
+Deweiteren sind über dem Photo blaue Pfeile für das Sliden zur nächsten bzw vorheriger Detailansicht eines Photos in den oberen Entwürfen dargestellt. 
+(Anforderunge \ref{sec:spec:photo_slider})

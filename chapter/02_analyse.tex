@@ -1,4 +1,5 @@
 \chapter{Analyse}
+\label{sec:analysis}
 
 \section{Einleitung}
 
@@ -47,8 +48,19 @@ Der Benutzer soll im Stande sein zwischen den Hauptfunkionen der Anwendung aus j
 Dem Benutzer soll eine Auflistung seiner gespeicherten Photos dargestellt werden.
 
 \subsection{Paginierung/Nachladen der Photos}
+\label{sec:spec:pagination}
 
 Falls sich sehr viele Photos in der \hyperref[sec:spec:photo_gallery]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
+
+\subsection{Photo Freitext Suche}
+\label{sec:spec:photo_search}
+
+Der Benutzer soll in Beschreibungen und Namen nach seinen Photos durch Eingabe von Freitext suchen können. Das Resultat der Suche soll ebenfalls wie die Photogalerie paginiert werden.
+
+\subsection{Photos nach Erstellungsmonat gruppieren}
+\label{sec:spec:photo_groups}
+
+Dem Benutzer soll ermöglicht werden Photos gruppiert nach Erstellungsmonat betrachten. Monatsgruppen werden in absteigender Reihenfolge dargestellt.
 
 \subsection{Photo Details}
 \label{sec:spec:photo_details}
@@ -62,17 +74,4 @@ Dem Benutzer soll ermöglicht werden, ein bestimmtes Photo in der vollständiger
 \subsection{Photo Slider}
 \label{sec:spec:photo_slider}
 
-
 Wenn der Benutzer die Detailansicht eines Photos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Photo zu navigieren.
-
-\subsection{Photo Freitext Suche}
-\label{sec:photo_search}
-
-Der Benutzer soll in Beschreibungen und Namen nach seinen Photos durch Eingabe von Freitext suchen können. Das Resultat der Suche soll ebenfalls wie die Photogalerie paginiert werden.
-
-\subsection{Photos nach Erstellungsmonat gruppieren}
-\label{sec:spec:photo_groups}
-
-Dem Benutzer soll ermöglicht werden Photos gruppiert nach Erstellungsmonat betrachten. Monatsgruppen werden in absteigender Reihenfolge dargestellt.
-
-
