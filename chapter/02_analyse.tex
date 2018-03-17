@@ -3,7 +3,7 @@
 
 \section{Einleitung}
 
-In dem Kapitel \hyperref[sec:motivation]{Motivation} wurde geschildert, dass eine Web-Photoverwaltungssoftware als Exempel für die Zielsetzungen dieser Arbeit dienen wird. Nun soll analysiert werden, welche Realanforderungen notwendig sind, um den zuvor definierten \hyperref[sec:zielsetzung]{Zielsetzungen} gerecht zu werden.
+In dem Kapitel \hyperref[sec:motivation]{Motivation} wurde geschildert, dass eine Web-Fotoverwaltungssoftware als Exempel für die Zielsetzungen dieser Arbeit dienen wird. Nun soll analysiert werden, welche Realanforderungen notwendig sind, um den zuvor definierten \hyperref[sec:zielsetzung]{Zielsetzungen} gerecht zu werden.
 
 \section{User Experience}
 
@@ -23,10 +23,10 @@ Das Benutzerinterface der Anwendung soll unter Anwendung der Paradigmen vom flac
 
 Die Webanwendung soll sich auf potentiell unterschiedliche Displaygrößen anpassen. Das Benutzerinterface soll hier jedoch nicht komplett für jede mögliche Abstufung der Displaygröße neu gestaltet werden. Es sollen Layout Regeln verwendet werden, die es dem gleichen Interface erlauben seine Elemente bei schrumpfender bzw. wachsender Größe neu zu positionieren.
 
-\subsection{Photo Zentrierung}
+\subsection{Foto Zentrierung}
 \label{sec:spec:photo_centering}
 
-Ein besonderes Unterproblem der Adaptierung an verschiedene Gerätedisplays ist die Photobetrachtung. Hier sind sowohl die Auflösung des Photos als auch des Displays für die Software nicht zu Implementierungszeit, sondern erst zur Laufzeit bekannt. Um das Photo in der Gesamtheit auf einem beliebigen Display zu betrachten, soll es zur Laufzeit sowohl in der Detailansicht als auch innerhalb seines Platzhalters in der Gesamtübersicht zentriert werden.
+Ein besonderes Unterproblem der Adaptierung an verschiedene Gerätedisplays ist die Fotobetrachtung. Hier sind sowohl die Auflösung des Fotos als auch des Displays für die Software nicht zu Implementierungszeit, sondern erst zur Laufzeit bekannt. Um das Foto in der Gesamtheit auf einem beliebigen Display zu betrachten, soll es zur Laufzeit sowohl in der Detailansicht als auch innerhalb seines Platzhalters in der Gesamtübersicht zentriert werden.
 
 \section{User Stories}
 
@@ -35,43 +35,43 @@ In diesem Unterkapitel werden die einzelnen Features der Beispiel-Applikation de
 \subsection{Authentifizierung}
 \label{sec:spec:authentication}
 
-Die Photosoftware soll den Benutzern nur anhand einer Benutzerkennung und eines Passworts den Zugang gewähren.
+Die Fotosoftware soll den Benutzern nur anhand einer Benutzerkennung und eines Passworts den Zugang gewähren.
 
 \subsection{Navigation Menü}
 \label{sec:spec:menu}
 
 Der Benutzer soll im Stande sein zwischen den Hauptfunkionen der Anwendung aus jedem beliebigen Unterbereich zu navigieren.
 
-\subsection{Photo Galerie}
+\subsection{Foto Galerie}
 \label{sec:spec:photo_gallery}
 
-Dem Benutzer soll eine Auflistung seiner gespeicherten Photos dargestellt werden.
+Dem Benutzer soll eine Auflistung seiner gespeicherten Fotos dargestellt werden.
 
-\subsection{Paginierung/Nachladen der Photos}
+\subsection{Paginierung/Nachladen der Fotos}
 \label{sec:spec:pagination}
 
-Falls sich sehr viele Photos in der \hyperref[sec:spec:photo_gallery]{Photo Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Photos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
+Falls sich sehr viele Fotos in der \hyperref[sec:spec:photo_gallery]{Foto Galerie} befinden, sollen diese nicht im selben Augenblick geladen werden, damit die Anwendung nicht überlastet wird. Stattdessen soll zuerst eine bestimmte Anzahl der Fotos dargestellt werden und es anschließend dem Benutzer ermöglicht werden, weitere Bilder stapelweise nachzuladen.
 
-\subsection{Photo Freitext Suche}
+\subsection{Foto Freitext Suche}
 \label{sec:spec:photo_search}
 
-Der Benutzer soll in Beschreibungen und Namen nach seinen Photos durch Eingabe von Freitext suchen können. Das Resultat der Suche soll ebenfalls wie die Photogalerie paginiert werden.
+Der Benutzer soll in Beschreibungen und Namen nach seinen Fotos durch Eingabe von Freitext suchen können. Das Resultat der Suche soll ebenfalls wie die Fotogalerie paginiert werden.
 
-\subsection{Photos nach Erstellungsmonat gruppieren}
+\subsection{Fotos nach Erstellungsmonat gruppieren}
 \label{sec:spec:photo_groups}
 
-Dem Benutzer soll ermöglicht werden Photos gruppiert nach Erstellungsmonat betrachten. Monatsgruppen werden in absteigender Reihenfolge dargestellt.
+Dem Benutzer soll ermöglicht werden Fotos gruppiert nach Erstellungsmonat betrachten. Monatsgruppen werden in absteigender Reihenfolge dargestellt.
 
-\subsection{Photo Details}
+\subsection{Foto Details}
 \label{sec:spec:photo_details}
 
-Der Benutzer soll in der Lage sein, Photos mit Metadaten wie Name und Beschreibung zu annotieren. Bei der Auswahl eines einzelnen Photos in der Galerie sollen diese annotierten Photoinformationen dargestellt werden.
+Der Benutzer soll in der Lage sein, Fotos mit Metadaten wie Name und Beschreibung zu annotieren. Bei der Auswahl eines einzelnen Fotos in der Galerie sollen diese annotierten Fotoinformationen dargestellt werden.
 
-\subsection{Photo Großansicht}
+\subsection{Foto Großansicht}
 
-Dem Benutzer soll ermöglicht werden, ein bestimmtes Photo in der vollständiger Größe zu betrachten.
+Dem Benutzer soll ermöglicht werden, ein bestimmtes Foto in der vollständiger Größe zu betrachten.
 
-\subsection{Photo Slider}
+\subsection{Foto Slider}
 \label{sec:spec:photo_slider}
 
-Wenn der Benutzer die Detailansicht eines Photos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Photo zu navigieren.
+Wenn der Benutzer die Detailansicht eines Fotos aus der Galerie auswählt, soll es ihm ferner möglich sein aus der Detailansicht zum nächsten oder dem vorherigen Foto zu navigieren.
