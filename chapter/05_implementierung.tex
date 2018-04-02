@@ -2,12 +2,14 @@
 
 \section{Einleitung}
 
-In 1 wurde bestimmt, dass diese Arbeit die Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat 3.4 gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss.
+In Kapitel \ref{sec:zielsetzung} wurde als Zielsetzung bestimmt, dass diese grundlegende Problemstellungen bei der Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat \ref{sec:client_side_web_apps}gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss. 
+
+Für die Umsetzung dieser clientseitigen Architektur existiert eine Reihe von JavaScript Frameworks. Für die tatsächliche Implementierung der exemplarischen Fotoverwaltung Software verwendet diese Arbeit das AngularJS 1.x Framework. Dieses hält sich stark an die Konzepte objektorientierter Programmierung, liefert Bibliotheken zur Umsetzung des MVC Patterns aus Kapitel \ref{sec:architecture} und eine Reihe weitere für die Webbrowser Umgebung relevanter Werkzeuge wie URL Routing und DOM Rendering. 
 
 \section{Grund Setup}
 \label{sec:grund_setup}
 
-Um die Ajax Engine zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \textit{ES2016}) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
+Um die \textit{Ajax-Engine} zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \gls{es2016}) durch Code Preprocessing durch sog. Transpiler, zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
 
 Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \textit{index.bundle.css} und \textit{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business Logik der Anwendung verantwortlich (siehe \ref{lst:index_html}).
 
@@ -31,10 +33,9 @@ Das Resultat eines solchen Builds ist eine einzige HTML Seite \textit{index.html
 \label{lst:index_html}
 \end{listing}
 
-\gls{webpack} setzt auf das in \textit{ES2015} eingeführte Modules Feature auf. 
-Hierbei wird ein Entry Skript in der \textit{Webpack} Konfigurationsdatei deklariert. (ähnlich dem Main File eines herkömmlichen Programms). \textit{Webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylessheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Listing \ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.
+\gls{webpack} setzt auf das in \textit{ES2015} eingeführte \textit{Modules}Feature auf. Hierbei wird ein Entryscript in der \gls{webpack} Konfigurationsdatei deklariert. (ähnlich dem Main File eines herkömmlichen Programms). \gls{webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylesheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Listing \ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.
 
-In Listing \ref{lst:webpack_config} ist ein Auszug aus der \textit{Pika} Builld Konfiguration zum Transpilieren von  \textit{ES2016} JavaScript Standard zu \textit{ES5} Standard mit Hilfe des \textit{babel-loader}, sowie von  \textit{SASS} zu \textit{CSS} mit Hilfe des \textit{sass-loader} dargestellt.
+In Listing \ref{lst:webpack_config} ist ein Auszug aus der \textit{Pika} Build Konfiguration zum Transpilieren von \textit{ES2016} JavaScript Standard zu \textit{ES5} Standard mit Hilfe des \textit{babel-loader}, sowie von \gls{sass} zu \textit{CSS} mit Hilfe des \textit{sass-loader} dargestellt.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -59,16 +60,16 @@ Für diese Applikation werden insgesamt folgende Regeln deklariert:
 \begin{itemize}
  \item Herkömmliche CSS Bündelung aus anderen Paketen
  \item Statische Assets Einbindung und Fingerprinting für besseres Browsercaching
- \item Präprozessing von \textit{ES2016} zu \textit{ES5} für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   
- \item Präprozessing von \textit{SASS} zu \textit{CSS} für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung
- \item Präprozessing durch \textit{Pugs} (ehemal. \textit{Jade}) templates zu HTML für bessere Markup Lesbarkeit
- \item Extrahierung des separaten \textit{CSS} bundles
- \item Trennung von Vendor und Applikations Code in einzelne Bundles
+ \item Präprozessing von \gls{es2016} zu \textit{ES5} für moderne JavaScript Features, e.g. Klassen, Modularisierung, Arrow Functions, Parameter Destructuring, Promises   
+ \item Präprozessing von \gls{sass} zu \textit{CSS} für erweitertes Stylesheet Tooling, wie Schachtelung, Vererbung, Variablen Verwendung
+ \item Präprozessing durch \gls{pug} (ehemal. \textit{Jade}) Templates zu HTML für bessere Markup Lesbarkeit
+ \item Extrahierung des separaten \textit{CSS} Bundles
+ \item Trennung von Vendor und Applikation Codes in einzelne Bundles
 \end{itemize}
 
-Wie bereits oben erwähnt bekommt der Benutzer eine einzelne Seite mit den gebündelten Skripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  
+Wie bereits oben erwähnt, bekommt der Benutzer eine einzelne Seite mit den gebündelten Skripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.  
 
-Listing \ref{lst:index_html} zeigt, dass der \textit{body} Tag hierfür mit dem enstprechenden Attribut \textit{ng-app="pika"} markiert wordern ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhlalt des \textit{body} Tags übernehmen kann, ist schlußendlich der folgednde Afruf im \textit{index.js} File notwendig. 
+Listing \ref{lst:index_html} zeigt, dass der \textit{body} Tag hierfür mit dem entsprechenden Attribut \textit{ng-app="pika"} markiert worden ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhalt des \textit{body} Tags übernehmen kann, ist schlussendlich der folgende Aufruf im \textit{index.js} File notwendig. 
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -102,7 +103,7 @@ URL Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code
 \label{lst:main_layout}
 \end{listing}
 
-Listing \ref{lst:main_layout} zeigt den restlichen Inhalt der \textit{index.html} Datei. Entscheidend ist die Direktive \textit{ng-app="pika"}. Sie sorgt dafür, dass das in \textit{index.js} (\ref{lst:module_build}) deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
+Listing \ref{lst:main_layout} zeigt den restlichen Inhalt der \textit{index.html}Datei. Entscheidend ist die Direktive \textit{ng-app="pika"}. Sie sorgt dafür, dass das in \textit{index.js} (\ref{lst:module_build}) deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
 
 Der Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\textit{side-menu} ) und dem jeweiligen Inhalt des Routers (\textit{ui-view}). 
 
@@ -142,17 +143,13 @@ Die Adresseingabe von \textit{https://pika.cloud/photos?page=7} führt zum Insta
 \section{Projekt Struktur}
 \label{sec:project_structure}
 
-Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche -  Authentifizierung und Session Handling (\textit{session}), Menünavigation (\textit{side-menu}), Foto Gallerie und Suche (\textit{photos}), Detail Fotoansicht und Metadateneingabe (\textit{photo-detail}). Entprechend dieser Domainbereiche wird die Modularisierung vorgenommen.
+Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die Hauptdomainbereiche -  Authentifizierung und Session Handling (\textit{session}), Menünavigation (\textit{side-menu}), Foto Galerie und Suche (\textit{photos}), Detail Fotoansicht und Metadateneingabe (\textit{photo-detail}). Entsprechend dieser Domainbereiche wird die Modularisierung vorgenommen.
 
 \subsection{Verzeichnis Struktur}
 
-In zahlreichen Einstiegs Quellen für Organisation von Angular Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Es ergibt sich etwa folgender Aufbau:
+In zahlreichen Einstiegs Quellen für Organisation von JavaScript Projekten, findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. 
 
-TODO: Aufbau
-
-Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist. 
-
-Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird von der Angular Community favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt. Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
+Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird unter JavaScript Entwicklern favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt. Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
 
 
 \begin{listing}[H]
@@ -204,9 +201,7 @@ Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese 
 
 \subsection{Modul Struktur}
 
-AngularJS erlaubt eine Modularisierung vorzunehmen um etwa Konflikte im Dependency Injection Container zu vermeiden. Entsprechend der Domain Aufteilung lässt sich also jeder einzelne Bereich als ein einzelnes Angular Modul abbilden.
-
-Hierbei exportiert jedes einzelne Module seine eigene Angular API Deklaration (siehe \ref{lst:module_export}). Diese Exports werden schließlich im dem \textit{index.js} File an das \textit{Pika} Hauptmodul übergeben ( siehe \ref{lst:module_build}).
+Entsprechend der Domain Aufteilung lässt sich also jeder einzelne Bereich als ein einzelnes Angular Modul abbilden. Hierbei exportiert jedes einzelne Modul seine eigene Angular API Deklaration (siehe \ref{lst:module_export}). Diese Exports werden schließlich im dem \textit{index.js} File an das \textit{Pika} Hauptmodul übergeben ( siehe \ref{lst:module_build}).
 
 
 \begin{listing}[H]
@@ -255,18 +250,18 @@ angular.module('pika', [
 
 \subsection{Komponenten Struktur}
 
-Kapitel \ref{} erläutert das Paradigma der clientseitigen Javascript MVC Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand. 
+Kapitel \ref{sec:fig:client_side_mvc} erläutert das Paradigma der clientseitigen Javascript MVC Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand. 
 
-Sie besteht aus mehreren weiteren Einheiten - einem View, einem Controller und einem bist mehreren Models. In dieser Arbeit nimmt der Controller, wie am Ende von  Kapitel \ref{} geschildert eine Presenter Rolle ein. D.h. er speichert nicht nur die Rohdaten für die Darstellung, sondern exakt den Zustand des Benutzerinterfaces. 
+Sie besteht aus mehreren weiteren Einheiten - einem View, einem Controller und einem bist mehreren Models. In dieser Arbeit nimmt der Controller, wie am Ende von  Kapitel \ref{sec:architecture} geschildert eine Presenter Rolle ein. D.h. er speichert nicht nur die Rohdaten für die Darstellung, sondern exakt den Zustand des Benutzerinterfaces. 
 
-Betrachtet an dem Prozess der Fotogalerie Darstellung bedeutet es beispielsweise, dass der entsprechende PhotosController die Daten exakt in der Form speichert wie diese betrachtet werden. Die Darstellung der Fotogalerie ist nach Monat der Aufnahme gruppiert, die Rohdaten werden aber üblicherweise von eine Serverschnittselle als sortierte Liste zurückkommen. Es ist demnach die Aufgabe des Controllers in der Presenter Rolle, die Daten aus einer Liste gruppiert nach Aufnahme Monat abzulegen. Dafür kann er natürlich weitere Model Services hinzuziehen. Der View Markup bleibt somit sehr schlicht. Dieses Vorgehen ergibt eine Maximum aus Trennung von visueller Darstellung und Applikationslogik.
+Betrachtet an dem Prozess der Fotogalerie Darstellung bedeutet es beispielsweise, dass der entsprechende \textit{PhotosController} die Daten exakt in der Form speichert, wie diese betrachtet werden. Die Darstellung der Fotogalerie ist nach Monat der Aufnahme gruppiert, die Rohdaten werden aber üblicherweise von einer Serverschnittselle als sortierte Liste zurückkommen. Es ist demnach die Aufgabe des Controllers in der Presenter Rolle, die Daten aus einer Liste gruppiert nach Aufnahme Monat abzulegen. Dafür kann er natürlich weitere Model Services hinzuziehen. Das View Markup bleibt somit sehr schlicht. Dieses Vorgehen ergibt eine maximale Trennung von visueller Darstellung und Applikationslogik.
 
-Komponenten in Angular können entweder durch URL Routing in einem Platzhalter ausgetauscht werden (siehe \ref{sec:routing}) oder direkt durch eine Angular Direktive als eine Art Custom HTML Tag instaziert werden, falls sich ihr Verhalten nicht auf die URL Änderung auswirken muss. 
+Komponenten in Angular können entweder durch URL Routing in einem Platzhalter ausgetauscht werden (siehe \ref{sec:routing}) oder direkt durch eine Angular Direktive als eine Art Custom HTML Tag instanziiert werden, falls sich ihr Verhalten nicht auf die URL Änderung auswirken muss. 
 
 Für diese Arbeit ergibt sich folgende generelle Komponenten Gliederung:
 
 \begin{itemize}
-\item Die vier Hauptdomainbereiche - session, side-menu, photos, photo-details - bilden entsprechende Komponenten und bestehen aus einem Hauptcontroller und, session ausgenommen, aus einem zugehörigen Markup Template in \gls{jade} syntax. 
+\item Die vier Hauptdomainbereiche - \textit{session}, \textit{side-menu}, \textit{photos}, \textit{photo-details} - bilden entsprechende Komponenten und bestehen aus einem Hauptcontroller und einem zugehörigen Markup Template in \gls{pug} syntax (mit Ausnahme von \textit{session}). 
 \item Photos- und PhotoDetails Controller werden über URL Routing angesprochen
 \item Die Hauptbereiche besitzen weitere Komponenten Gliederungen, wie PhotoToolbar, PhotoDetails Toolbar, PhotoForm. Sie werden als Direktiven im Markup initialisiert.
 \end{itemize}
@@ -288,10 +283,9 @@ Kapitel \ref{sec:authentication} definiert die Anforderung zur Benutzerauthentif
 
 Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{sec:client_server} geschilderte Problem der Zustandsbehaftung in dem zustandslosen HTTP Protokoll. Jede HTTP Anfrage erhält durch die obige Technik schließlich einen eindeutigen Session Token, über den der Server den Benutzer authentifizieren kann. 
 
-Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
+Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP, um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich, um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
 
-Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigen implementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf.
-Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. 
+Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigen implementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf. Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. 
 
 Für den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber, welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahren, welches einer solchen Richtlinie aus dem JWT Standard folgt. 
 
@@ -299,7 +293,7 @@ Für den tatsächlichen Authentifizierung Flow bietet es lediglich Richtlinien a
 
 Den Aufruf der Root URL bearbeitet die \textit{SessionController\#index} Methode und rendert das Login Formular, wenn der Benutzer nicht eingeloggt ist (siehe \ref{lst:session_handling}).
 
-Die \textit{SessionController\#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \textit{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung der Antwort in einer Instanzvariable des Controllers abgelegt und per Databinding im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users inklusive des JWT Session Tokens. 
+Die \textit{SessionController\#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \textit{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung aus der Antwort in einer Instanzvariable des Controllers abgelegt und per \gls{databinding} im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users inklusive des JWT Session Tokens. 
 
 Diese Daten müssen nun permanent abgelegt werden. Diese Aufgaben übernimmt das \textit{Session} Objekt. Der \textit{SessionController} leitet die Daten des gegenwärtigen Users an die \textit{Session\#authorize} Methode weiter. Darauf legt das Session Objekt diese über den \gls{localstorage} Mechanismus des Browsers ab. 
 
@@ -363,7 +357,7 @@ export default angular.module('session.session', [])
 
 Nach dem die erfolgreiche Authentifizierung des Users abgeschlossen ist, müssen einzelne Bereiche der Applikation nur für eingeloggte Nutzer autorisiert werden. Hierfür muss das Session Objekt für andere Komponenten im System verfügbar gemacht werden. 
 
-Solche Abhängigkeiten werden in AngularJS über das \gls{di} Mechanismus aufgelöst. Der DI Con­tai­ner kümmert sich um die Instanziierung aller registrierten Objekte. Es kann hier festgelegt werden ob eine Abhängigkeit nur ein Mal pro Modul als \gls{ng-service} verfügbar ist, oder jedes Mal neu mit Hilfe einer \gls{ng-factory} instanziiert wird, wenn sie gebraucht wird. 
+Solche Abhängigkeiten werden in AngularJS über das \gls{di} Mechanismus aufgelöst. Der DI Con­tai­ner kümmert sich um die Instanziierung aller registrierten Objekte. Es kann hier festgelegt werden, ob eine Abhängigkeit nur ein Mal pro Modul als \gls{ng-service} verfügbar ist oder jedes Mal neu mit Hilfe einer \gls{ng-factory} instanziiert wird, wenn sie gebraucht wird. 
 Die \textit{Session} Klasse wird als Service registriert, da dessen Instanz mit den User Daten über alle anfordernden Komponenten einmalig verfügbar sein muss. 
 
 Eine Stelle, wo der authentifizierte Zustand geprüft wird, ist der Router. Alle Routes im System müssen den Benutzer zurück auf das Login Formular weiterleiten, wenn dieser nicht eingeloggt ist (siehe \ref{lst:route_authorization}).
@@ -401,13 +395,13 @@ function authenticate($q, $state, $timeout, session) {
 \label{lst:route_authorization}
 \end{listing}
 
-Über das \textit{resolve} keyword lässt sich in der Router Konfiguration eine \textit{authenticate} Funktion anhängen. Diese wird immer aufgerufen, wenn der eine Routeänderung auf die entsprechende Route passiert. Der Returnwert dieser Funktion - ein erfolgreich/nicht erfolgreich aufgelöstes Promise Objekt - bestimmt darüber, ob die Route Änderung wirklich durchgeführt werden darf.
+Über das \textit{resolve} Keyword lässt sich in der Router Konfiguration eine \textit{authenticate} Funktion anhängen. Diese wird immer aufgerufen, wenn eine Routeänderung auf die entsprechende Route passiert. Der Rückgabewert dieser Funktion - ein erfolgreich/nicht erfolgreich aufgelöstes Promise Objekt - bestimmt darüber, ob die Route Änderung wirklich durchgeführt werden darf.
 
 Diese Entscheidung kann die \textit{authenticate} Funktion einfach treffen, indem es die API des injecteten Session Objektes \textit{session.isAuthenticated()} in Anspruch nimmt.
 
-Das oben beschrieben Verfahren der Route Autorisierung ist offensichtlich keine Sicherheitsmaßnahme, da das Ganze in dem Client Code passiert. Es dient, wie angedeutet, lediglich der notwendigen User Experience - der User soll immer auf das Login Formular umgeleitet werden, falls nicht richtig autorisiert. 
+Das oben beschriebene Verfahren der Route Autorisierung ist offensichtlich keine Sicherheitsmaßnahme, da das Ganze in dem Client Code passiert. Es dient, wie angedeutet, lediglich der notwendigen User Experience - der User soll immer auf das Login Formular umgeleitet werden, falls nicht richtig autorisiert. 
 
-Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss ein Server jeded HTTP Anfrage auf das valide Session Token prüfen, da diese auch losgelöst von dem Angular Client von einem potentiellen Angreifer durchgeführt werden können. Das Session Objekt muss demnach bei allen HTTP Aufrufen bekannt sein. 
+Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss ein Server jede HTTP Anfrage auf das valide Session Token prüfen, da diese auch ohne des originalen Webclients von einem potentiellen Angreifer durchgeführt werden können. Das Session Objekt muss demnach bei allen HTTP Aufrufen bekannt sein. 
 
 Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \textit{fetch} API darstellt. Über einen sog. \textit{HTTP Interceptor} lässt sich das Setzen des nötigen Autorisierungheaders einmalig konfigurieren (siehe \ref{lst:http_interceptor}).
 
@@ -431,7 +425,7 @@ export default function (session) {
 \label{lst:http_interceptor}
 \end{listing}
 
-Der HTTP Client lässt sich wie jede Abhängikeit in Angular über den DI Container übergeben. Nach der korrekten Registrierung des HTTP Interceptor muss bei der Benutzung des Client nichts weiter beachtet werden (Siehe \ref{lst:http_client}).
+Die Abhängigkeit zu dem HTTP Client lässt sich über den von Angular mitgelieferten DI Container auflösen. Nach der korrekten Registrierung des HTTP Interceptor muss bei der Benutzung des Client nichts weiter beachtet werden (Siehe \ref{lst:http_client}).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -458,12 +452,11 @@ class PhotosClient {
 
 \section{Menüführung}
 
-In Kapitel .. wurde ein Seitenmenü für die Hauptnavigation der Applikation und ein jeweils ein Untermenü für die Unterbereiche, wie die Galerieansicht oder Photo Detail Ansicht entworfen. Das Haupt Seitenmenü bleibt während des gesamten Nutzererlbnis gleich, während die Untermenüs sich je nach Kontext ändern können.
+In Kapitel \ref{sec:des:navigation_menu} wurde ein Seitenmenü für die Hauptnavigation der Applikation und jeweils ein Untermenü für die Unterbereiche, wie die Galerieansicht oder Photo Detail Ansicht entworfen. Das Haupt Seitenmenü bleibt während des gesamten Nutzererlbnisses unverändert, während die Untermenüs sich je nach Kontext ändern können.
 
-In Listing \ref{lst:main_layout} wurde der Lösungsansatz deutlich. Die Applikation benötigt ein Haupt Layout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die Angular Direktive \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente als direktive in Markup eingebunden. Dies hat eben der Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Fotogallerie benötigt beispielsweise ein Suchfeld, während das die Detailansicht ein Button für das Anzeigen der Metadaten enthält.
+In Listing \ref{lst:main_layout} wurde der Lösungsansatz für die Menüführung bereits deutlich. Die Applikation benötigt ein Haupt Layout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die \gls{ng-directive} \textit{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente als Direktive in Markup eingebunden. Dies hat den Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Fotogalerie benötigt beispielsweise ein Suchfeld, während das die Detailansicht ein Button für das Anzeigen der Metadaten enthält.
 
-Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Listing \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht Mal auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
-
+Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Listing \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind Lediglich Einträge mit Namen und URL Route zu dem Unterbereich. Der Controller muss somit nicht auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -536,7 +529,7 @@ md-sidenav.md-sidenav-left()
 \label{lst:side_menu_view}
 \end{listing} 
 
-Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt die Angular \textit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den Grund, dass hat den einfachen Grund, dass der Ausklappregler sich in dem Kontextmenü links. Der Button zum ausklappen lässt sich ebenfalls eine extra Komponent auslagern und in jede Kontext Toolbar integrieren. 
+Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt die Angular \textit{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den einfachen Grund, dass der Ausklappregler sich in dem jeweiligen Kontextmenü links und nicht in dem Seitenmenü selbst befindet. Der Button zum ausklappen lässt sich ebenfalls in eine extra Komponente auslagern und in jede Kontext Toolbar integrieren. 
 
 \section{Foto Galerie}
 \label{sec:photo_gallery}
@@ -545,11 +538,11 @@ Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt di
 
 Die Fotogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Denn die Einzelansicht des Fotos ist ebenfalls ein Art Galerie, da hier das Sliden zum nächsten und vorherigen Foto ermöglicht werden soll. Aus diesem Grund entsteht die Notwendigkeit das Laden von Fotos in Chunks an ein separates Model - die \textit{PhotosGallery} auszulagern. 
 
-Die \textit{PhotosGallery} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Er speichert den aktuell geladenen Chunk an Fotos sowie das aktuell ausgewählte Foto. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in dem Service sliden, wird der nächste Chunk geladen. Die Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar.
+Die \textit{PhotosGallery} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Sie speichert den aktuell geladenen Chunk an Fotos sowie das aktuell ausgewählte Foto. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in der PhotosGallery in der Detaiansicht der Photos sliden, wird der nächste Chunk geladen. Die beiden Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar. Somit wird die Galerieansicht immer das entsprechende Detailphoto beinhalten, auch wen der Benutzer mehrere weitere Batches geladen hat.
 
-Die Navigation zu \textit{\/photos} rendert die Foto Galerie. Dies übernimmt  \textit{PhotosController\#showPhotos}. Der Controller deklariert eine Abhängigkeit auf den \textit{PhotosGallery}, welcher wiederum über den \textit{PhotosClient}den HTTP GET Aufruf an den Server durchführt. 
+Die Navigation zu \textit{\/photos} rendert die Foto Galerie. Dies übernimmt  \textit{PhotosController\#showPhotos}. Der Controller deklariert eine Abhängigkeit auf die \textit{PhotosGallery}, welche wiederum über den \textit{PhotosClient} den HTTP GET Aufruf an den Server durchführt. 
 
-Die Antwort ist ein Array vom Foto Metadaten mit der URL zu dem eigentlichen File, Titel, Beschreibung und diversen Kameraeinstellungen in JSON Format. JSON wird in JavaScript durch einen Aufruf von \textit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen. Die Foto Metadaten werden in der Instanzvariable \textit{photos} in der \textit{PhotosGallery} abgelegt. 
+Die Antwort ist ein Array in \gls{json} Format von Foto Metadaten mit Titel, Beschreibung, diversen Kameraeinstellungen und der URL zu dem eigentlichen File. \gls{json} wird in JavaScript durch einen Aufruf von \textit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen. Die Foto Metadaten werden in der Instanzvariable \textit{photos} in der \textit{PhotosGallery} abgelegt. 
 
 
 \begin{listing}[H]
@@ -596,11 +589,11 @@ class PhotosGallery {
 
 \subsection{Gruppieren}
 
-Nach dem die Fotos erfolgreich geladen wurden müssen die Rohdaten für die Darstellung verarbeitet werden. Diese Arbeit zeigt die weitere Verarbeitung anhand automatisch, nach dem Monatsdatum, gruppierter Darstellung der Fotos.
+Nach dem die Fotos erfolgreich in dem \textit{PhotoGallery} Service geladen wurden, müssen die Rohdaten für die eigentliche Darstellung verarbeitet werden. Dieses Kapitel zeigt die weitere Verarbeitung exemplarisch anhand automatisch nach dem Monatsdatum gruppierter Darstellung der Fotos.
 
-Diese Logik ist spezifisch für die Galerieansicht und wird im PhotosController angewendet. Der Controller trägt sich als Watcher auf Änderungen des \textit{photos} Arrays im \textit{PhotoGallery} Service ein. 
+Diese Logik ist spezifisch für die Galerieansicht und wird im PhotosController angewendet. Die Gruppierung der Photos muss mit jeder Änderung des Arrays in der \textit{PhotoGallery} passieren. Der \textit{PhotosController} trägt sich hierfür als Watcher auf Änderungen des \textit{photos} Arrays im \textit{PhotoGallery} Service ein. 
 
-Nach einer Änderung des  \textit{photos} Arrays führt der Controller eine Grupperungsfunktion aus und legt das Endresultat in einer eigenen Instanzvariable ab. Der View rendert den Zustand der neuen Instanzvariable.
+Nach einer Änderung des \textit{photos} Arrays führt der Controller eine Grupperungsfunktion aus und legt das Endresultat in einer eigenen Instanzvariable ab. Der View rendert den Zustand der neuen Instanzvariable.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -648,7 +641,7 @@ Für das laden von Fotos in Chunks wird in dem Benutzerinterface eine simple Pag
 
 Das Laden des nächsten Chunks von Fotos passiert durch das Clicken des entsprechenden Page Links und wird in der Browser Adresszeile abgebildet. Es kann aber auch durch das Sliden zum nächsten/vorherigen Foto in der Detailansicht passieren. Somit ist wiederum der PhotoGallery Service für die Paginierung verantwortlich.
 
-Der PhotosClient, über den letztendlich die Daten angefragt werden, akzeptiert einen \textit{page} Parameter, welchen er per http Query Parameter wiederum an den Server senden kann. Basierend auf der aktuell angefragten Seite, generiert der \textit{PhotoGallery} Service ein Array aus Seitenzeilen in einer Instanzvariable nach jedem Laden eines Fotos Chunks. 
+Der PhotosClient, über den letztendlich die Daten angefragt werden, akzeptiert einen \textit{page} Parameter, welchen er per HTTP Query Parameter wiederum an den Server senden kann. Basierend auf der aktuell angefragten Seite, generiert der \textit{PhotoGallery} Service ein Array aus Seitenzeilen in einer Instanzvariable nach jedem Laden eines Fotos Chunks. 
 
 Die Paginierung geschieht folgender Weise:
 
@@ -774,13 +767,13 @@ Letzendlich ist die Aufgabe des Servers enttprechend ein gefiltertes Ergebnis zu
 \section{Foto Details}
 \label{sec:photo_details}
 
-In \ref{sec:rendering} wird erwähnt, dass jede Foto Kachel eine Click Aktion zugewiesen bekommt, welche zur der Detailansicht eines Fotos führt. Diese Aktion wird vom \textit{PhotosController} verarbeitet und ist eine triviale Routänderung auf den \textit{PhotoDetailsController} mit entsprechenden Photo ID Parameter in der URL.
+In Kapitel \ref{sec:rendering} wird erwähnt, dass jede Foto Kachel eine Click Aktion zugewiesen bekommt, welche zur der Detailansicht eines Fotos führt. Diese Aktion wird vom \textit{PhotosController} verarbeitet und ist eine triviale Routänderung auf den \textit{PhotoDetailsController} mit entsprechenden Photo ID Parameter in der URL.
 
-Der \textit{PhotoDetailsController} verwendet ebenfalls wie der \textit{PhotoDetailsController} den \textit{PhotoGallery} Service um die Daten für das einzelne Foto zu laden. Im Standardfall hat die PhotoGallery die Daten für das einzelne Foto bereits in dem \textit{photos} Array. Da ein Batch aus Fotos eiene überschaubere Größe hat, reicht hier eine lineare Suche nach dem Eintrag mit entsprechender ID. 
+Der \textit{PhotoDetailsController} verwendet ebenfalls wie der \textit{PhotoDetailsController} den \textit{PhotoGallery} Service, um die Daten für das einzelne Foto zu laden. Im Standardfall hat die PhotoGallery die Daten für das einzelne Foto bereits in dem \textit{photos} Array. Da ein Batch aus Fotos eine überschaubare Größe hat, reicht hier eine lineare Suche nach dem Eintrag mit entsprechender ID. 
 
 Das gefundene Foto Objekt inklusive der Foto Metadaten wird in der Instanzvariable \textit{currentPhoto} abgelegt und per Databinding gerendert. 
 
-Die Anzeige der Metadaten ist hinter eine weitere, von Rechts ausklappbare Sidebar (siehe \ref{fig:photo_form}) versteckt. Editierbare Werte wie Title und Beschreibung werden in Formularfelder dargestellt. Ein bidirektionales Databinding kopiert die Benutzereingaben in die entsprechende Felder des \textit{currentPhoto} Objekts. 
+Die Anzeige der Metadaten ist hinter einer weiteren, von Rechts ausklappbaren Sidebar (siehe \ref{fig:form_normal}) versteckt. Editierbare Werte wie Title und Beschreibung werden in Formularfelder dargestellt. Ein bidirektionales Databinding kopiert die Benutzereingaben in die entsprechende Felder des \textit{currentPhoto} Objekts. 
 
 Der PhotoDetails Controller registriert sich auf die \textit{onChanged } Events der Formularfelder und sendet nach einem kurzem Timeout die neuen bekannten Daten an den Server mit Hilfe des \textit{PhotoClient} Objektes. Somit ergibt sich ein sog.
 ``In Place Editing'' Benutzererlebnis.

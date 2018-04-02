@@ -14,11 +14,12 @@ Das Visual Design für die Authentifizierung (\ref{sec:spec:authentication}) ist
 \caption{Authentifizierung}\label{fig:login_form}
 \end{figure}
 
-Der Benutzer gibt hier seine Login Daten ein. Bei positiver Eingabe gelangt er in die Anwendung. Als Standardansicht wird die Fotogallerie angezeigt.
+Der Benutzer gibt hier seine Login Daten ein. Bei positiver Eingabe gelangt er in die Anwendung. Als Standardansicht wird die Fotogalerie angezeigt.
 
-\section{Navigations Menü}
+\section{Navigation Menü}
+\label{sec:des:navigation_menu}
 
-Das Navigation innherhalb der Anwendung (Anforderung \ref{sec:spec:menu}) geschieht durch ein von rechts ausklappbares Seitenmenü (Abb. \ref{fig:gallery_large}). Dieses legt sich über den Inhalt im Hauptbereicht der Anwendung. Der Button zum Ausklappen befindet sich in jedem Unterbereich der Andwedung oben rechts (siehe Abb \ref{fig:gallery_normal}). Das Menü nimmt auf kleinen Geräten die gesamte Bildschirmgröße ein.
+Das Navigation innerhalb der Anwendung (Anforderung \ref{sec:spec:menu}) geschieht durch ein von rechts ausklappbares Seitenmenü (Abb. \ref{fig:gallery_large}). Dieses legt sich über den Inhalt im Hauptbereich der Anwendung. Der Button zum Ausklappen befindet sich in jedem Unterbereich der Anwendung oben rechts (siehe Abb \ref{fig:gallery_normal}). Das Menü nimmt auf kleinen Geräten die gesamte Bildschirmgröße ein.
 
 Zusätzlich bekommt jeder Unterbereich am oberen Bildschirmrand eine spezifische Werkzeugleiste für die Aufgaben des jeweiligen Kontextes. Die spezifischen Werkzeuge haften am rechten oberen Rand.
 
@@ -28,37 +29,37 @@ Zusätzlich bekommt jeder Unterbereich am oberen Bildschirmrand eine spezifische
 \caption{Foto Gallerie Large}\label{fig:gallery_large}
 \end{figure}
 
-\section{Foto Gallerie}
+\section{Foto Galerie}
 
-Das Design der Gallerie aus Anforerdung \ref{sec:spec:photo_gallery} ist für die Bildschirmgrößen - Large, Normal, Small in den Abb.\ref{fig:gallery_large}, \ref{fig:gallery_normal}, \ref{fig:gallery_small} entsprechend visualisiert.
-Generell findet ein Umfluß der Bilder vom mehr auf weniger Spalten statt, bis letztendlich eine einzelne Spalte mit Bildern übrig bleibt.
+Das Design der Galerie aus Anforderung \ref{sec:spec:photo_gallery} ist für die Bildschirmgrößen - Large, Normal, Small in den Abb.\ref{fig:gallery_large}, \ref{fig:gallery_normal}, \ref{fig:gallery_small} entsprechend visualisiert. Generell findet ein Umfluss der Bilder vom mehr auf weniger Spalten statt, bis letztendlich eine einzelne Spalte mit Bildern übrig bleibt.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/gallery_normal} 
-\caption{Foto Gallerie Normal}\label{fig:gallery_normal}
+\caption{Foto Galerie Normal}\label{fig:gallery_normal}
 \end{figure}
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=0.5\textwidth]{images/gallery_small} 
-\caption{Foto Gallerie Small}\label{fig:gallery_small}
+\caption{Foto Galerie Small}\label{fig:gallery_small}
 \end{figure}
 
-Die beiden oberen Entwürfe zeigen ebenfalls die Gruppierung der Fotos nach dem Erstellungsmonat (Anforderung \ref{sec:spec:photo_groups}) und die ein Suchfeld in der oberen Werkzeugleiste (Anforderung \ref{sec:spec:photo_search}). Die Eingabe eines Suchbegriffs führ instantan eine Suche durch, sobald mehr als 2 Zeichen eigegben werde. Das Ergebnis der Suche ist ebenfalls nach Erstellungsmonat gruppiert.
+Die beiden oberen Entwürfe zeigen ebenfalls die Gruppierung der Fotos nach dem Erstellungsmonat (Anforderung \ref{sec:spec:photo_groups}) und ein Suchfeld in der oberen Werkzeugleiste (Anforderung \ref{sec:spec:photo_search}). Die Eingabe eines Suchbegriffs führt instantan eine Suche durch, sobald mehr als 2 Zeichen eingegeben wurden. Das Ergebnis der Suche ist ebenfalls nach Erstellungsmonat gruppiert.
 
 \section{Paginierung}
 
-Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Andwendung dem Benutzer Paginierungs Links für jeweils 2 vorherige und kommende Fotobatches ( siehe \ref{fig:pagination}).
+Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Anwendung dem Benutzer Seitenzahl Links für jeweils 2 vorherige und kommende Foto Stapel.
+% ( siehe Abb. \ref{fig:pagination}).
 
-\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
-\centering
-\includegraphics[width=1.0\textwidth]{images/form_normal} 
-\caption{Paginierung}\label{fig:pagination}
-\end{figure}
+% \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+% \centering
+% \includegraphics[width=1.0\textwidth]{images/form_normal} 
+% \caption{Paginierung}\label{fig:pagination}
+% \end{figure}
 
 \section{Foto Details}
-Die Anforderung der Hauptansicht und Metadaten Betrachtung und Bearbeitung (\ref{sec:spec:photo_details}) ist in dem Visual Design  \ref{fig:form_normal} für die Bildschirmgröße Large abgebildet. Der Benutzer gelangt in die Foto Details Ansicht mit dem Klick auf ein entsprechendes Foto. 
+Die Anforderung der Hauptansicht und Metadaten Betrachtung und Bearbeitung (\ref{sec:spec:photo_details}) ist in dem Visual Design \ref{fig:form_normal} für die Bildschirmgröße Large abgebildet. Der Benutzer gelangt in die Foto Details Ansicht mit dem Klick auf ein entsprechendes Foto. 
 
 Die Metadaten Ansicht wird mit dem Klick auf das Info Icon von rechts ausgeklappt und ist im Standardzustand nicht sichtbar. Das zentrierte Foto verschiebt sich entsprechend und skaliert im restlichen Bereich.
 
@@ -84,7 +85,6 @@ Auf kleineren Geräten nimmt entweder das Foto (Abb. \ref{fig:details_small}) od
 
 Die EXIF Kameradaten werden gesondert kategorisiert nach Erstellungsdatum, Kameraeinstellungen und Fotodimensionen mit einem entsprechenden Icon pro Kategorie angezeigt.
 
-Die Abbildungen zeigen ebenfalls, dass das betrachtete Foto bei abnehmender Displaygröße proportionell herunterskaliert und immer auf dem Bildschirm zentriert wird (Anforderung \ref{sec:spec:photo_centering}).
+Die Abbildungen zeigen ebenfalls, dass das betrachtete Foto bei abnehmender Displaygröße proportional herunterskaliert und immer auf dem Bildschirm zentriert wird (Anforderung \ref{sec:spec:photo_centering}).
 
-Deweiteren sind über dem Foto blaue Pfeile für das Sliden zur nächsten bzw vorheriger Detailansicht eines Fotos in den oberen Entwürfen dargestellt. 
-(Anforderunge \ref{sec:spec:photo_slider})
+Des Weiteren sind über dem Foto blaue Pfeile für das Sliden zur nächsten bzw. vorheriger Detailansicht eines Fotos in den oberen Entwürfen dargestellt. (Anforderung \ref{sec:spec:photo_slider})

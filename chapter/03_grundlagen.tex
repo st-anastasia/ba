@@ -151,6 +151,7 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 \end{figure}
 
 \section{Clientseitige Webanwendungen}
+\label{sec:client_side_web_apps}
 
 \subsection{Grundprinzip}
 
@@ -213,6 +214,7 @@ Folgend ist tabelarisch die Akzentuirung des "Was" und des "Wie" auf den Design 
 Vgl. \cite[Kap. REST and CRUD]{LaunchSchool:2016}
 
 \subsection{Architektur}
+\label{sec:architecture}
 
 Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt. 
 
@@ -225,7 +227,7 @@ Siehe \ref{fig:client_side_mvc}.
 \caption{Clientseitiges MVC}\label{fig:client_side_mvc}
 \end{figure}
 
-Die meisten clientseitigen Frameworks führen eine Technik namens ``Databinding'' ein. Dabei wird, einst aus einem Markup Template erstelltes, View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
+Die meisten clientseitigen Frameworks führen eine Technik namens \gls{databinding} ein. Dabei wird, einst aus einem Markup Template erstelltes, View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
 
 
 \section{Responsive Webdesign}
