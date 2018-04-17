@@ -4,7 +4,32 @@
 
 In Kapitel \ref{sec:zielsetzung} wurde als Zielsetzung bestimmt, dass diese grundlegende Problemstellungen bei der Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat \ref{sec:client_side_web_apps}gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss. 
 
-Für die Umsetzung dieser clientseitigen Architektur existiert eine Reihe von JavaScript Frameworks. Für die tatsächliche Implementierung der exemplarischen Fotoverwaltung Software verwendet diese Arbeit das AngularJS 1.x Framework. Dieses hält sich stark an die Konzepte objektorientierter Programmierung, liefert Bibliotheken zur Umsetzung des MVC Patterns aus Kapitel \ref{sec:architecture} und eine Reihe weitere für die Webbrowser Umgebung relevanter Werkzeuge wie URL Routing und DOM Rendering. 
+Für die Umsetzung dieser clientseitigen Architektur existiert eine Reihe von JavaScript Frameworks. Für die tatsächliche Implementierung der exemplarischen Fotoverwaltung Software verwendet diese Arbeit das AngularJS 1.x Framework. Dieses hält sich stark an die Konzepte objektorientierter Programmierung, liefert Bibliotheken zur Umsetzung des MVC Patterns aus Kapitel \ref{sec:architecture} und eine Reihe weitere für die Webbrowser Umgebung relevanter Werkzeuge wie URL Routing und DOM Rendering.
+
+Für die Umsetzung des Benutzerinterface wird das mit AngularJS kompatible Angular Material Framework verwendet. Dieses bringt Material Farbenpaletten, graphische Elemente und Layout Abstraktion als \gls{ng-directive} auf der Grundlage des CSS Flexbox Layouts mit vordefinierten CSS Media Queries für die responsive Design Umsetzung.
+
+\section{Layout}
+
+Die Haupt- und Akzentpalette lassen sich bei dem Einbinden von Angular Material einmalig konfigurieren. Die UI Komponenten setzen das Theming oft automatisch um.
+Dort wo es nicht passiert bzw. weitere Farbzustände für das Feedback bei Benutzerinteraktion benötigt werden, lassen sich über vorgegebene Parameter e.g \textit{md-primary}, \textit{md-raised} die Zustände setzen bzw. per Databinding umschalten.
+
+Für das Navigationsmenü (Abb. \ref{fig:gallery_large}, links) wird die \gls{ng-directive} \textit{md-sidenav} verwendet. Die Komponente bietet Schnittstellen zum einklappen und ausklappen. Die Seitennavigation lässt sich parametrisiert entweder über den Inhalt legen oder kann den Inhalt wegschieben. Im Fall des Navigationsmenüs wird die erste Option verwendet. 
+
+Die Untermenüs (Abb. \ref{fig:gallery_large}, oben) werden mit Hilfe des \textit{md-toolbar} Elements umgesetzt. Werkeuge, welche nicht auf die Leiste passen, lassen sich mit \textit{md-menu-content} in ein Kontexmenü verstecken, welches erst beim Klicken erscheint.
+
+Angular Material bringt ebenfalls Container Abstraktionen für das Anordnen der Elemente. Es existieren Zeilen (\textit{layout="row"}), Spalten (\textit{layout="column"}) und Gridcontainer (\textit{md-grid}), welche Elemente horizontal bzw. vertikal anordnen. Dieses wird intern  mit Hilfe entsprechenden Flexbox Eigenschaften umgesetzt. Die Container sorgen automatisch dafür, dass die Größe der inneren Elemente für verschiedene Auflösungen skaliert wird. Alle Größenangaben werden prozentual zu der Größe des Elternelements gemacht, damit die responsive Eigenschaft gewahrt bleibt(siehe Abb. \ref{fig:layout_container}). 
+
+\begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
+\centering
+\includegraphics[width=1.0\textwidth]{images/layout_container} 
+\caption{Layout Container. Quelle: material.angularjs.org}\label{fig:layout_container}
+\end{figure}
+
+Die Foto Galerie (Abb. \ref{fig:gallery_large}, mittig) besteht aus jeweils einem Zeilencontainer pro Monat der Aufnahme und zwei Zeilencontainer für die Monatsüberschrift sowie die Fotos selbst. Die Fotos werden wiederum in einem Gridcontainer gruppiert. 
+
+Foto Details Metadaten (Abb. \ref{fig:form_normal}, rechts) befinden sich in einem von rechts ausklappbaren \textit{md-sidenav} Element. Es schiebt den Inhalt mit der Großansicht des Fotos weg und verdrängt es komplett auf kleinen Geräten. Die \textit{md-input} Formularfelder selbst lassen sich einer Spalte als Zeilen anordnen.
+
+Das Foto (Abb. \ref{fig:form_normal}, links) wird mit Hilfe der Flexbox \textit{justify-content} Eigenschaft zentriert. In Angular Material wird dies über den Parameter \textit{layout-align="center center"} auf dem Wrapper Container erreicht. Damit das Foto aber auch korrekt proportional zu seinen eigentlichen Dimensionen skaliert, müssen alle weiteren Elterncontainer des Image Elements 100\% ihrer verfügbaren Breite und Höhe einnehmen. Hierfür sorgt die Eigenschaft \textit{layout-fill}.
 
 \section{Grund Setup}
 \label{sec:grund_setup}
@@ -250,7 +275,7 @@ angular.module('pika', [
 
 \subsection{Komponenten Struktur}
 
-Kapitel \ref{sec:fig:client_side_mvc} erläutert das Paradigma der clientseitigen Javascript MVC Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand. 
+Kapitel \ref{sec:architecture} erläutert das Paradigma der clientseitigen Javascript MVC Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand. 
 
 Sie besteht aus mehreren weiteren Einheiten - einem View, einem Controller und einem bist mehreren Models. In dieser Arbeit nimmt der Controller, wie am Ende von  Kapitel \ref{sec:architecture} geschildert eine Presenter Rolle ein. D.h. er speichert nicht nur die Rohdaten für die Darstellung, sondern exakt den Zustand des Benutzerinterfaces. 
 
@@ -271,7 +296,7 @@ Für diese Arbeit ergibt sich folgende generelle Komponenten Gliederung:
 \subsection{Grundverfahren}
 \label{sec:session_handling_basics}
 
-Kapitel \ref{sec:authentication} definiert die Anforderung zur Benutzerauthentifizierung. Die Grundvorgehensweise dabei schildert sich wie folgt:
+Kapitel \ref{sec:spec:authentication} definiert die Anforderung zur Benutzerauthentifizierung. Die Grundvorgehensweise dabei schildert sich wie folgt:
 
 \begin{itemize}
   \item Der Benutzer gibt seine Anmeldedaten beim initialen Aufruf der Anwendung ein.
@@ -767,16 +792,13 @@ Letzendlich ist die Aufgabe des Servers enttprechend ein gefiltertes Ergebnis zu
 \section{Foto Details}
 \label{sec:photo_details}
 
-In Kapitel \ref{sec:rendering} wird erwähnt, dass jede Foto Kachel eine Click Aktion zugewiesen bekommt, welche zur der Detailansicht eines Fotos führt. Diese Aktion wird vom \textit{PhotosController} verarbeitet und ist eine triviale Routänderung auf den \textit{PhotoDetailsController} mit entsprechenden Photo ID Parameter in der URL.
+In Kapitel \ref{sec:rendering} wird erwähnt, dass jede Foto Kachel eine Click Aktion zugewiesen bekommt, welche zur der Detailansicht eines Fotos führt. Diese Aktion wird vom \textit{PhotosController} verarbeitet und ist eine triviale Routänderung auf den \textit{PhotoDetailsController} mit entsprechenden Photo ID Parameter in der URL. Die Routeänderung sorgt dafür, dass der \textit{PhotoDetailsController} neu instanziiert wird. Bei jedem Instanziieren lädt der \textit{PhotoDetailsController} das entsprechende Photo aus dem  Photo ID Parameter. Der \textit{PhotoDetailsController} verwendet ebenfalls wie der \textit{PhotoDetailsController} den \textit{PhotoGallery} Service, um die Daten für das einzelne Foto zu laden. 
 
-Der \textit{PhotoDetailsController} verwendet ebenfalls wie der \textit{PhotoDetailsController} den \textit{PhotoGallery} Service, um die Daten für das einzelne Foto zu laden. Im Standardfall hat die PhotoGallery die Daten für das einzelne Foto bereits in dem \textit{photos} Array. Da ein Batch aus Fotos eine überschaubare Größe hat, reicht hier eine lineare Suche nach dem Eintrag mit entsprechender ID. 
-
-Das gefundene Foto Objekt inklusive der Foto Metadaten wird in der Instanzvariable \textit{currentPhoto} abgelegt und per Databinding gerendert. 
+Im Standardfall hat die PhotoGallery die Daten für das einzelne Foto bereits in dem \textit{photos} Array. Diese befinden sich dort aus der vorherigen Anfrage des \textit{PhotosController} für die Darstellung der Photoübersicht. Da ein Batch aus Fotos eine überschaubare Größe hat, reicht hier eine lineare Suche nach dem Eintrag mit des Fotos mit entsprechender ID. Das gefundene Foto Objekt inklusive der Foto Metadaten wird in der Instanzvariable \textit{currentPhoto} abgelegt und per Databinding gerendert. 
 
 Die Anzeige der Metadaten ist hinter einer weiteren, von Rechts ausklappbaren Sidebar (siehe \ref{fig:form_normal}) versteckt. Editierbare Werte wie Title und Beschreibung werden in Formularfelder dargestellt. Ein bidirektionales Databinding kopiert die Benutzereingaben in die entsprechende Felder des \textit{currentPhoto} Objekts. 
 
-Der PhotoDetails Controller registriert sich auf die \textit{onChanged } Events der Formularfelder und sendet nach einem kurzem Timeout die neuen bekannten Daten an den Server mit Hilfe des \textit{PhotoClient} Objektes. Somit ergibt sich ein sog.
-``In Place Editing'' Benutzererlebnis.
+Der PhotoDetails Controller registriert sich auf die \textit{onChanged } Events der Formularfelder und sendet nach einem kurzem Timeout die neuen bekannten Daten an den Server mit Hilfe des \textit{PhotoClient} Objektes. Somit ergibt sich ein sog. ``In Place Editing'' Benutzererlebnis.
 
 \section{Foto Slider}
 \label{sec:photo_slider}
