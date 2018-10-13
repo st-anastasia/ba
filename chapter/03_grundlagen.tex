@@ -9,7 +9,7 @@ Der Client ist ein Programm des Benutzers und ist dafür zuständig, den Inhalt 
 
 Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus. Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
 
-Die Fachbezeichnung für den remote Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und andere Dateien bestehen. Aber wie am Anfang angedeutet, sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form vom Software vorkommen, welche es z.B. erlauben, Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
+Die Fachbezeichnung für den Remote-Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und anderen Dateien bestehen. Aber, wie am Anfang angedeutet, sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form von Software vorkommen, welche beispielsweise es erlauben mit Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
 
 Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folgt aus:
 
@@ -19,13 +19,13 @@ Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP f�
 
 "When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful..."
 
-D.h, dass es eine Reihe von verschiedenen Techniken gibt, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
+Es gibt daher eine Reihe von verschiedenen Techniken, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
 
 Vgl. \cite[Background]{Parikh:2015}, \cite{Culloca:2006}
 
 \section{HTTP}
 
-In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikationsprotokoll HTTP verwendet wird. Ein Protokoll zeichnet sich zunächst durch 3 grundlegende Eigenschaften aus:
+In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikationsprotokoll HTTP verwendet wird. Ein Protokoll zeichnet sich zunächst durch drei grundlegende Eigenschaften aus:
 
 \begin{itemize}
 \item Syntax - Datenformat und Kodierung
@@ -53,8 +53,8 @@ User-Agent: Opera
 \end{listing}
 
 Diese Nachricht spezifiziert, dass der Client eine Ressource erhalten möchte.
-Die Ressource, die der Client erhalten möchte, befindet sich im root-Verzeichnis.
-Die Übertragung soll mittels HTTP version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \emph{www.opera.com}befindet. Ferner teilt der Client einen sog. HTTP Header, namens \emph{User-Agent} Informationen über das Programm, welches für die Kommunikation verwendet wurde.
+Die Ressource befindet sich im root-Verzeichnis.
+Die Übertragung soll mittels HTTP-Version 1.1 stattfinden. Der Client versucht eine spezifische Webseite zu erreichen, die sich unter der URL \emph{www.opera.com} befindet. Ferner teilt der Client über einen sog. HTTP Header, namens \emph{User-Agent}, Informationen über das Programm, welches für die Kommunikation verwendet wurde, mit.
 
 Eine Antwort vom Server könnte dabei wie folgt aussehen:
 
@@ -81,7 +81,7 @@ Transfer-Encoding: chunked
 Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie einer verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und letzendlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
 
 Weitere HTTP-Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT.
-Jede von denen hat eine unterschiedliche Rolle. Siehe \cite[Kap. 4]{Fielding:2014}. 
+Jede von denen hat eine unterschiedliche Rolle. Siehe \cite[Kap. 4]{Fielding:2014}.
 
 Vgl. \cite{Dubost:2012}
 
@@ -146,7 +146,7 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
-\includegraphics[width=1.0\textwidth]{images/server_side_mvc} 
+\includegraphics[width=1.0\textwidth]{images/server_side_mvc}
 \caption{Serverseitiges MVC}\label{fig:server_side_mvc}
 \end{figure}
 
@@ -163,15 +163,15 @@ Im weiteren Verlauf ermöglichte die Implementierung der XMLHttpRequest Schnitts
 
 So schreibt \cite{Garrett:2005} weiter: \enquote{Ajax isn`t a technology. It`s really several technologies, each flourishing in its own right, coming together in powerful new ways.} Und er definiert die Komponenten, welche Ajax ausmachen.
 
-\begin{itemize} 
-\item standards-basierte Darstellung, unter Verwendung von XHTML und CSS 
+\begin{itemize}
+\item standards-basierte Darstellung, unter Verwendung von XHTML und CSS
 \item dynamische Darstellung und Interkation, unter Verwendung des Document Object Model
 \item Datenaustausch und Manipulation mit Hilfe von XML und XSLT
 \item Asynchrone Datenabfragen, unter Verwendung des XMLHttpRequest
 \item Javascript, welches das Ganze zusammenbindet
 \end{itemize}
 
-Anstatt eine Webseite am Anfang der Benutzersitzung zu laden, lädt der Browser eine Ajax Engine - implementiert in Javascript. Diese Engine ist sowohl verantwortlich für das Rendern des Benutzerinterfaces als auch für die Kommunikation zwischen dem Server seitens des Benutzers. 
+Anstatt eine Webseite am Anfang der Benutzersitzung zu laden, lädt der Browser eine Ajax Engine - implementiert in Javascript. Diese Engine ist sowohl verantwortlich für das Rendern des Benutzerinterfaces als auch für die Kommunikation zwischen dem Server seitens des Benutzers.
 
 Die von Garret formulierten Ajax Bestandteile gelten noch heute. Allerdings spielt das Datenformat XML keine primäre Rolle. Es ist kein bestimmtes Datenaustausch Format vorgeschrieben, wobei überwiegend das kompakte JSON Format zur Übertragung benutzt wird. Der Schnittstellen Name - XMLHttpRequest blieb aus Kompatibilitätsgründen erhalten. Ab ECMAScript6 existiert eine neue HTTP Api, namens \emph{fetch}.
 
@@ -179,35 +179,35 @@ Vgl. \cite{Garrett:2005}
 
 \subsection{Datenübetragung}
 
-Die meist konventionelle Art und Weise, in der Ajax Applikationen mit dem Server kommunizieren, ist eine sog. REST Api. REST steht für representational state transfer.    
+Die meist konventionelle Art und Weise, in der Ajax Applikationen mit dem Server kommunizieren, ist eine sog. REST Api. REST steht für representational state transfer.
 
-\begin{itemize} 
+\begin{itemize}
 \item \emph{representational} bezieht sich darauf wie eine Representation eine Ressource übertragen wird.
 \item \emph{state transfer} bezieht sich darauf dass HTTP ein zustandsloses Protokol ist und dass alles was der Server braucht, um eine Anfrage zu verarbeiten, sich in der Anfrage selbst befindet.
 \end{itemize}
 
-Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden sind Faktoren, welche definieren, was REST ist und wie es auf das Web und den Schnittstellen Design zutrifft. 
+Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden sind Faktoren, welche definieren, was REST ist und wie es auf das Web und den Schnittstellen Design zutrifft.
 
 Alle Aktionen innerhalb REST konzentrieren sich also um Ressourcen und somit stellen das Erzeugen (Create), Lesen (Read), Aktualisieren ( Update) und Löschen (Delete) die einzigen Aktionen da, welche auf diese Ressourcen angewendet werden. Das Akronym welches diese vier Aktionen beschreibt ist demnach \emph{CRUD}. Beispielweise würde innerhalb des REST Paradigma, um einen Benutzer einzuloggen, nicht etwa eine Remote Procedure \emph{User.login(username, password)} aufgerufen, sondern eine Ressource \emph{UserSession} mit den Attributen \emph{username, password} auf dem Server erstellt.
 
-Eine anschauliche Art REST Schnittstellen zu Implementieren ist alle Aktion auf zwei Kriterien zu brechen 
+Eine anschauliche Art REST Schnittstellen zu Implementieren ist alle Aktion auf zwei Kriterien zu brechen
 
 \begin{itemize}
  \item \emph{Was} - Auf welche Ressource wird eingewirkt ?
  \item \emph{Wie} - Was passiert mit der Ressource ?
 \end{itemize}
- 
+
 Folgend ist tabelarisch die Akzentuirung des "Was" und des "Wie" auf den Design einer REST API für den Benutzerlogin dargestellt.
 
 \begin{center}
     \begin{tabular}{ | p{5cm} | l | l | l | l |}
     \hline
-    \multirow{2}{*}{Zielsetzung} & \multicolumn{2}{l|}{ Wie } & \multicolumn{2}{l|}{ Was } \\ \cline{2-5} 
+    \multirow{2}{*}{Zielsetzung} & \multicolumn{2}{l|}{ Wie } & \multicolumn{2}{l|}{ Was } \\ \cline{2-5}
     & Operation & HTTP Methode & Ressource & Pfad \\ \hline
     Information über die Session  bekommen & Read & GET & Session & /sessions/:id \\ \hline
     Eine neue Session erzeugen ( Benutzer einloggen ) & Create & POST & Sessions Liste & /sessions \\ \hline
     Neue Daten zur Session hinzufügen & Update & PUT & Session & /sessions/:id \\ \hline
-    Session löschen ( Benutzer ausloggen ) & Delete & DELETE & Session & /sessions/:id \\ \hline  
+    Session löschen ( Benutzer ausloggen ) & Delete & DELETE & Session & /sessions/:id \\ \hline
     \end{tabular}
 \end{center}
 
@@ -216,14 +216,14 @@ Vgl. \cite[Kap. REST and CRUD]{LaunchSchool:2016}
 \subsection{Architektur}
 \label{sec:architecture}
 
-Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt. 
+Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt.
 
 Auch hier wird bei einer objektorientierten Umsetzung das MVC Pattern bzw. eine Abwandlung davon verwendet. Dabei werden Benutzereingaben direkt von einem dafür zuständigen Controller verarbeitet. Der Controller leitet die Anfrage an das Model weiter, welches mit einem Webservice interagieren kann. Anschließend benachrichtigt der Controller das View über die Änderung des Zustands der Applikation. Schließlich sorgt das View für die direkte DOM Manipulation eines bestimmten Teilbereich der Seite.
 Siehe \ref{fig:client_side_mvc}.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
-\includegraphics[width=1.0\textwidth]{images/client_side_mvc} 
+\includegraphics[width=1.0\textwidth]{images/client_side_mvc}
 \caption{Clientseitiges MVC}\label{fig:client_side_mvc}
 \end{figure}
 
@@ -251,7 +251,7 @@ Hierfür legte Marcotte 3 Grundelemente fest:
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
-\includegraphics[width=1.0\textwidth]{images/grid} 
+\includegraphics[width=1.0\textwidth]{images/grid}
 \caption{Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.27}\label{fig:grid}
 \end{figure}
 
@@ -283,7 +283,7 @@ Das obige Layout kann durch folgenden CSS code erzeugt werden:
 Um nun von einem starren Raster auf ein flexibles Raster zu kommen, welches sich an Bildschirmgrößen anpasst, werden feste Pixel Angaben durch relative Prozentangaben ersetzt. Hierfür wird eine einfach Umrechnungsformel verwendet - $target / context = result$
 
 Wenn also sich das Target Element \emph{main} mit 566px Breite sich bei einem festen Raster innerhalb des Kontextelementes \emph{blog} mit 900px Breite befindet, ergibt sich dafür laut $566 / 900$ eine 62.8888889\% Breite:
- 
+
 \begin{listing}[H]
 \begin{minted}{css}
   .blog .main {
@@ -299,11 +299,11 @@ Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Font
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
-\includegraphics[width=1.0\textwidth]{images/flex_grid} 
+\includegraphics[width=1.0\textwidth]{images/flex_grid}
 \caption{Flexibles Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.33}\label{fig:flex_grid}
 \end{figure}
 
-Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container sine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing. 
+Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container sine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing.
 
 \begin{listing}[H]
 \begin{minted}{html}
@@ -317,7 +317,7 @@ Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Gr
 \caption{Container mit Bild Markup}
 \label{lst:image_container_markup}
 \end{listing}
- 
+
 \begin{listing}[H]
 \begin{minted}{css}
  .figure {
@@ -333,7 +333,7 @@ Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Gr
 
 Diese Einstellung allein wird aber nicht ausreichen. Sollte das Bild in Wirklichkeit größer sein, als sich Platz dafür resultierend aus der dynamischen Breitenangabe und der jeweiligen Gerätauflösung ergibt, wird es standardmäßig mit Scrollbalken innerhalb seines Containers in original Größe gerendert.
 
-Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen Fällen wird einfach das Gleiche Skalierverhlaten für das Bild gewünscht, wie für den Rest des Inhalts. Hierfür sorgt eine \emph{max-width: 100\%} Einstellung auf das Bildelement selbst. 
+Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen Fällen wird einfach das Gleiche Skalierverhlaten für das Bild gewünscht, wie für den Rest des Inhalts. Hierfür sorgt eine \emph{max-width: 100\%} Einstellung auf das Bildelement selbst.
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -353,7 +353,7 @@ Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen 
 \end{listing}
 
 
-Es kann aber auch ausreichen sein, dass einfach ein bestimmter Bildausschnitt gerendert wird, so im Falle von Hintergrundbildern. Dieses wird mit Hilfe einer \emph{overflow: hidden\%} css Regel erreicht auf dem Context Container des Bildes erreicht. 
+Es kann aber auch ausreichen sein, dass einfach ein bestimmter Bildausschnitt gerendert wird, so im Falle von Hintergrundbildern. Dieses wird mit Hilfe einer \emph{overflow: hidden\%} css Regel erreicht auf dem Context Container des Bildes erreicht.
 
 \begin{listing}[H]
 \begin{minted}{css}

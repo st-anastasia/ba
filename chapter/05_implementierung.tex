@@ -2,18 +2,18 @@
 
 \section{Einleitung}
 
-In Kapitel \ref{sec:zielsetzung} wurde als Zielsetzung bestimmt, dass diese grundlegende Problemstellungen bei der Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat \ref{sec:client_side_web_apps}gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss. 
+In Kapitel \ref{sec:zielsetzung} wurde als Zielsetzung bestimmt, dass diese grundlegende Problemstellungen bei der Implementierung einer komplexen clientseitigen Webanwendung betrachtet. Ferner hat \ref{sec:client_side_web_apps} gezeigt, dass hierfür eine komplette \textit{Ajax-Engine} an den Client über HTTP ausgeliefert werden muss. 
 
-Für die Umsetzung dieser clientseitigen Architektur existiert eine Reihe von JavaScript Frameworks. Für die tatsächliche Implementierung der exemplarischen Fotoverwaltung Software verwendet diese Arbeit das AngularJS 1.x Framework. Dieses hält sich stark an die Konzepte objektorientierter Programmierung, liefert Bibliotheken zur Umsetzung des MVC Patterns aus Kapitel \ref{sec:architecture} und eine Reihe weitere für die Webbrowser Umgebung relevanter Werkzeuge wie URL Routing und DOM Rendering.
+Für die Umsetzung dieser clientseitigen Architektur existiert eine Reihe von JavaScript Frameworks. Für die tatsächliche Implementierung der exemplarischen Software zur Fotoverwaltung verwendet diese Arbeit das AngularJS 1.x Framework. Dieses hält sich stark an die Konzepte objektorientierter Programmierung, liefert Bibliotheken zur Umsetzung des MVC Patterns aus Kapitel \ref{sec:architecture} und eine Reihe weiterer für die Webbrowserumgebung relevanten Werkzeuge wie URL Routing und DOM Rendering.
 
-Für die Umsetzung des Benutzerinterface wird das mit AngularJS kompatible Angular Material Framework verwendet. Dieses bringt Material Farbenpaletten, graphische Elemente und Layout Abstraktion als \gls{ng-directive} auf der Grundlage des CSS Flexbox Layouts mit vordefinierten CSS Media Queries für die responsive Design Umsetzung.
+Für die Umsetzung des Benutzerinterface wird das mit AngularJS kompatible Angular Material Framework verwendet. Dieses bringt Material Farbenpaletten, graphische Elemente und Layout Abstraktion als \gls{ng-directive} auf der Grundlage des CSS Flexbox Layouts mit vordefinierten CSS Media Queries für die Responsive Design Umgebung.
 
 \section{Layout}
 
 Die Haupt- und Akzentpalette lassen sich bei dem Einbinden von Angular Material einmalig konfigurieren. Die UI Komponenten setzen das Theming oft automatisch um.
-Dort wo es nicht passiert bzw. weitere Farbzustände für das Feedback bei Benutzerinteraktion benötigt werden, lassen sich über vorgegebene Parameter e.g \textit{md-primary}, \textit{md-raised} die Zustände setzen bzw. per Databinding umschalten.
+Dort, wo es nicht passiert bzw. weitere Farbzustände für das Feedback bei Benutzerinteraktion benötigt werden, lassen sich über vorgegebene Parameter e.g \textit{md-primary}, \textit{md-raised} die Zustände setzen bzw. per Databinding umschalten.
 
-Für das Navigationsmenü (Abb. \ref{fig:gallery_large}, links) wird die \gls{ng-directive} \textit{md-sidenav} verwendet. Die Komponente bietet Schnittstellen zum einklappen und ausklappen. Die Seitennavigation lässt sich parametrisiert entweder über den Inhalt legen oder kann den Inhalt wegschieben. Im Fall des Navigationsmenüs wird die erste Option verwendet. 
+Für das Navigationsmenü (Abb. \ref{fig:gallery_large}, links) wird die \gls{ng-directive} \textit{md-sidenav} verwendet. Die Komponente bietet Schnittstellen zum Ein- und Ausklappen. Die Seitennavigation lässt sich parametrisiert entweder über den Inhalt legen oder kann den Inhalt wegschieben. Im Fall des Navigationsmenüs wird die erste Option verwendet. 
 
 Die Untermenüs (Abb. \ref{fig:gallery_large}, oben) werden mit Hilfe des \textit{md-toolbar} Elements umgesetzt. Werkeuge, welche nicht auf die Leiste passen, lassen sich mit \textit{md-menu-content} in ein Kontexmenü verstecken, welches erst beim Klicken erscheint.
 
@@ -27,9 +27,9 @@ Angular Material bringt ebenfalls Container Abstraktionen für das Anordnen der 
 
 Die Foto Galerie (Abb. \ref{fig:gallery_large}, mittig) besteht aus jeweils einem Zeilencontainer pro Monat der Aufnahme und zwei Zeilencontainer für die Monatsüberschrift sowie die Fotos selbst. Die Fotos werden wiederum in einem Gridcontainer gruppiert. 
 
-Foto Details Metadaten (Abb. \ref{fig:form_normal}, rechts) befinden sich in einem von rechts ausklappbaren \textit{md-sidenav} Element. Es schiebt den Inhalt mit der Großansicht des Fotos weg und verdrängt es komplett auf kleinen Geräten. Die \textit{md-input} Formularfelder selbst lassen sich einer Spalte als Zeilen anordnen.
+Foto Details Metadaten (Abb. \ref{fig:form_normal}, rechts) befinden sich in einem von rechts ausklappbaren \textit{md-sidenav} Element. Es schiebt den Inhalt mit der Großansicht des Fotos weg und verdrängt es komplett auf kleinen Geräten. Die \textit{md-input} Formularfelder selbst lassen sich in einer Spalte als Zeilen anordnen.
 
-Das Foto (Abb. \ref{fig:form_normal}, links) wird mit Hilfe der Flexbox \textit{justify-content} Eigenschaft zentriert. In Angular Material wird dies über den Parameter \textit{layout-align="center center"} auf dem Wrapper Container erreicht. Damit das Foto aber auch korrekt proportional zu seinen eigentlichen Dimensionen skaliert, müssen alle weiteren Elterncontainer des Image Elements 100\% ihrer verfügbaren Breite und Höhe einnehmen. Hierfür sorgt die Eigenschaft \textit{layout-fill}.
+Das Foto (Abb. \ref{fig:form_normal}, links) wird mit Hilfe der Flexbox \textit{justify-content} Eigenschaft zentriert. In Angular Material wird dies über den Parameter \textit{layout-align="center center"} auf dem Wrapper Container erreicht. Damit das Foto aber auch korrekt proportional zu seinen eigentlichen Dimensionen skaliert, müssen alle weiteren Elterncontainer des Imageelements 100\% ihrer verfügbaren Breite und Höhe einnehmen. Hierfür sorgt die Eigenschaft \textit{layout-fill}.
 
 \section{Grund Setup}
 \label{sec:grund_setup}
