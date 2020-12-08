@@ -25,7 +25,7 @@ Angular Material bringt ebenfalls Container Abstraktionen für das Anordnen der 
 \caption{Layout Container. Quelle: material.angularjs.org}\label{fig:layout_container}
 \end{figure}
 
-Die Fotogalerie (Abb. \ref{fig:gallery_large}, mittig) besteht aus jeweils einem Zeilencontainer pro Monat der Aufnahme und zwei Zeilencontainer für die Monatsüberschrift sowie die Fotos selbst. Die Fotos werden wiederum in einem Gridcontainer gruppiert.
+Die Fotogalerie (Abb. \ref{fig:gallery_large}, mittig) besteht aus jeweils einem Zeilencontainer pro Gruppierungsmonat der Aufnahmen. Die Zeilencontainer enthalten wiederum zwei weiter Container - die Monatsüberschrift und einen Gridcontainer für die Fotokacheln.
 
 Foto-Details-Metadaten (Abb. \ref{fig:form_normal}, rechts) befinden sich in einem von rechts ausklappbaren \textit{md-sidenav} Element. Es schiebt den Inhalt mit der Großansicht des Fotos weg und verdrängt es komplett auf kleinen Geräten. Die \textit{md-input} Formularfelder selbst lassen sich in einer Spalte als Zeilen anordnen.
 
@@ -275,11 +275,11 @@ angular.module('pika', [
 
 \subsection{Komponenten Struktur}
 
-Kapitel \ref{sec:architecture} erläutert das Paradigma des clientseitigen Javascript-MVC-Frameworks. Es liegt darin einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Die Komponente nimmt alle Benutzerinteraktion in diesem Teilbereich entgegen, speichert und rendert dessen Zustand.
+Kapitel \ref{sec:architecture} erläutert das Paradigma des clientseitigen Javascript-MVC-Frameworks. Es liegt darin, einzelne Komponenten für Teilbereiche des HTML DOMs zu erstellen. Eine Komponente nimmt alle Benutzerinteraktionen in ihrem Teilbereich entgegen, speichert und rendert dessen Zustand.
 
 Sie besteht aus mehreren weiteren Einheiten - einem View, einem Controller und einem bis zu mehreren Models. In dieser Arbeit nimmt der Controller, wie am Ende von  Kapitel \ref{sec:architecture} geschildert, eine Presenter Rolle ein. D.h. er speichert nicht nur die Rohdaten für die Darstellung, sondern exakt den Zustand des Benutzerinterfaces.
 
-Betrachtet an dem Prozess der Fotogalerie Darstellung bedeutet es beispielsweise, dass der entsprechende \textit{PhotosController} die Daten exakt in der Form speichert, wie diese betrachtet werden. Die Darstellung der Fotogalerie ist nach dem Monat der Aufnahme gruppiert, die Rohdaten werden aber üblicherweise von einer Serverschnittselle als sortierte Liste zurückkommen. Es ist demnach die Aufgabe des Controllers in der Presenter Rolle, die Daten aus einer Liste gruppiert nach Aufnahmemonat abzulegen. Dafür kann er natürlich weitere Model Services hinzuziehen. Das View-Markup bleibt somit sehr schlicht. Dieses Vorgehen ergibt eine maximale Trennung von visueller Darstellung und Applikationslogik.
+Angewendet auf dem Prozess der Fotogalerie Darstellung bedeutet es, dass der entsprechende \textit{PhotosController} die Daten exakt in der Form speichert, wie diese gerendert werden. Die Darstellung der Fotogalerie ist nach dem Monat der Aufnahme gruppiert. Die Rohdaten werden aber üblicherweise von einer Serverschnittselle als sortierte Liste zurückkommen. Es ist demnach die Aufgabe des Controllers in der Presenter Rolle, die Daten aus einer Liste gruppiert nach Aufnahmemonat abzulegen. Dafür kann er natürlich weitere Model Services hinzuziehen. Das View-Markup bleibt somit sehr schlicht. Dieses Vorgehen ergibt eine maximale Trennung von visueller Darstellung und Applikationslogik.
 
 Komponenten in Angular können entweder durch URL Routing in einem Platzhalter ausgetauscht werden (siehe \ref{sec:routing}) oder direkt durch eine Angular Direktive als eine Art Custom HTML Tag instanziiert werden, falls sich ihr Verhalten nicht auf die URL Änderung auswirken muss.
 
@@ -310,9 +310,9 @@ Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{s
 
 Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP, um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich, um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
 
-Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigenimplementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf. Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token.
+Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigenimplementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf. Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. Vgl. \cite[Kap. 1]{Peyrott:2018}
 
-Für den tatsächlichen Authentifizierungsablauf bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber, welche Art von Token Standard auf dem Server verwendet wurde. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahrens, welches einer solchen Richtlinie aus dem JWT Standard folgt.
+Für den tatsächlichen Authentifizierungsablauf bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber, welche Art von Token Standard auf dem Server verwendet wurde. Vgl. \cite[Kap. 2.2]{Peyrott:2018}. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahrens, welches einer solchen Richtlinie aus dem JWT Standard folgt.
 
 \subsection{Authentifizierung}
 
@@ -561,11 +561,13 @@ Das Verhalten des Seitenmenüs inklusive Ein- und Ausklappen Animation bringt di
 
 \subsection{Laden}
 
-Die Fotogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Denn die Einzelansicht des Fotos ist ebenfalls ein Art Galerie, da hier das Sliden zum nächsten und vorherigen Foto ermöglicht werden soll. Aus diesem Grund entsteht die Notwendigkeit das Laden von Fotos in Chunks an ein separates Model, die \textit{PhotosGallery}, auszulagern.
+Die Fotogalerie ist ein Exempel für die Kommunikation über mehrere Controller und Wiederverwendbarkeit von Models. Die Einzelansicht des Fotos ist ebenfalls ein Art Galerie, da hier ein Sliden zum nächsten und vorherigen Foto möglich ist. Beide Ansichten - Gallerie- und Einzelansicht laden die Fotos in Chunks (siehe \ref{imp:pagination}). Dieses gemeinsame Verhalten für das Laden von Fotos wird an ein separates Model, die \textit{PhotosGallery} ausgelagert.
 
-Die \textit{PhotosGallery} kann zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet werden. Sie speichert den aktuell geladenen Chunk an Fotos sowie das aktuell ausgewählte Foto. Navigiert der Benutzer auf die nächste Galerieseite oder will weiter als den letzte gecachte State in der PhotosGallery in der Detailansicht der Photos sliden, wird der nächste Chunk geladen. Die beiden Controller und Views beobachten diese Änderung und stellen den neuen Zustand dar. Somit wird die Galerieansicht immer das entsprechende Detailphoto beinhalten, auch wen der Benutzer mehrere weitere Fotobündel geladen hat.
+Das \textit{PhotosGallery} Objekt wird zwischen den \textit{PhotosController} und \textit{PhotoDetailsController} wiederverwendet. Es speichert den aktuell geladenen Chunk an Fotometadaten sowie das aktuell ausgewählte Foto. Die \textit{PhotosGallery} lädt einen entsprechenden Chunk an Fotos, wenn der Benutzer auf eine Galerieseite navigiert. Das Sliden zum nächsten Foto in der Einzelansicht geschieht innerhalb des geladenen Chunks. Will der Benutzer ein weiteres Foto betrachten als im Chunk verfügbar, geschieht das Nachladen über den selben Mechanismus des paginierten Ladens in der Fotogalerie.
 
-Die Navigation zu \textit{\/photos} rendert die Fotogalerie. Dies übernimmt  \textit{PhotosController\#showPhotos}. Der Controller deklariert eine Abhängigkeit auf die \textit{PhotosGallery}, welche wiederum über den \textit{PhotosClient} den HTTP GET Aufruf an den Server durchführt.
+ Der \textit{PhotosController} und der \textit{PhotoDetailsController} beobachten den Zustand des \textit{PhotosGallery} Objekts. Unabhängig davon, welcher der beiden Controller eine Zustandsänderung im \textit{PhotosGallery} Objekt ausgelöst hat, bleibt die Darstellung immer synchronisiert. Der Benutzer kann somit mehrere Fotobünde weit in der Einzelansicht sliden. Wenn er am Ende wieder in die Gallerieansicht zurückkehrt, wird das aktuelle Fotobündel mit letzten betrachteten Foto dargestellt.
+
+Die Navigation zu \textit{\/photos} URL rendert die Fotogalerie. Dies übernimmt  \textit{PhotosController\#showPhotos}. Der Controller deklariert eine Abhängigkeit auf die \textit{PhotosGallery}, welche wiederum über den \textit{PhotosClient} den HTTP GET Aufruf an den Server durchführt.
 
 Die Antwort ist ein Array in \gls{json} Format von Foto Metadaten mit Titel, Beschreibung, diversen Kameraeinstellungen und der URL zu dem eigentlichen File. \gls{json} wird in JavaScript durch einen Aufruf von \textit{JSON.parse} direkt in ein Objekt umgewandelt. Der Angular HTTP Client macht es automatisch. Da die Darstellungslogik in den Controllern (Presentern) liegt, werden diese Rohdaten Objekte direkt als Models verwendet ohne extra Klassen dafür anzulegen. Die Fotometadaten werden in der Instanzvariable \textit{photos} in der \textit{PhotosGallery} abgelegt.
 
@@ -618,7 +620,7 @@ Nachdem die Fotos erfolgreich in dem \textit{PhotoGallery} Service geladen wurde
 
 Diese Logik ist spezifisch für die Galerieansicht und wird im PhotosController angewendet. Die Gruppierung der Photos muss mit jeder Änderung des Arrays in der \textit{PhotoGallery} passieren. Der \textit{PhotosController} trägt sich hierfür als Watcher auf Änderungen des \textit{photos} Arrays im \textit{PhotoGallery} Service ein.
 
-Nach einer Änderung des \textit{photos} Arrays führt der Controller eine Gruppierungsfunktion aus und legt das Endresultat in einer eigenen Instanzvariable ab. Der View rendert den Zustand der neuen Instanzvariable.
+Nach einer Änderung des \textit{photos} Arrays in der \textit{PhotoGallery} führt der Controller eine Gruppierungsfunktion aus. Das Endresultat legt der Controller in einem eigenen assoziativen Objekt als separate Instanzvariable mit Monatsnamen als Schlüssel ab. Der View rendert die Monatsgruppen aus der neuen Instanzvariable in der natürlichen vorsortierten Schlüsselreihenfolge und die Einzelnen Photos der Gruppen in der Unterarray Reihenfolge der Objektwerte.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -660,6 +662,7 @@ class PhotosController {
 \label{lst:photo_group}
 \end{listing}
 
+\label{imp:pagination}
 \subsection{Paginieren}
 
 Für das Laden von Fotos in Chunks wird in dem Benutzerinterface eine simple Paginierung verwendet. Es werden Links auf zwei vorherigen und folgenden Seiten mit jeweils 50 Bildern angezeigt. E.g. [5, 6, 7, 8, 9].
