@@ -1,6 +1,6 @@
 \chapter{Design}
 
-Das folgenden Kapitel beschreibt das User Experience Design für die in Kapitel \ref{sec:analysis} definierten Anforderungen.
+Das folgende Kapitel beschreibt das User Experience Design für die in Kapitel \ref{sec:analysis} definierten Anforderungen.
 
 \section{Farb Palette}
 
@@ -22,25 +22,25 @@ Das Visual Design für die Authentifizierung (\ref{sec:spec:authentication}) ist
 \caption{Authentifizierung}\label{fig:login_form}
 \end{figure}
 
-Der Benutzer gibt hier seine Login Daten ein. Bei positiver Eingabe gelangt er in die Anwendung. Als Standardansicht wird die Fotogalerie angezeigt.
+Der Benutzer gibt hier seine Login-Daten ein. Bei positiver Eingabe gelangt er in die Anwendung. Als Standardansicht wird die Fotogalerie angezeigt.
 
 \section{Navigation Menü}
 \label{sec:des:navigation_menu}
 
-Die Navigation innerhalb der Anwendung (Anforderung \ref{sec:spec:menu}) geschieht durch ein von rechts ausklappbares Seitenmenü (Abb. \ref{fig:gallery_large}). Dieses legt sich über den Inhalt im Hauptbereich der Anwendung. Der Button zum Ausklappen befindet sich in jedem Unterbereich der Anwendung oben links (siehe Abb \ref{fig:gallery_normal}). Das Menü nimmt auf kleinen Geräten die gesamte Bildschirmgröße ein.
+Die Navigation innerhalb der Anwendung (Anforderung \ref{sec:spec:menu}) geschieht durch ein von links ausklappbares Seitenmenü (Abb. \ref{fig:gallery_large}). Dieses legt sich über den Inhalt im Hauptbereich der Anwendung. Der Button zum Ausklappen befindet sich in jedem Unterbereich der Anwendung oben links in der Tab-Leiste des Headers (siehe Abb \ref{fig:gallery_normal}). Das Menü nimmt auf kleinen Geräten die gesamte Bildschirmgröße ein.
 
-Zusätzlich bekommt jeder Unterbereich am oberen Bildschirmrand eine spezifische Werkzeugleiste für die Aufgaben des jeweiligen Kontextes. Die spezifischen Werkzeuge haften am rechten oberen Rand.
+Zusätzlich bekommt jeder Unterbereich der Anwendung eine spezifische Werkzeugpalette für die Aufgaben des jeweiligen Kontextes. Die spezifischen Werkzeuge haften am rechten oberen Rand der Tab-Leiste. Das sind unter anderem der Such-Icon für die Sucheingabe, das Plus-Icon zum Hinzufügen weiterer Bilder in die Galerie oder in der Detailansicht des Fotos sind es die Icons zum Löschen des jeweiligen Bildes, zum Heranzoomen und der Info-Icon für die Detailinformationen zum Bild wie der Name, die Beschreibung oder auch die Exif-Daten.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/gallery_large}
-\caption{Foto Gallerie Large}\label{fig:gallery_large}
+\caption{Foto Galerie Large}\label{fig:gallery_large}
 \end{figure}
 
 \section{Foto Galerie}
 \label{sec:ux:photo_gallery}
 
-Das Design der Galerie aus Anforderung \ref{sec:spec:photo_gallery} ist für die Bildschirmgrößen - Large, Normal, Small in den Abb.\ref{fig:gallery_large}, \ref{fig:gallery_normal}, \ref{fig:gallery_small} entsprechend visualisiert. Generell findet ein Umfluss der Bilder vom mehr auf weniger Spalten statt, bis letztendlich eine einzelne Spalte mit Bildern übrig bleibt.
+Das Design der Galerie aus Anforderung \ref{sec:spec:photo_gallery} ist für die Bildschirmgrößen - Large, Normal, Small in den Abb.\ref{fig:gallery_large}, \ref{fig:gallery_normal}, \ref{fig:gallery_small} entsprechend visualisiert. Die Anwendung passt sich flexibel an wachsende Bildschirmgrößen an. Generell findet ein Umfluss der Bilder von mehr auf weniger Spalten statt. Die Größe Large umfasst sechs Spalten, in der Medium- bzw. Normalgröße sind es vier Spalten, bis letztendlich eine einzelne Spalte mit Bildern übrig bleibt.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -54,11 +54,11 @@ Das Design der Galerie aus Anforderung \ref{sec:spec:photo_gallery} ist für die
 \caption{Foto Galerie Small}\label{fig:gallery_small}
 \end{figure}
 
-Die beiden oberen Entwürfe zeigen ebenfalls die Gruppierung der Fotos nach dem Erstellungsmonat (Anforderung \ref{sec:spec:photo_groups}) und ein Suchfeld in der oberen Werkzeugleiste (Anforderung \ref{sec:spec:photo_search}). Die Eingabe eines Suchbegriffs führt instantan eine Suche durch, sobald mehr als 2 Zeichen eingegeben wurden. Das Ergebnis der Suche ist ebenfalls nach Erstellungsmonat gruppiert.
+Die beiden Entwürfe in den Abb. \ref{fig:gallery_normal}, \ref{fig:gallery_small} zeigen ebenfalls die Gruppierung der Fotos nach dem Erstellungsmonat (Anforderung \ref{sec:spec:photo_groups}) und ein Suchfeld in der oberen Werkzeugleiste (Anforderung \ref{sec:spec:photo_search}). Die Eingabe eines Suchbegriffs führt instantan eine Suche durch, sobald mehr als zwei Zeichen eingegeben wurden. Das Ergebnis der Suche ist ebenfalls nach Erstellungsmonat gruppiert.
 
 \section{Paginierung}
 
-Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Anwendung dem Benutzer die verlinkten Seitenzahl-Buttons für jeweils zwei vorherige und kommende Fotostapel. Die Paginierungsbuttons befinden sich am unteren Ende des jeweiligen Fotostapels.
+Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Anwendung dem Benutzer die verlinkten Seitenzahl-Buttons für die jeweils zwei vorherige und zwei kommende Fotostapel. Die Paginierungsbuttons befinden sich am unteren Ende des jeweiligen Fotostapels. Die aktuelle Seite ist farbig hervorgehoben.
 ( siehe Abb. \ref{fig:pagination}).
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
@@ -68,17 +68,17 @@ Für die Anforderung der Paginierung (\ref{sec:spec:pagination}) bietet die Anwe
 \end{figure}
 
 \section{Foto Details}
-Die Anforderung der Hauptansicht und Metadaten Betrachtung und Bearbeitung (\ref{sec:spec:photo_details}) ist in dem Visual Design \ref{fig:form_normal} für die Bildschirmgröße Large abgebildet. Der Benutzer gelangt in die Detailansicht des Fotos mit dem Klick auf ein entsprechendes Foto.
+Die Anforderung der Großansicht des Bildes und der Metadaten-Betrachtung und -Bearbeitung (\ref{sec:spec:photo_details}) ist in dem Visual Design \ref{fig:form_normal} für die Bildschirmgröße Large abgebildet. Der Benutzer gelangt in die Detailansicht des Fotos mit dem Klick auf ein entsprechendes Foto in der Galerie.
 
-Die Metadaten Ansicht wird mit dem Klick auf das Info Icon von rechts ausgeklappt und ist im Standardzustand nicht sichtbar. Das zentrierte Foto verschiebt sich entsprechend und skaliert im restlichen Bereich.
+Die Metadatenansicht ist im Standardzustand erstmal nicht sichtbar und wird mit dem Klick auf das Info-Icon von rechts ausgeklappt. Das zentrierte Foto verschiebt sich entsprechend und skaliert im restlichen Bereich.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/form_normal}
-\caption{Foto Details Normal}\label{fig:form_normal}
+\caption{Foto Details Large}\label{fig:form_normal}
 \end{figure}
 
-Auf kleineren Geräten nimmt entweder das Foto (Abb. \ref{fig:details_small}) oder das Metadaten Formular (Abb. \ref{fig:form_small}) den gesamten Platz ein.
+Auf kleineren Geräten nimmt entweder das Foto (Abb. \ref{fig:details_small}) oder das Metadatenformular (Abb. \ref{fig:form_small}) den gesamten Platz ein.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -92,8 +92,8 @@ Auf kleineren Geräten nimmt entweder das Foto (Abb. \ref{fig:details_small}) od
 \caption{Foto Details Metadaten Small}\label{fig:form_small}
 \end{figure}
 
-Die EXIF Kameradaten werden gesondert kategorisiert nach Erstellungsdatum, Kameraeinstellungen und Fotodimensionen mit einem entsprechenden Icon pro Kategorie angezeigt.
+Die EXIF-Kameradaten werden nach Erstellungsdatum, Kameraeinstellungen und Fotodimensionen gesondert kategorisiert mit einem entsprechenden Icon pro Kategorie angezeigt.
 
 Die Abbildungen zeigen ebenfalls, dass das betrachtete Foto bei abnehmender Displaygröße proportional herunterskaliert und immer auf dem Bildschirm zentriert wird (Anforderung \ref{sec:spec:photo_centering}).
 
-Des Weiteren sind über dem Foto mittig blaue Pfeile für das Sliden zur nächsten bzw. vorheriger Detailansicht eines Fotos in den oberen Entwürfen dargestellt. (Anforderung \ref{sec:spec:photo_slider}) Die Pfeile werden im inaktiven Zustand, wenn man die Maus über dem  Foto ruhen lässt, leicht transparent dargestellt, um die Ansicht des Fotos nicht zu stören.
+Des Weiteren sind über der Fotoansicht mittig blaue Pfeile für das Sliden zur nächsten bzw. vorherigen Detailansicht eines Fotos in den Entwürfen \ref{fig:form_normal}, \ref{fig:details_small} dargestellt. (Anforderung \ref{sec:spec:photo_slider}) Die Buttons mit den Pfeilen werden im inaktiven Zustand, wenn man die Maus über dem Foto ruhen lässt, leicht transparent dargestellt, um die Ansicht des Fotos nicht zu stören.

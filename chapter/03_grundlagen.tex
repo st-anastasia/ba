@@ -1,4 +1,4 @@
-\chapter{Grundlagen}
+XML\chapter{Grundlagen}
 
 \section{Client/Server Model}
 \label{sec:client_server}
@@ -89,7 +89,7 @@ Vgl. \cite{Dubost:2012}
 
 \subsection{Grundprinzip}
 
-Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver namens httpd war nur in der Lage, statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch machte der Überfluss an Online-Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten, Daten, wie den Suchbegriff, an den Server abzuschicken und der Server seinerseits im Stande sein sein musste, diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
+Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver namens httpd war nur in der Lage, statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch machte der Überfluss an Online-Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten, Daten, wie den Suchbegriff, an den Server abzuschicken und der Server seinerseits im Stande sein musste, diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
 
 Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard, um externe Applikationen mit Webservern zu verbinden und um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur die Fähigkeit besitzen, sein vom STDIN zu lesen und auf STDOUT zu schreiben.
 
@@ -122,19 +122,19 @@ Vgl. \cite[Kap. 1.1]{Bekman:2003}
 Im Kapitel \ref{sec:client_server} wurde auf die Diskrepanz hingewiesen, dass HTTP ein zustandsloses Protokoll ist, eine Webanwendung jedoch Zustandshaftigkeit benötigt, um Benutzersitzungen, etwa Besuch und Einkauf in einem Webshop, auseinanderzuhalten. Eine solche Session kann von dem Client und Server Programm
 künstlich aufrecht erhalten werden.
 
-Dabei generiert das serverseitige Programm einen Session-Identifier beim ersten Besuch des Benutzers und sendet es an den Client. Der Client wiederum sendet diese  ID bei jeder weiteren Anfrage an den Server mit. Ein Mechanismus für die Benutzersessions im Web ist das Setzen von HTTP-Cookies, welche dann automatisch bei den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind  Übertragung mittels custom HTTP Header oder Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
+Dabei generiert das serverseitige Programm eine Sitzungs-Identifikationsnummer (Session-ID) beim ersten Besuch des Benutzers und sendet diese an den Client. Der Client wiederum sendet diese  ID bei jeder weiteren Anfrage an den Server mit. Ein Mechanismus für die Benutzersessions im Web ist das Setzen von HTTP-Cookies, welche dann automatisch bei den nachfolgenden Anfragen angehängt werden. Weitere manuelle Möglichkeiten sind die Übertragung mittels custom HTTP Header oder das Umwandeln der URLs durch das Anhängen des zusätzlichen \emph{session\_id} Parameters.
 
 Siehe \cite[Stateful Web Applications]{Parikh:2015}
 
 \subsection{Architektur}
 
-In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model-View-Controller Pattern vorherrschend.
+In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model-View-Controller-Muster vorherrschend.
 
 \cite{lahres2009objektorientierte} schreibt: "Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle."
 
-Unabhängig von der jeweiligen Abwandlung des MVC Pattern gilt, dass der Controller für Benutzereingaben, das Model für den Zustand und der View für das Darstellen dieses Zustands verantwortlich ist. Vgl. \cite{lahres2009objektorientierte} 8.2.3
+Unabhängig von der jeweiligen Abwandlung des MVC-Musters gilt, dass der Controller für die Benutzereingaben, das Model für den Zustand und der View für das Darstellen dieses Zustands verantwortlich sind. Vgl. \cite{lahres2009objektorientierte} 8.2.3
 
-Serverseitige Webanwendungen interpretieren MVC wie folgt. Benutzerinteraktionen führen weitgehend zu Anfragen einer komplett neuen Ressource, e.g:
+Serverseitige Webanwendungen interpretieren MVC folgendermaßen, indem die Benutzerinteraktionen weitgehend zu Anfragen einer komplett neuen Ressource führen, e.g.:
 
 \begin{minted}{text}
 GET http://example.com/articles
@@ -142,7 +142,7 @@ GET http://example.com/articles/1
 GET http://example.com/articles/1/comments
 \end{minted}
 
-Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche sich nur um den neuen Inhalt von der vorherigen unterscheidet, dessen Layout, Menüs, Header etc. aber gleich bleiben. Hierfür wird eine HTML-Template-Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde ein HTML-Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model-Daten ersetzt werden. Dieses stellt im Grunde HTML Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model Daten ersetzt werden. Siehe \ref{fig:server_side_mvc}
+Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. Dieser liest HTTP Header sowie Request Parameter aus und verwendet Model Objekte, um die notwendige Daten für eine Benutzeranfrage zu liefern. Models laden diese Daten üblicherweise aus einer Datenbank. Und schließlich generiert der Controller die gesamte Seite neu, welche sich nur um den neuen Inhalt von der vorherigen unterscheidet, dessen Layout, Menüs, Kopfzeile der Webseite etc. aber gleich bleiben. Hierfür wird eine HTML-Template-Engine und ein passendes Template - das View - verwendet. Dieses stellt im Grunde ein HTML-Markup mit Platzhaltern für dynamische Daten dar, welche vom Controller durch die Model-Daten ersetzt werden. Siehe \ref{fig:server_side_mvc}
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -164,16 +164,16 @@ Im weiteren Verlauf ermöglichte die Implementierung der XMLHttpRequest Schnitts
 So schreibt \cite{Garrett:2005} weiter: \enquote{Ajax isn`t a technology. It`s really several technologies, each flourishing in its own right, coming together in powerful new ways.} Und er definiert die Komponenten, welche Ajax ausmachen.
 
 \begin{itemize}
-\item standards-basierte Darstellung, unter Verwendung von XHTML und CSS
-\item dynamische Darstellung und Interkation, unter Verwendung des Document Object Model
+\item Standards-basierte Darstellung, unter Verwendung von XHTML und CSS
+\item dynamische Darstellung und Interkation, unter Verwendung von Document Object Model
 \item Datenaustausch und Manipulation mit Hilfe von XML und XSLT
-\item Asynchrone Datenabfragen, unter Verwendung des XMLHttpRequest
+\item Asynchrone Datenabfragen, unter Verwendung des XMLHttpRequests
 \item Javascript, welches das Ganze zusammenbindet
 \end{itemize}
 
 Anstatt eine Webseite am Anfang der Benutzersitzung zu laden, lädt der Browser eine Ajax Engine - implementiert in Javascript. Diese Engine ist sowohl verantwortlich für das Rendern des Benutzerinterfaces als auch für die Kommunikation zwischen dem Server seitens des Benutzers.
 
-Die von Garret formulierten Ajax Bestandteile gelten noch heute. Allerdings spielt das Datenformat XML keine primäre Rolle. Es ist kein bestimmtes Datenaustausch Format vorgeschrieben, wobei überwiegend das kompakte JSON Format zur Übertragung benutzt wird. Der Schnittstellen Name - XMLHttpRequest blieb aus Kompatibilitätsgründen erhalten. Ab ECMAScript6 existiert eine neue HTTP Api, namens \emph{fetch}.
+Die von Garret formulierten Ajax Bestandteile gelten noch heute. Allerdings spielt das Datenformat XML keine primäre Rolle. Es ist kein bestimmtes Datenaustausch Format vorgeschrieben, wobei überwiegend das kompakte JSON Format zur Übertragung benutzt wird. Der Schnittstellenname - XMLHttpRequest blieb aus Kompatibilitätsgründen erhalten. Ab ECMAScript6 existiert eine neue HTTP Api, namens \emph{fetch}.
 
 Vgl. \cite{Garrett:2005}
 
@@ -182,22 +182,22 @@ Vgl. \cite{Garrett:2005}
 Die meist konventionelle Art und Weise, in der Ajax Applikationen mit dem Server kommunizieren, ist eine sog. REST Api. REST steht für representational state transfer.
 
 \begin{itemize}
-\item \emph{representational} bezieht sich darauf wie eine Representation eine Ressource übertragen wird.
-\item \emph{state transfer} bezieht sich darauf dass HTTP ein zustandsloses Protokol ist und dass alles was der Server braucht, um eine Anfrage zu verarbeiten, sich in der Anfrage selbst befindet.
+\item \emph{representational} bezieht sich darauf, wie eine Representation einer Ressource übertragen wird.
+\item \emph{state transfer} bezieht sich darauf, dass HTTP ein zustandsloses Protokoll ist, und dass alles, was der Server zur Verarbeitung einer Anfrage braucht, sich in der Anfrage selbst befindet.
 \end{itemize}
 
-Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden sind Faktoren, welche definieren, was REST ist und wie es auf das Web und den Schnittstellen Design zutrifft.
+Die Grundideen hinter REST wurden auf den Beobachtungen dessen basiert, wie das Web bereits funktionierte. Das Laden von Webseiten, das Absenden von Formularen und das Benutzen von Links, um verwandte Inhalte zu finden, sind Faktoren, welche definieren, was REST ist und wie es auf das Web und das Schnittstellendesign zutrifft.
 
-Alle Aktionen innerhalb REST konzentrieren sich also um Ressourcen und somit stellen das Erzeugen (Create), Lesen (Read), Aktualisieren ( Update) und Löschen (Delete) die einzigen Aktionen da, welche auf diese Ressourcen angewendet werden. Das Akronym welches diese vier Aktionen beschreibt ist demnach \emph{CRUD}. Beispielweise würde innerhalb des REST Paradigma, um einen Benutzer einzuloggen, nicht etwa eine Remote Procedure \emph{User.login(username, password)} aufgerufen, sondern eine Ressource \emph{UserSession} mit den Attributen \emph{username, password} auf dem Server erstellt.
+Alle Aktionen innerhalb REST konzentrieren sich also auf Ressourcen und somit stellen das Erzeugen (Create), Lesen (Read), Aktualisieren ( Update) und Löschen (Delete) die einzigen Aktionen dar, welche auf diese Ressourcen angewendet werden. Das Akronym, welches diese vier Aktionen beschreibt, ist demnach \emph{CRUD}. Beispielsweise würde innerhalb des REST Paradigma, um einen Benutzer einzuloggen, nicht etwa eine Remote Procedure \emph{User.login(username, password)} aufgerufen, sondern eine Ressource \emph{UserSession} mit den Attributen \emph{username, password} auf dem Server erstellt.
 
-Eine anschauliche Art REST Schnittstellen zu Implementieren ist alle Aktion auf zwei Kriterien zu brechen
+Eine anschauliche Art, REST Schnittstellen zu implementieren, ist, alle Aktionen auf zwei Kriterien zu brechen:
 
 \begin{itemize}
  \item \emph{Was} - Auf welche Ressource wird eingewirkt ?
  \item \emph{Wie} - Was passiert mit der Ressource ?
 \end{itemize}
 
-Folgend ist tabelarisch die Akzentuirung des "Was" und des "Wie" auf den Design einer REST API für den Benutzerlogin dargestellt.
+Folgend ist tabelarisch die Akzentuierung des "`Was"' und des "`Wie"' auf den Design einer REST API für den Benutzerlogin dargestellt.
 
 \begin{center}
     \begin{tabular}{ | p{5cm} | l | l | l | l |}
@@ -216,9 +216,9 @@ Vgl. \cite[Kap. REST and CRUD]{LaunchSchool:2016}
 \subsection{Architektur}
 \label{sec:architecture}
 
-Clientseitige Webanwendungen verzichten durchgehend auf komplette Page Loads bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Website im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format vom einem Webservice angefragt über eine definierte API abgefragt.
+Clientseitige Webanwendungen verzichten durchgehend auf komplettes Laden der Webseite bei Benutzerinteraktionen. Sie reagieren auf Eingaben, indem sie das Document Object Model (DOM) der Webseite im Speicher direkt verändern und somit ein Neurendern der betroffenen Teilbereiche auslösen. Anstelle des kompletten Markups werden lediglich die notwendigen neuen Daten in einem serialisierten Format von einem Webservice über eine definierte API abgefragt.
 
-Auch hier wird bei einer objektorientierten Umsetzung das MVC Pattern bzw. eine Abwandlung davon verwendet. Dabei werden Benutzereingaben direkt von einem dafür zuständigen Controller verarbeitet. Der Controller leitet die Anfrage an das Model weiter, welches mit einem Webservice interagieren kann. Anschließend benachrichtigt der Controller das View über die Änderung des Zustands der Applikation. Schließlich sorgt das View für die direkte DOM Manipulation eines bestimmten Teilbereich der Seite.
+Auch hier wird bei einer objektorientierten Umsetzung das MVC Pattern bzw. eine Abwandlung davon verwendet. Dabei werden Benutzereingaben direkt von einem dafür zuständigen Controller verarbeitet. Der Controller leitet die Anfrage an das Model weiter, welches mit einem Webservice interagieren kann. Anschließend benachrichtigt der Controller das View über die Änderung des Zustands der Applikation. Schließlich sorgt das View für die direkte DOM Manipulation eines bestimmten Teilbereiches der Seite.
 Siehe \ref{fig:client_side_mvc}.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
@@ -227,7 +227,7 @@ Siehe \ref{fig:client_side_mvc}.
 \caption{Clientseitiges MVC}\label{fig:client_side_mvc}
 \end{figure}
 
-Die meisten clientseitigen Frameworks führen eine Technik namens \gls{databinding} ein. Dabei wird, einst aus einem Markup Template erstelltes, View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungs Aufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
+Die meisten clientseitigen Frameworks führen eine Technik namens \gls{databinding} ein. Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungsaufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
 
 
 \section{Responsive Webdesign}
@@ -239,7 +239,7 @@ We need to let go.
 Rather than creating disconnected designs, each tailored to a particular device or browser, we should instead treat them as facets of the same experience. In other words, we can craft sites that are not only more  exible, but that can adapt to the media that renders them.
 In short, we need to practice responsive web design}
 
-Hierfür legte Marcotte 3 Grundelemente fest:
+Hierfür legte Marcotte drei Grundelemente fest:
 
 \begin{itemize}
  \item Flexibles, rasterbasiertes Layout
@@ -247,7 +247,7 @@ Hierfür legte Marcotte 3 Grundelemente fest:
  \item Media Queries, ein Modul aus der CSS3 Spezifikation
 \end{itemize}
 
-Üblicherweise platzieren Webdesigner die Webseitenelemente auf ein imaginäres Raster. Somit sind bestimmte Komponenten aneinander anhand dieser virtuellen Linien ausgerichtet. In Abb. \ref{fig:grid} sieht man ein solches Raster. Das Design besteht hier aus zwei Textspalten \emph{main} - 566px breit und \emph{other} - 331 px breit. Diese befinden sich wiederum in einem umschließendem  \emph{blog} 900 px Container, welcher wiederum in den \emph{page} Container eingebunden ist. Die Elemente definieren entsprechende Abstände (\emph{margin} ), so dass aus Breite der Elemente und der Abstände sich eine Textpositionierung anhand der virtuellen Grid Linien ergibt, wie in der Abb dargestellt.
+Üblicherweise platzieren Webdesigner die Webseitenelemente auf ein imaginäres Raster. Somit sind bestimmte Komponente aneinander anhand dieser virtuellen Linien ausgerichtet. In Abb. \ref{fig:grid} sieht man ein solches Raster. Das Design besteht hier aus zwei Textspalten \emph{main} - 566px breit und \emph{other} - 331 px breit. Diese befinden sich wiederum in einem umschließenden  \emph{blog} 900 px Container, welcher wiederum in den \emph{page} Container eingebunden ist. Die Elemente definieren entsprechende Abstände (\emph{margin} ), so dass aus Breite der Elemente und der Abstände sich eine Textpositionierung anhand der virtuellen Grid Linien ergibt, wie in der Abbildung \ref{fig:grid} dargestellt.
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -255,7 +255,7 @@ Hierfür legte Marcotte 3 Grundelemente fest:
 \caption{Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.27}\label{fig:grid}
 \end{figure}
 
-Das obige Layout kann durch folgenden CSS code erzeugt werden:
+Das Layout für die Abbildung \ref{fig:grid} kann durch den CSS Code in Listing \ref{lst:grid_css} erzeugt werden.
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -282,7 +282,7 @@ Das obige Layout kann durch folgenden CSS code erzeugt werden:
 
 Um nun von einem starren Raster auf ein flexibles Raster zu kommen, welches sich an Bildschirmgrößen anpasst, werden feste Pixel Angaben durch relative Prozentangaben ersetzt. Hierfür wird eine einfach Umrechnungsformel verwendet - $target / context = result$
 
-Wenn also sich das Target Element \emph{main} mit 566px Breite sich bei einem festen Raster innerhalb des Kontextelementes \emph{blog} mit 900px Breite befindet, ergibt sich dafür laut $566 / 900$ eine 62.8888889\% Breite:
+Wenn also sich das Zielelement \emph{main} mit 566px Breite bei einem festen Raster innerhalb des Kontextelementes \emph{blog} mit 900px Breite befindet, ergibt sich dafür laut $566 / 900$ eine 62.8888889\% Breite:
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -295,7 +295,7 @@ Wenn also sich das Target Element \emph{main} mit 566px Breite sich bei einem fe
 \label{lst:flex_grid_css}
 \end{listing}
 
-Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Fontgrößen Angaben angewendet. Daraus ergibt sich ein anpassbares Raster(siehe Abb. \ref{fig:flex_grid}).
+Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Fontgrößenangaben angewendet. Daraus ergibt sich ein anpassbares Raster(siehe Abb. \ref{fig:flex_grid}).
 
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
@@ -303,7 +303,7 @@ Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Font
 \caption{Flexibles Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.33}\label{fig:flex_grid}
 \end{figure}
 
-Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container sine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing.
+Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container seine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing.
 
 \begin{listing}[H]
 \begin{minted}{html}
@@ -333,7 +333,7 @@ Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Gr
 
 Diese Einstellung allein wird aber nicht ausreichen. Sollte das Bild in Wirklichkeit größer sein, als sich Platz dafür resultierend aus der dynamischen Breitenangabe und der jeweiligen Gerätauflösung ergibt, wird es standardmäßig mit Scrollbalken innerhalb seines Containers in original Größe gerendert.
 
-Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen Fällen wird einfach das Gleiche Skalierverhlaten für das Bild gewünscht, wie für den Rest des Inhalts. Hierfür sorgt eine \emph{max-width: 100\%} Einstellung auf das Bildelement selbst.
+Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen Fällen wird einfach das gleiche Skalierverhlaten für das Bild gewünscht, wie für den Rest des Inhalts. Hierfür sorgt eine \emph{max-width: 100\%} Einstellung auf das Bildelement selbst.
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -353,7 +353,7 @@ Die Lösung dieser Problematik hängt von dem gewünschten Effekt ab. In vielen 
 \end{listing}
 
 
-Es kann aber auch ausreichen sein, dass einfach ein bestimmter Bildausschnitt gerendert wird, so im Falle von Hintergrundbildern. Dieses wird mit Hilfe einer \emph{overflow: hidden\%} css Regel erreicht auf dem Context Container des Bildes erreicht.
+Es kann aber auch ausreichend sein, dass lediglich ein bestimmter Bildausschnitt gerendert wird, so im Falle von Hintergrundbildern. Dieses wird mit Hilfe einer \emph{overflow: hidden\%} CSS Regel auf dem Contextcontainer des Bildes erreicht.
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -369,8 +369,8 @@ Es kann aber auch ausreichen sein, dass einfach ein bestimmter Bildausschnitt ge
 \label{lst:cropped_image}
 \end{listing}
 
-Denkbar wäre auch die Absicht ein komplett anderes, eventuell ähnliches aber unterschiedlich arrangiertes Bild für kleinere Auflösungen zu laden, im Falle von Grafiken beispielsweise. Dieses erfordert jedoch eine zusätzliche Implementierung auf der Serverseite.
+Denkbar wäre auch die Absicht ein komplett anderes, eventuell ähnliches, aber unterschiedlich arrangiertes Bild für kleinere Auflösungen zu laden, im Falle von Grafiken beispielsweise. Dieses erfordert jedoch eine zusätzliche Implementierung auf der Serverseite.
 
-In dieser Arbeit wird eine weitere Technik für den Fotoslider geschildert, wobei das Foto nicht nur mit dem Inhalt skalieren, sondern ebenfalls zentriert sein muss.
+In dieser Arbeit wird eine weitere Technik für den Fotoslider geschildert, wobei das Foto nicht nur mit dem Inhalt skaliert, sondern zusätzlich zentriert sein muss.
 
 
