@@ -78,7 +78,7 @@ Transfer-Encoding: chunked
 \caption{HTTP GET Response}
 \end{listing}
 
-Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie einer verständlichen Annotation \textit{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und letzendlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
+Der Server antwortet, dass er das Protokoll HTTP Version 1.1 versteht. Die Anfrage war erfolgreich und wurde daher mit dem Response Code 200 sowie einer verständlichen Annotation \emph{OK} versehen. Anschließend wird eine Reihe weiterer HTTP Header gesendet, welche beschreiben, wie die Nachricht verstanden werden soll. Und letzendlich wird der Inhalt der Ressource - hier ein HTML Dokument - in den Rumpf (body) der Nachricht eingefügt.
 
 Weitere HTTP-Methoden sind: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT.
 Jede von denen hat eine unterschiedliche Rolle. Siehe \cite[Kap. 4]{Fielding:2014}.
@@ -91,7 +91,7 @@ Vgl. \cite{Dubost:2012}
 
 Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webclient. Dieser Webserver namens httpd war nur in der Lage, statische Ressourcen wie Bilder und Dokumente auszuliefern. Schon bald jedoch machte der Überfluss an Online-Ressourcen Suchmaschinen notwendig. Das bedeutete, dass Benutzer in der Lage sein mussten, Daten, wie den Suchbegriff, an den Server abzuschicken und der Server seinerseits im Stande sein musste, diese Daten zu verarbeiten und dynamisch entsprechende Inhalte zu liefern.
 
-Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard, um externe Applikationen mit Webservern zu verbinden und um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur die Fähigkeit besitzen, Parameter Eingaben über Standardeingabe \textit{STDIN} zu lesen und das Resultat auf die Standardausgabe  \textit{STDOUT} zu schreiben.
+Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard, um externe Applikationen mit Webservern zu verbinden und um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur die Fähigkeit besitzen, Parameter Eingaben über Standardeingabe \emph{STDIN} zu lesen und das Resultat auf die Standardausgabe  \emph{STDOUT} zu schreiben.
 
 Folgend ist ein exemplarisches CGI "Hello World" Programm dargestellt. Ein Benutzer namens Doug gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL:
 
@@ -227,7 +227,7 @@ Siehe \ref{fig:client_side_mvc}.
 \caption{Clientseitiges MVC}\label{fig:client_side_mvc}
 \end{figure}
 
-Die meisten clientseitigen Frameworks führen eine Technik namens \gls{databinding} ein. Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungsaufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2016:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2016:MVVM}) verstanden werden kann.
+Die meisten clientseitigen Frameworks führen eine Technik namens \gls{databinding} ein. Dabei wird einst aus einem Markup Template erstelltes View an bestimmte Datenfelder in einem Model angebunden. Das View aktualisiert sich mit der Zustandsänderung des Models automatisch. Somit bleibt kaum noch Eventverarbeitungsaufwand für einen typischen Controller notwendig, weswegen dieser eher als Presenter (siehe \cite{MSDN:2010:MVP}) oder sog. ViewModel (siehe \cite{MSDN:2009:MVVM}) verstanden werden kann.
 
 
 \section{Responsive Webdesign}
