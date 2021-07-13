@@ -36,7 +36,7 @@ Das Foto (Abb. \ref{fig:form_normal}, links) wird mit Hilfe der Flexbox \emph{ju
 
 Um die \emph{Ajax-Engine} zu bündeln, kommt \gls{webpack} zum Einsatz. Dieses erlaubt das Zusammenbauen mehrerer öffentlicher (vendor) und eigener JavaScript-Module zu wenigen Buildfiles, welche bequem im Hauptmarkup eingebunden werden. Zudem wird dadurch ermöglicht, moderne JavaScript Syntax (e.g \gls{es2016}) durch Code Preprocessing durch sog. Transpiler zu verwenden. Ein solcher Transpiler wandelt z.B. einen modernen JavaScript Standard in einen ursprünglichen Standard, welcher von den Zielbrowsern der Anwendung bereits implementiert wurde, um.
 
-Das Resultat eines solchen Builds ist eine einzige HTML-Seite \emph{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \emph{index.bundle.css} und \emph{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business-Logik der Anwendung verantwortlich (siehe Listing \ref{lst:index_html}).
+Das Resultat eines solchen Builds ist eine einzige HTML-Seite \emph{index.html}, die der Benutzer am Ende ausgeliefert bekommt. Die Index Seite bettet wiederum nur zwei zusammengebaute Scripte aus allen bestehenden ein - \emph{index.bundle.css} und \emph{index.bundle.js}. Diese sind entsprechend für das gesamte Layout und die gesamte Business-Logik der Anwendung verantwortlich (siehe Quellcode \ref{lst:index_html}).
 
 \begin{listing}[H]
 \begin{minted}{html}
@@ -59,9 +59,9 @@ Das Resultat eines solchen Builds ist eine einzige HTML-Seite \emph{index.html},
 \label{lst:index_html}
 \end{listing}
 
-\gls{webpack} setzt auf das in \emph{ES2015} eingeführte \emph{Modules}Feature auf. Hierbei wird ein Entryscript in der \gls{webpack}-Konfigurationsdatei deklariert (ähnlich dem Main File eines herkömmlichen Programms). \gls{webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylesheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Listing \ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.
+\gls{webpack} setzt auf das in \emph{ES2015} eingeführte \emph{Modules}Feature auf. Hierbei wird ein Entryscript in der \gls{webpack}-Konfigurationsdatei deklariert (ähnlich dem Main File eines herkömmlichen Programms). \gls{webpack} durchläuft beim Build jedes darin importierte File rekursiv und lässt es anhand weiterer deklarierter Regeln durch entsprechende Präprozessoren verarbeiten. Sowohl Stylesheets als auch Skripte werden so verarbeitet. Der Output dieser Präprozessoren wird am Ende, wie in Quellcode \ref{lst:index_html} abgebildet, zu einzelnen Files gebündelt.
 
-In Listing \ref{lst:webpack_config} ist ein Auszug aus der \emph{Pika} Build Konfiguration zum Transpilieren von \emph{ES2016} JavaScript Standard zu \emph{ES5} Standard mit Hilfe des \emph{babel-loader}, sowie von \gls{sass} zu \emph{CSS} mit Hilfe des \emph{sass-loader} dargestellt.
+In Quellcode \ref{lst:webpack_config} ist ein Auszug aus der \emph{Pika} Build Konfiguration zum Transpilieren von \emph{ES2016} JavaScript Standard zu \emph{ES5} Standard mit Hilfe des \emph{babel-loader}, sowie von \gls{sass} zu \emph{CSS} mit Hilfe des \emph{sass-loader} dargestellt.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -95,7 +95,7 @@ Für diese Applikation werden insgesamt folgende Regeln deklariert:
 
 Wie bereits oben erwähnt, bekommt der Benutzer eine einzelne Seite mit den gebündelten Skripten ausgeliefert. Der tatsächliche Inhalt der Applikation wird also erst durch das Bundle Skript auf dem Client erzeugt. Hierfür muss das AngularJS Framework wissen, welcher Platzhalter im DOM das Ziel des clientseitigen Renderings darstellen soll.
 
-Listing \ref{lst:index_html} zeigt, dass der \emph{body} Tag hierfür mit dem entsprechenden Attribut \emph{ng-app="pika"} markiert worden ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhalt des \emph{body} Tags übernehmen kann, ist schlussendlich der folgende Aufruf im \emph{index.js} File notwendig.
+Quellcode \ref{lst:index_html} zeigt, dass der \emph{body} Tag hierfür mit dem entsprechenden Attribut \emph{ng-app="pika"} markiert worden ist. Man spricht hier auch von einer \gls{ng-directive}. Damit AngularJS die Kontrolle über den Inhalt des \emph{body} Tags übernehmen kann, ist schlussendlich der folgende Aufruf im \emph{index.js} File notwendig.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -129,25 +129,21 @@ URL-Adresseingaben gehen zunächst durch den AngularJS Router in dem Client Code
 \label{lst:main_layout}
 \end{listing}
 
-Listing \ref{lst:main_layout} zeigt den restlichen Inhalt der \emph{index.html}-Datei. Entscheidend ist die Direktive \emph{ng-app="pika"}. Sie sorgt dafür, dass das in \emph{index.js} (Listing \ref{lst:module_build}) deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
+Quellcode \ref{lst:main_layout} zeigt den restlichen Inhalt der \emph{index.html}-Datei. Entscheidend ist die Direktive \emph{ng-app="pika"}. Sie sorgt dafür, dass das in \emph{index.js} (Quellcode \ref{lst:module_build}) deklarierte Angular Hauptmodul das Rendering des Inhalts hier übernehmen kann.
 
 Der Inhalt der Anwendung besteht aus den Direktiven für das Seitenmenü (\emph{side-menu} ) und dem jeweiligen Inhalt des Routers (\emph{ui-view}).
 
-Letztendlich braucht das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. Listing \ref{lst:routing_config} zeigt einen Auszug dieser Konfiguration. In dieser Arbeit wird ein 3rd Party Router, namens \emph{UI-Router} verwendet (Der Standardrouter ist bereits für den exemplarischen Anwendungsfall dieser Arbeit sehr eingeschränkt. Die Notwendigkeit für den UI-Router wird im weiteren Verlauf deutlich).
+Letztendlich braucht das AngularJS Hauptmodul eine Konfiguration für das Routing von URLs zu den jeweiligen Hauptkontrollern der Applikation. Quellcode \ref{lst:routing_config} zeigt einen Auszug dieser Konfiguration. In dieser Arbeit wird ein 3rd Party Router, namens \emph{UI-Router} verwendet (Der Standardrouter ist bereits für den exemplarischen Anwendungsfall dieser Arbeit sehr eingeschränkt. Die Notwendigkeit für den UI-Router wird im weiteren Verlauf deutlich).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
-import photosTemplate from './photos/index.jade';
-import photoDetailTemplate from './photo-detail/index.jade';
+// routes.js
+import photosTemplate from './photos/index.pug';
+import photoDetailTemplate from './photo-detail/index.pug';
 
 function routesConfig($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('session', {
-      url: '/session',
-      template: '<p>Pika</p>',
-      controller: 'sessionController',
-      controllerAs: '$ctrl',
-    })
+    // ...
     .state('photos', {
       url: '/photos/:page?search',
       template: photosTemplate,
@@ -165,7 +161,7 @@ function routesConfig($stateProvider, $urlRouterProvider) {
 }
 
 \end{minted}
-\caption{routes.js}
+\caption{Routing Konfiguration}
 \label{lst:routing_config}
 \end{listing}
 
@@ -181,7 +177,7 @@ Die Analyse der Aufgabestellung für diese Anwendung im Kapitel Design ergab die
 
 In zahlreichen Einstiegsquellen für Organisation von JavaScript Projekten findet man eine Bündelung nach Funktionsverantwortung der Komponenten im Angular Framework vor. So werden etwa Controller, Direktiven, Factories, Services in einzelnen Unterverzeichnissen organisiert. Dieser Aufbau hat den Nachteil, dass nicht sofort ersichtlich wird, wo sich der Applikationscode einer bestimmten Domain befindet, da er nun auf verschieden Orte verteilt ist.
 
-Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird unter JavaScript Entwicklern favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt. Es ergibt sich daher die Verzeichnis Struktur aus Listing \ref{lst:directorty_structure}.
+Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese Praxis wird unter JavaScript Entwicklern favorisiert \footnote{https://stackoverflow.com/questions/18542353/angularjs-folder-structure} und etwa in \cite{Kukic:2014} detailliert dargestellt. Es ergibt sich daher die Verzeichnis Struktur aus Quellcode \ref{lst:directorty_structure}.
 
 
 \begin{listing}[H]
@@ -190,23 +186,23 @@ Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese 
 |-- photo-detail
 |   |-- controller.js
 |   |-- form-component.js
-|   |-- form.jade
-|   |-- index.jade
+|   |-- form.pug
+|   |-- index.pug
 |   |-- index.js
 |   |-- index.scss
 |   |-- toolbar-component.js
-|   |-- toolbar.jade
+|   |-- toolbar.pug
 
 # Foto Gallery und Suche
 |-- photos
 |   |-- client.js
 |   |-- controller.js
 |   |-- gallery.js
-|   |-- index.jade
+|   |-- index.pug
 |   |-- index.js
 |   |-- index.scss
 |   |-- toolbar-component.js
-|   |-- toolbar.jade
+|   |-- toolbar.pug
 
 # Authentifizierung und Session Handling
 |-- session
@@ -216,7 +212,7 @@ Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese 
 
 # Menünavigation
 |-- side-menu
-|   |-- index.jade
+|   |-- index.pug
 |   |-- index.js
 |   `-- index.scss
 |-- http-interceptor.js
@@ -233,7 +229,7 @@ Pika verwendet daher eine Gliederung der Verzeichnisse nach ihrer Domain. Diese 
 
 \subsection{Modul Struktur}
 
-Entsprechend der Domain-Aufteilung lässt sich also jeder einzelne Bereich als ein einzelnes Angular Modul abbilden. Hierbei exportiert jedes einzelne Modul seine eigene Angular API Deklaration (siehe Listing \ref{lst:module_export}). Diese Exports werden schließlich im dem \emph{index.js} File an das \emph{Pika} Hauptmodul übergeben (siehe Listing \ref{lst:module_build}).
+Entsprechend der Domain-Aufteilung lässt sich also jeder einzelne Bereich als ein einzelnes Angular Modul abbilden. Hierbei exportiert jedes einzelne Modul seine eigene Angular API Deklaration (siehe Quellcode \ref{lst:module_export}). Diese Exports werden schließlich im dem \emph{index.js} File an das \emph{Pika} Hauptmodul übergeben (siehe Quellcode \ref{lst:module_build}).
 
 
 \begin{listing}[H]
@@ -323,7 +319,7 @@ Für den tatsächlichen Authentifizierungsablauf bietet es lediglich Richtlinien
 
 \subsection{Authentifizierung}
 
-Den Aufruf der Root URL bearbeitet die \emph{SessionController\#index} Methode und rendert das Login Formular, wenn der Benutzer nicht eingeloggt ist (siehe Listing \ref{lst:session_handling}).
+Den Aufruf der Root URL bearbeitet die \emph{SessionController\#index} Methode und rendert das Login Formular, wenn der Benutzer nicht eingeloggt ist (siehe Quellcode \ref{lst:session_handling}).
 
 Die \emph{SessionController\#create} Methode nimmt die Anmeldedaten aus dem Login Formular entgegen. Daraufhin sendet der Controller \emph{POST '/api/session-token'} mit den Benutzereingaben an den Server. Sollte die Eingabe falsch sein, wird die Fehlermeldung aus der Antwort in einer Instanzvariable des Controllers abgelegt und per \gls{databinding} im Formular gerendert. Die gültige Antwort des Servers enthält ein JSON Objekt mit den Daten des gegenwärtigen Users inklusive des JWT Session Tokens.
 
@@ -360,6 +356,7 @@ class SessionController {
 export default angular.module('session.controller', [])
   .controller('sessionController', SessionController)
 
+
 //session/session.js
 class Session {
 
@@ -392,7 +389,7 @@ Nachdem die erfolgreiche Authentifizierung des Users abgeschlossen ist, müssen 
 Solche Abhängigkeiten werden in AngularJS über das \gls{di} Mechanismus aufgelöst. Der DI-Con­tai­ner kümmert sich um die Instanziierung aller registrierten Objekte. Es kann hier festgelegt werden, ob eine Abhängigkeit nur ein Mal pro Modul als \gls{ng-service} verfügbar ist oder jedes Mal neu mit Hilfe einer \gls{ng-factory} instanziiert wird, wenn sie gebraucht wird.
 Die \emph{Session} Klasse wird als Service registriert, da dessen Instanz mit den Userdaten über alle anfordernden Komponenten einmalig verfügbar sein muss.
 
-Eine Stelle, wo der authentifizierte Zustand geprüft wird, ist der Router. Alle Routes im System müssen den Benutzer zurück auf das Login Formular weiterleiten, wenn dieser nicht eingeloggt ist (siehe Listing \ref{lst:route_authorization}).
+Eine Stelle, wo der authentifizierte Zustand geprüft wird, ist der Router. Alle Routes im System müssen den Benutzer zurück auf das Login Formular weiterleiten, wenn dieser nicht eingeloggt ist (siehe Quellcode \ref{lst:route_authorization}).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -435,7 +432,7 @@ Das oben beschriebene Verfahren der Route Autorisierung ist offensichtlich keine
 
 Wie in Kapitel \ref{sec:session_handling_basics} geschildert, muss ein Server jede HTTP Anfrage auf das valide Session Token prüfen, da diese auch ohne des originalen Webclients von einem potentiellen Angreifer durchgeführt werden können. Das Session Objekt muss demnach bei allen HTTP Aufrufen bekannt sein.
 
-Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \emph{fetch} API darstellt. Über einen sog. \emph{HTTP Interceptor} lässt sich das Setzen des nötigen Autorisierungheaders einmalig konfigurieren (siehe Listing \ref{lst:http_interceptor}).
+Angular bringt einen HTTP Client mit, welcher lediglich einen bequemeren Wrapper über die native Browser \emph{fetch} API darstellt. Über einen sog. \emph{HTTP Interceptor} lässt sich das Setzen des nötigen Autorisierungheaders einmalig konfigurieren (siehe Quellcode \ref{lst:http_interceptor}).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
@@ -457,12 +454,12 @@ export default function (session) {
 \label{lst:http_interceptor}
 \end{listing}
 
-Die Abhängigkeit zu dem HTTP Client lässt sich über den von Angular mitgelieferten DI-Container auflösen. Nach der korrekten Registrierung des HTTP Interceptor muss bei der Benutzung des Clients nichts weiter beachtet werden (Siehe Listing \ref{lst:http_client}).
+Die Abhängigkeit zu dem HTTP Client lässt sich über den von Angular mitgelieferten DI-Container auflösen. Nach der korrekten Registrierung des HTTP Interceptor muss bei der Benutzung des Clients nichts weiter beachtet werden (Siehe Quellcode \ref{lst:http_client}).
 
 \begin{listing}[H]
 \begin{minted}{javascript}
 
-//photos-client.js
+//photos/client.js
 class PhotosClient {
   constructor($http {
     this.$http = $http;
@@ -486,16 +483,17 @@ class PhotosClient {
 
 In Kapitel \ref{sec:des:navigation_menu} wurde ein Seitenmenü für die Hauptnavigation der Applikation und jeweils ein Kontextmenü in der Tab-Leiste für die Unterbereiche, wie die Galerie- oder Photo-Detail-Ansicht, entworfen. Das Hauptseitenmenü bleibt während des gesamten Nutzererlebnisses unverändert, während die Kontextmenüs sich je nach Kontext ändern können.
 
-In Listing \ref{lst:main_layout} wurde der Lösungsansatz für die Menüführung bereits deutlich. Die Applikation benötigt ein Hauptlayout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die \gls{ng-directive} \emph{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente als Direktive in Markup eingebunden. Dies hat den Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Fotogalerie benötigt beispielsweise ein Suchfeld, während die Detailansicht unter anderem ein Button für das Anzeigen der Metadaten enthält.
+In Quellcode \ref{lst:main_layout} wurde der Lösungsansatz für die Menüführung bereits deutlich. Die Applikation benötigt ein Hauptlayout bzw. ein übergreifendes Frame. Dieses Frame enthält das Seitenmenü, dessen Komponente über die \gls{ng-directive} \emph{side-menu} im Markup initialisiert wird. Neben dem Seitenmenü ist ein Platzhalter für die Unterbereiche, dessen Inhalt von dem Router bestimmt wird. Die verschiedenen Kontext Untermenüs hingegen werden von der jeweiligen Hauptkomponente als Direktive in Markup eingebunden. Dies hat den Grund, dass der Kontext sich mit dem Wechsel in einen Unterbereich unterscheidet. Die Fotogalerie benötigt beispielsweise ein Suchfeld, während die Detailansicht unter anderem ein Button für das Anzeigen der Metadaten enthält.
 
-Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Listing \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind lediglich Einträge mit Namen und URL-Route zu dem Unterbereich. Der Controller muss somit nicht auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
+Die Implementierung des Seitenmenüs gestaltet sich recht trivial. Der SideMenuController (siehe Quellcode \ref{lst:side_menu_controller}) initialisiert Menüeinträge. Es sind lediglich Einträge mit Namen und URL-Route zu dem Unterbereich. Der Controller muss somit nicht auf die Navigation selbst reagieren, da diese von dem Router übernommen wird.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
 
 import angular from 'angular';
-import template from './index.jade';
+import template from './index.pug';
 
+//side-menu/index.js
 class SideMenuController {
 
   /** @ngInject */
@@ -543,7 +541,7 @@ export default angular.module('pika.side-menu', [])
 \begin{listing}[H]
 \begin{minted}{text}
 
-//side-menu/index.jade
+//side-menu/index.pug
 md-sidenav.md-sidenav-left()
   // ...
   md-content
@@ -561,7 +559,7 @@ md-sidenav.md-sidenav-left()
 \label{lst:side_menu_view}
 \end{listing}
 
-Das Verhalten des Seitenmenüs inklusive der Ein- und Ausklappen Animation bringt die Angular \emph{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Listing \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das Ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den einfachen Grund, dass der Ausklappregler sich in dem jeweiligen Kontextmenü links und nicht in dem Seitenmenü selbst befindet. Der Button zum Ausklappen lässt sich ebenfalls in eine extra Komponente auslagern und in jede Kontext-Toolbar integrieren.
+Das Verhalten des Seitenmenüs inklusive der Ein- und Ausklappen Animation bringt die Angular \emph{mdSideNav} Komponente mit, welche schließlich im Markup erzeugt wird (siehe Quellcode \ref{lst:side_menu_view}). Paradoxerweise ist der SideMenuController nicht für das Ausklappen des Seitenmenüs zuständig. Diese Aufgabe übernehmen die Kontextmenüs. Dies hat den einfachen Grund, dass der Ausklappregler sich in dem jeweiligen Kontextmenü links und nicht in dem Seitenmenü selbst befindet. Der Button zum Ausklappen lässt sich ebenfalls in eine extra Komponente auslagern und in jede Kontext-Toolbar integrieren.
 
 \section{Foto Galerie}
 \label{sec:photo_gallery}
@@ -581,7 +579,7 @@ Die Antwort ist ein Array in \gls{json} Format mit Fotometadaten mit Titel, Besc
 
 \begin{listing}[H]
 \begin{minted}{javascript}
-
+//photos/controller.js
 class PhotosController {
   /** @ngInject */
   constructor($scope, $stateParams, $state, photosGallery) {
@@ -596,6 +594,7 @@ class PhotosController {
   }
 }
 
+//photos/gallery.js
 class PhotosGallery {
   /** @ngInject */
   constructor(photosClient) {
@@ -631,7 +630,7 @@ Nach einer Änderung des \emph{photos} Arrays in der \emph{PhotosGallery} führt
 
 \begin{listing}[H]
 \begin{minted}{javascript}
-
+//photos/controller.js
 class PhotosController {
   /** @ngInject */
   constructor($scope, $stateParams, $state, photosGallery) {
@@ -697,7 +696,7 @@ Die Paginierung geschieht folgenderweise:
 
 \begin{listing}[H]
 \begin{minted}{javascript}
-
+//photos/controller.js
 class PhotosController {
   constructor(/**/) {
     //...
@@ -721,6 +720,8 @@ class PhotosController {
   }
 }
 
+
+//photos/gellery.js
 class PhotoGallery {
   showPhotos({ search, page = 1 } = {}) {
     const _this = this;
@@ -756,7 +757,7 @@ Pro Foto wird eine Grid-Kachel \emph{md-grid-tile} erstellt. Das Foto selbst ist
 
 \begin{listing}[H]
 \begin{minted}{text}
-
+//photos/index.pug
 photos-toolbar
 
 md-content(...)
@@ -790,7 +791,7 @@ Die Fotosuche verwendet für die Darstellung den exakt gleichen Code aus Kapitel
 
 Das Suchfeld wird in die galeriespezifische Toolbar platziert. Nach der Eingabe wird eine Routeänderung über den Angular Router erzwungen. Die Route führt wie in dem Standardfall auf den \emph{PhotosController}, enthält jedoch einen Suchbegriff im Route-Parameter, z.B. \emph{/photos?search=hamburg}.
 
-Der \emph{PhotosController} liest beim Laden der Fotos, wie in Listing \ref{lst:pagination} gezeigt, durch die \emph{showPhotos} Methode zusätzlich den
+Der \emph{PhotosController} liest beim Laden der Fotos, wie in Quellcode \ref{lst:pagination} gezeigt, durch die \emph{showPhotos} Methode zusätzlich den
 \emph{search} Parameter aus. Dieser wird dann an \emph{PhotosGellary.showPhotos} weitergereicht.
 
 Letzendlich ist die Aufgabe des Servers enttprechend ein gefiltertes Ergebnis zurückzugeben. Der Suchbegriff muss zusätzlich zwischengespeichert werden, damit die Paginierung den Suchfilter beachtet.
@@ -811,16 +812,16 @@ Der PhotoDetailController registriert sich auf die \emph{onChanged }-Events der 
 
 Die Foto-Detailansicht bietet gleichzeitig das Sliden zur Detailansicht des nächsten Fotos an. Grundsätzlich wird das Sliden zum nächsten bzw. vorherigen Foto durch ein Inkrementieren bzw. Dekrementieren eines Indexes implentiert. Hierfür speichert das \emph{PhotosGallery}-Objekt den aktuellen Index (\emph{currentIndex}) des angezeigten Fotos im \emph{photos} Stapel.
 
-Die Slide Aktion zum nächsten bzw. vorheringen Foto, ruft die \emph{PhotoGallery} Methode \emph{next} bzw. \emph{prev} auf. Dies ist wiederum ein Aufruf von \emph{slide} mit einem positiven bzw. negativen Wert. Dabei wird \emph{currentIndex} um den Wert verändert und der berechnete \emph{nextIndex} mittels \emph{setIndex} gesetzt. \emph{setIndex} speichert gleichzetig die Referenz auf die Fotomedaten unter dem Index in der Variable \emph{currentPhoto}. Wenn sich der Wertvon \emph{currentPhoto} ändert, sorgt Databinding für ein Rendering des entsprechenden Fotos (siehe Listing \ref{lst:sliding}).
+Die Slide Aktion zum nächsten bzw. vorheringen Foto, ruft die \emph{PhotoGallery} Methode \emph{next} bzw. \emph{prev} auf. Dies ist wiederum ein Aufruf von \emph{slide} mit einem positiven bzw. negativen Wert. Dabei wird \emph{currentIndex} um den Wert verändert und der berechnete \emph{nextIndex} mittels \emph{setIndex} gesetzt. \emph{setIndex} speichert gleichzetig die Referenz auf die Fotomedaten unter dem Index in der Variable \emph{currentPhoto}. Wenn sich der Wertvon \emph{currentPhoto} ändert, sorgt Databinding für ein Rendering des entsprechenden Fotos (siehe Quellcode \ref{lst:sliding}).
 
- Ferner fndet in \emph{slide} eine Ausnahmebehandlung statt, wenn der Index außerhalb der Grenzen des zwischengespeicherten Stapels an Fotos wandert. Es wird der nächste bzw. vorherige Stapel an Fotos geladen. Hierfür wird Die \emph{PhotoGallery\#showPhotos} Methode aus Listing \ref{lst:pagination} wiederverwendet. \emph{showPhotos} wird nun mit dem entsprechenden Parameter \emph{page} der nächsten bzw. vorherigen Seite aufgerufen. Das Verfahren aus Listing \ref{lst:pagination} wird nun für den weiteren Stapel an Foto Metdaten wiederholt.
+ Ferner fndet in \emph{slide} eine Ausnahmebehandlung statt, wenn der Index außerhalb der Grenzen des zwischengespeicherten Stapels an Fotos wandert. Es wird der nächste bzw. vorherige Stapel an Fotos geladen. Hierfür wird Die \emph{PhotoGallery\#showPhotos} Methode aus Quellcode \ref{lst:pagination} wiederverwendet. \emph{showPhotos} wird nun mit dem entsprechenden Parameter \emph{page} der nächsten bzw. vorherigen Seite aufgerufen. Das Verfahren aus Quellcode \ref{lst:pagination} wird nun für den weiteren Stapel an Foto Metdaten wiederholt.
 
 
-Der Pseudocode in Listing \ref{lst:sliding} veranschaulicht das Verfahren unter Verzicht auf die Details der asynchronen JavaScript Programmierung.
+Der Pseudocode in Quellcode \ref{lst:sliding} veranschaulicht das Verfahren unter Verzicht auf die Details der asynchronen JavaScript Programmierung.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
-
+//photos/gallery.js
 class PhotoGallery {
   showPhotos({ search, page = 1 } = {}) {
     /* ... */
