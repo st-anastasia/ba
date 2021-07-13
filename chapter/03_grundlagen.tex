@@ -9,10 +9,8 @@ Der Client ist ein Programm des Benutzers und ist dafür zuständig, den Inhalt 
 
 Der Inhalt selbst befindet sich auf einem entfernten Rechner, genannt der Server. Server verarbeiten eingehende Anfragen der Clients nach Inhalten und liefern eine Kopie dieser Inhalte aus. Der heruntergeladene Inhalt kann schließlich vom Client angezeigt werden.
 
-Die Fachbezeichnung für den Remote-Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und anderen Dateien bestehen. Aber, wie am Anfang angedeutet, sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form von Software vorkommen, welche beispielsweise es erlauben mit Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert.
 Die Fachbezeichnung für den Remote-Inhalt ist Ressource. Ressourcen können aus Bildern, Videos, Webseiten und anderen Dateien bestehen. Aber, wie am Anfang angedeutet, sind Ressourcen nicht nur auf Dateien und Webseiten beschränkt. Sie können auch in Form von Software vorkommen, welche beispielsweise es erlauben mit Aktien zu handeln oder Videospiele zu spielen. Ressourcen werden dabei durch einen eindeutigen Bezeichner - die URL - identifiziert (Siehe Abb. \ref{fig:client_server}).
 
-Ein simples Diagramm, wie Client und Server interagieren können, sieht wie folgt aus:
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/client_server}
@@ -23,7 +21,7 @@ Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP f�
 
 \cite[Background]{Parikh:2015} beschreibt das Problem wie folgt:
 
-"When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful..."
+\enquote{When you go to Facebook, for example, and log in, you expect to see the internal Facebook page. That was one complete request/response cycle. You then click on the picture -- another request/response cycle -- but you do not expect to be logged out after that action. If HTTP is stateless, how did the application maintain state and remember that you already input your username and password? In fact, if HTTP is stateless, how does Facebook even know this request came from you, and how does it differentiate data from you vs. any other user? There are tricks web developers and frameworks employ to make it seem like the application is stateful...}
 
 Es gibt daher eine Reihe von verschiedenen Techniken, welche auf Anwendungsebene realisiert werden müssen, um Zustandshaftigkeit in einem zustandslosen Protokoll zu gewährleisten.
 
@@ -41,7 +39,7 @@ In \ref{sec:client_server} wurde erwähnt, dass im World Wide Web das Kommunikat
 
 \cite{Dubost:2012} zeigt, dass Kommunikationsprotokolle nicht nur ein künstliches Konstrukt sind, sondern auch aus der realen Welt stammen:
 
-"When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing."
+\enquote{When two people meet, they engage using a communication protocol: for example, in Japan, a person will make a specific gesture with the body. One such gesture is a bow, which is the syntax used for the interaction. In Japanese customs, the gesture of the bow (among others) is associated with the semantics of greeting someone. Finally, when one person bows to another person, a sequence of events has been established between the two in a specific timing.}
 
 Weiterhin beschreibt \cite{Dubost:2012}, dass in einem Online-Kommunikationsprotokoll die gleichen Elemente vorkommen: die Syntax - die Abfolge von Zeichen, etwa Bezeichnern, die für das Schreiben des Protokolls verwendet werden; die Semantik - die Bedeutung, die mit diesen Bezeichnern assoziiert wird; und schließlich der Zeitablauf - eine vorgegebene Reihenfolge, in der Client und Server diese Bezeichner austauschen.
 
@@ -99,13 +97,13 @@ Als das World Wide Web geboren wurde, existierte nur ein Webserver und ein Webcl
 
 Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte sich zum Standard, um externe Applikationen mit Webservern zu verbinden und um dynamische Information zu generieren. Ein CGI Programm kann beinahe in jeder Programmiersprache implementiert werden. Es muss nur die Fähigkeit besitzen, Parameter Eingaben über Standardeingabe \emph{STDIN} zu lesen und das Resultat auf die Standardausgabe  \emph{STDOUT} zu schreiben.
 
-Folgend ist ein exemplarisches CGI "Hello World" Programm dargestellt. Ein Benutzer namens Doug gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL:
+Folgend ist ein exemplarisches CGI \enquote{Hello World} Programm dargestellt. Ein Benutzer namens Doug gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL:
 
 \begin{minted}{http}
 http://example.com/cgi-bin/hello.pl?username=Doug
 \end{minted}
 
-Wenn der Webserver diese Anfrage bekommt, weiß er, wie er die URL in zwei Teile trennt: den Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Teil mit der Benutzereingabe (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über Sitzungs-Identifikationsnummer an das \emph{hello.pl} Script weiter. Die Aufagbe des Scriptes ist nun, den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel "Hello user" Programm ist in Listing \ref{lst:hello_pl} abgebildet.
+Wenn der Webserver diese Anfrage bekommt, weiß er, wie er die URL in zwei Teile trennt: den Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Teil mit der Benutzereingabe (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über Sitzungs-Identifikationsnummer an das \emph{hello.pl} Script weiter. Die Aufagbe des Scriptes ist nun, den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel \enquote{Hello user} Programm ist in Quellcode \ref{lst:hello_pl} abgebildet.
 
 \begin{listing}[H]
 \begin{minted}{perl}
@@ -136,7 +134,7 @@ Siehe \cite[Stateful Web Applications]{Parikh:2015}
 
 In objektorientierter Software ist für die Erstellung von graphischen Anwendungen das Model-View-Controller-Muster vorherrschend.
 
-\cite{lahres2009objektorientierte} schreibt: "Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle."
+\cite{lahres2009objektorientierte} schreibt: \enquote{Mit Model-View-Controller (MVC) wird ein Interaktionsmuster in der Präsentationsschicht von Software beschrieben. MVC ist wohl einer der schillerndsten Begriffe im Bereich der objektorientierten Programmierung. Viele Varianten haben sich herausgebildet, teilweise einfach aufgrund eines falschen Verständnisses des ursprünglichen MVC-Musters, teilweise als Weiterentwicklung oder Anpassung an neue Anwendungsfälle.}
 
 Unabhängig von der jeweiligen Abwandlung des MVC-Musters gilt, dass der Controller für die Benutzereingaben, das Model für den Zustand und der View für das Darstellen dieses Zustands verantwortlich sind. Vgl. \cite{lahres2009objektorientierte} 8.2.3
 
@@ -161,7 +159,7 @@ Jeder ankommende HTTP Request wird von einem bestimmten Controller verarbeitet. 
 
 \subsection{Grundprinzip}
 
-In dem Aufsatz, der den Namen \emph{Ajax} geprägt hat, schrieb \cite{Garrett:2005}: "The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications."
+In dem Aufsatz, der den Namen \emph{Ajax} geprägt hat, schrieb \cite{Garrett:2005}: \enquote{The classic web application model works like this: Most user actions in the interface trigger an HTTP request back to a web server. The server does some processing — retrieving data, crunching numbers, talking to various legacy systems — and then returns an HTML page to the client. It’s a model adapted from the Web’s original use as a hypertext medium, but as fans of The Elements of User Experience know, what makes the Web good for hypertext doesn’t necessarily make it good for software applications.}
 
 Schon in den 90er Jahren implementierten Browserhersteller Skripting Möglichkeiten für Webseiten. Es enstand die Möglichkeit, Programmcode an den Client Rechner zusammen mit dem Markup auszuliefern, um interaktive Animationen auf der Webseite auszulösen. Die Programmiersprache Javascript war geboren. Sie wurde später unter dem Begriff ECMAScript standardisiert.
 
@@ -203,7 +201,7 @@ Eine anschauliche Art, REST Schnittstellen zu implementieren, ist, alle Aktionen
  \item \emph{Wie} - Was passiert mit der Ressource ?
 \end{itemize}
 
-Folgend ist tabelarisch die Akzentuierung des "`Was"' und des "`Wie"' auf den Design einer REST API für den Benutzerlogin dargestellt.
+  Folgend ist tabelarisch die Akzentuierung des "`Was"' und des "`Wie"' auf den Design einer REST API für den Benutzerlogin dargestellt.
 
 \begin{center}
     \begin{tabular}{ | p{5cm} | l | l | l | l |}
@@ -261,7 +259,7 @@ Hierfür legte Marcotte drei Grundelemente fest:
 \caption{Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.27}\label{fig:grid}
 \end{figure}
 
-Das Layout für die Abbildung \ref{fig:grid} kann durch den CSS Code in Listing \ref{lst:grid_css} erzeugt werden.
+Das Layout für die Abbildung \ref{fig:grid} kann durch den CSS Code in Quellcode \ref{lst:grid_css} erzeugt werden.
 
 \begin{listing}[H]
 \begin{minted}{css}
@@ -309,7 +307,7 @@ Im Prinzip wird die obige Umrechnung auf alle festen Breiten-, Abstand- und Font
 \caption{Flexibles Webdesign Raster. Quelle: \cite{Marcotte:2011}, S.33}\label{fig:flex_grid}
 \end{figure}
 
-Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container seine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Listing.
+Bezüglich flexibler Bilder und Medien verhält es sich ähnlich, wie mit dem Grundansatz des flexiblen Rasters. Werden Bilder in Markup Container eingebettet, so sollte dieser Container seine Abstände sowie Breite widerum relativ zu seinem Contexcontainer gesetzt haben. Siehe Quellcode.
 
 \begin{listing}[H]
 \begin{minted}{html}
