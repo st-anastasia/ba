@@ -21,16 +21,16 @@
 
 \newcommand{\vorname}{Anastasia}
 \newcommand{\nachname}{Stieb}
-\newcommand{\matrikelnummer}{1234567}
+\newcommand{\matrikelnummer}{Matrikel-Nr. 2023959}
 
 \newcommand{\titel}{Software Architektur Elemente des JavaScript Clients in einer Single Page Webapplikation \\[0.2ex]
 				\Large am Beispiel einer Fotoverwaltungssoftware}
 
 \newcommand{\erstpruef}{Prof. Dr. Andreas Plaß}
-\newcommand{\zweitpruef}{Prof. Vorname Nachname}
+\newcommand{\zweitpruef}{Prof. Dr. Torsten Edeler}
 
 %\date{vorläufige Fassung vom \today}   % praktisch für Vorab-Versionen.
-\date{\sffamily Hamburg, 2. 2. 2020}  % Abgabedatum!
+\date{\sffamily Hamburg, 15. 7. 2021}  % Abgabedatum!
 
 %--------------------------------------------------------------------------------------
 %----------------------------- hier gehts los! --------------------------------------
@@ -40,31 +40,36 @@
 \selectlanguage{ngerman}
 \maketitle           % Titelseite erzeugen
 \newpage
-\tableofcontents % Inhaltsverzeichnis erzeugen
-\newpage
-
 
 %------------ Zusammenfassung / Abstract ------------------
 
 \thispagestyle{empty}
 \selectlanguage{english}
-\section*{\centering\abstractname}
-Form and layout of this \LaTeX-template incorporate the guidelines for theses in the Media Technology Department \glqq Richtlinien zur Erstellung schriftlicher Arbeiten, vorrangig Bachelor-Thesis (BA) und Master-Thesis (MA) im Department Medientechnik in der Fa\-kul\-tät DMI an der HAW Hamburg\grqq\ in the version of December 6, 2012 by Prof.\ Wolfgang Willaschek.
+\subsection*{Title of Paper}
+Software Architecture Elements of a JavaScript Client in a Single Page Webapplication
 
-The thesis should be printed single-sided (simplex). The binding correction (loss at the left aper edge due to binding) might be adjusted, according to the type of binding. This template incorporates a binding correction as BCOR=1mm (suitable for adhesive binding) in the \LaTeX\ document header.
+\subsection*{Keywords}
 
-{\bfseries This is the english version of the opening abstract} (don't forget to set \LaTeX's language setting back to ngerman after the english text).
+
+\subsection*{\centering\abstractname}
+This bachelor thesis focuses on the realisation of a potentially user interaction rich, similar to native clients in a webapplication by implementing a photo management software as example.
 
 
 \selectlanguage{ngerman}
-\section*{\centering\abstractname}
-Diese \LaTeX-Vorlage berücksichtigt in Form und Layout die Vorgaben für Abschlussarbeiten im Department Medientechnik \glqq Richtlinien zur Erstellung schriftlicher Arbeiten, vorrangig Bachelor-Thesis (BA) und Master-Thesis (MA) im Department Medientechnik in der Fakultät DMI an der HAW Hamburg\grqq, Fassung vom 6. Dezember 2012 von Prof. Wolfgang Willaschek.
+\subsection*{Thema der Arbeit}
+Software Architektur Elemente des JavaScript Clients in einer Single Page Webapplikation
 
-Der Ausdruck soll einseitig erfolgen (Simplex). Je nach Bindung ist ggf. die Bindekorrektur (Verlust am linken Seitenrand durch die Bindung) noch anzupassen. In dieser Vorlage ist eine Bindekorrektur im header der \LaTeX-Datei mit BCOR=1mm für Klebebindung eingestellt.
 
-{\bfseries Das ist die deutsche Version der vorangestellten Zusammenfassung. Beide Versionen -- englisch und deutsch -- sind verbindlich!}
+\subsection*{Stichworte}
+\subsection*{\centering\abstractname}
+Diese Bacherlorarbeit befasst sich mit der Realisierung eines potentiell an Benutzerinteraktionen reichen, nativ ähnlichen Clients einer Webanwendung am Beispiel der Implementierung einer Fotoverwaltungssoftware.
 
 \newpage
+
+
+\tableofcontents % Inhaltsverzeichnis erzeugen
+\newpage
+
 
 %--------------------------- Text -------------------------------
 \input{chapter/01_motivation.tex}
@@ -72,6 +77,7 @@ Der Ausdruck soll einseitig erfolgen (Simplex). Je nach Bindung ist ggf. die Bin
 \input{chapter/03_grundlagen.tex}
 \input{chapter/04_design.tex}
 \input{chapter/05_implementierung.tex}
+\input{chapter/06_fazit.tex}
 
 \appendix
 

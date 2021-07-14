@@ -722,7 +722,7 @@ class PhotosController {
 
 
 //photos/gellery.js
-class PhotoGallery {
+class PhotosGallery {
   showPhotos({ search, page = 1 } = {}) {
     const _this = this;
     return this.client.find({ search, page }}).then(res => {
@@ -810,19 +810,18 @@ Der PhotoDetailController registriert sich auf die \emph{onChanged }-Events der 
 \section{Foto Slider}
 \label{sec:photo_slider}
 
-Die Foto-Detailansicht bietet gleichzeitig das Sliden zur Detailansicht des nächsten Fotos an. Grundsätzlich wird das Sliden zum nächsten bzw. vorherigen Foto durch ein Inkrementieren bzw. Dekrementieren eines Indexes implentiert. Hierfür speichert das \emph{PhotosGallery}-Objekt den aktuellen Index (\emph{currentIndex}) des angezeigten Fotos im \emph{photos} Stapel.
+Die Foto-Detailansicht bietet gleichzeitig das Sliden zur Detailansicht des nächsten Fotos an. Grundsätzlich wird das Sliden zum nächsten bzw. vorherigen Foto durch ein Inkrementieren bzw. Dekrementieren eines Indexes implementiert. Hierfür speichert das \emph{PhotosGallery}-Objekt den aktuellen Index (\emph{currentIndex}) des angezeigten Fotos im \emph{photos} Stapel.
 
-Die Slide Aktion zum nächsten bzw. vorheringen Foto, ruft die \emph{PhotoGallery} Methode \emph{next} bzw. \emph{prev} auf. Dies ist wiederum ein Aufruf von \emph{slide} mit einem positiven bzw. negativen Wert. Dabei wird \emph{currentIndex} um den Wert verändert und der berechnete \emph{nextIndex} mittels \emph{setIndex} gesetzt. \emph{setIndex} speichert gleichzetig die Referenz auf die Fotomedaten unter dem Index in der Variable \emph{currentPhoto}. Wenn sich der Wertvon \emph{currentPhoto} ändert, sorgt Databinding für ein Rendering des entsprechenden Fotos (siehe Quellcode \ref{lst:sliding}).
+Die Slide-Aktion zum nächsten bzw. vorherigen Foto ruft die \emph{PhotosGallery}-Methode \emph{next} bzw. \emph{prev} auf. Dies ist wiederum ein Aufruf von \emph{slide} mit einem positiven bzw. negativen Wert. Dabei wird \emph{currentIndex} um den Wert verändert und der berechnete \emph{nextIndex} mittels \emph{setIndex} gesetzt. \emph{setIndex} speichert gleichzetig die Referenz auf die Fotometadaten unter dem Index in der Variable \emph{currentPhoto}. Wenn sich der Wert von \emph{currentPhoto} ändert, sorgt Databinding für ein Rendering des entsprechenden Fotos (siehe Quellcode \ref{lst:sliding}).
 
- Ferner fndet in \emph{slide} eine Ausnahmebehandlung statt, wenn der Index außerhalb der Grenzen des zwischengespeicherten Stapels an Fotos wandert. Es wird der nächste bzw. vorherige Stapel an Fotos geladen. Hierfür wird Die \emph{PhotoGallery\#showPhotos} Methode aus Quellcode \ref{lst:pagination} wiederverwendet. \emph{showPhotos} wird nun mit dem entsprechenden Parameter \emph{page} der nächsten bzw. vorherigen Seite aufgerufen. Das Verfahren aus Quellcode \ref{lst:pagination} wird nun für den weiteren Stapel an Foto Metdaten wiederholt.
-
+ Ferner findet in \emph{slide} eine Ausnahmebehandlung statt, wenn der Index außerhalb der Grenzen des zwischengespeicherten Stapels an Fotos wandert. Es wird der nächste bzw. vorherige Stapel an Fotos geladen. Hierfür wird die \emph{PhotosGallery\#showPhotos} Methode aus Quellcode \ref{lst:pagination} wiederverwendet. \emph{showPhotos} wird nun mit dem entsprechenden Parameter \emph{page} der nächsten bzw. vorherigen Seite aufgerufen. Das Verfahren aus Quellcode \ref{lst:pagination} wird nun für den weiteren Stapel an Foto Metadaten wiederholt.
 
 Der Pseudocode in Quellcode \ref{lst:sliding} veranschaulicht das Verfahren unter Verzicht auf die Details der asynchronen JavaScript Programmierung.
 
 \begin{listing}[H]
 \begin{minted}{javascript}
 //photos/gallery.js
-class PhotoGallery {
+class PhotosGallery {
   showPhotos({ search, page = 1 } = {}) {
     /* ... */
   }

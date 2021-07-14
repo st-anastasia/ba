@@ -1,9 +1,9 @@
 XML\chapter{Grundlagen}
 
-\section{Client/Server Model}
+\section{Client-Server-Modell}
 \label{sec:client_server}
 
-Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client-/Server-Model zu Grunde.
+Webanwendungen sind eine erweiterte Form von normalen Webseiten und funktionieren nach den selben Prinzipien des World Wide Webs. Diesen liegt wiederum das Client-Server-Modell zu Grunde.
 
 Der Client ist ein Programm des Benutzers und ist dafür zuständig, den Inhalt der Applikation oder Webseite auf dem Bildschirm in benutzerfreundlicher Art und Weise zu verarbeiten. Ein solcher typischer Client ist der Web Browser.
 
@@ -14,7 +14,7 @@ Die Fachbezeichnung für den Remote-Inhalt ist Ressource. Ressourcen können aus
 \begin{figure}[htp]     % h=here, t=top, b=bottom, p=page
 \centering
 \includegraphics[width=1.0\textwidth]{images/client_server}
-\caption{Client Server. Quelle: \cite{Parikh:2015}, Kap. Background}\label{fig:client_server}
+\caption{Client-Server-Modell. Quelle: \cite{Parikh:2015}, Kap. Background}\label{fig:client_server}
 \end{figure}
 
 Historisch ergeben, nutzen Client und Server das Kommunikationsprotokoll HTTP für die Kommunikation untereinander. Diese Übertragung ist zustandslos. Diese Eigenschaft wurde absichtlich konzipiert, um die Protokoll-Implementierung einfach zu halten und um Serverressourcen zu sparen. Der Server muss dabei keine Benutzerinformation zwischen den Anfragen merken. Im Fehlerfall muss ebenfalls nichts aufgeräumt werden. Die beiden Gründe machen HTTP zu einem sehr belastbaren Protokoll, aber auch gleichzeitig zu einem schwierigen Protokoll, um zustandsbehaftete Webanwendungen zu implementieren.
