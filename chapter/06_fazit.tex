@@ -4,7 +4,7 @@
 
 Die Arbeit schaute auf die historische Entwicklung des World Wide Webs vom klassischen Client-Server-Modell bis zur Entstehung immer mächtigerer Mechanismen für Webanwendungen, die eines reichhaltigeren Benutzererlebnises auf den Endgeräten bedürfen.
 
-Für einen solchen potentiell an Benutzerinteraktionen reichen, nativ ähnlichen Client einer Webanwendung in Form einer Fotoverwaltungssoftware wurden charakteristische Anforderungen aufgestellt. Anhand der Analyse und Implementierung dieser Anforderungen wurden die konkreten Pro­b­le­ma­tiken des Software Designs eines solchen Clients im Detail verdeutlicht.
+Für einen solchen potentiell an Benutzerinteraktionen reichen, nativ ähnlichen Client einer Single Page Webapplikation in Form einer Fotoverwaltungssoftware wurden charakteristische Anforderungen aufgestellt. Anhand der Analyse und Implementierung dieser Anforderungen zeigten sich wesenliche Pro­b­le­ma­tiken des Software Designs eines solchen Clients im Detail.
 
 Es wurde gezeigt, wie eine solche Software on-the-fly an den Benutzer durch normale Webmechanismen ohne extra Installation ausgeliefert werden kann.
 Ohne zur Implementierungzeit etwas über das Endgerät des Benutzers zu wissen, kann sich die realisierte Fotoverwaltungsapplikation an das tatsächliche Endgerät mit Hilfe von Responsive Webdesign anpassen.
@@ -17,6 +17,6 @@ Die Anforderung an Client-Server-Kommunikation wurde im Ansatz betrachtet. In gr
 
 Für die Autorisierung und Authentifizierung wurde eine minimal hinreichende Lösung durch JWT Tokens aufgezeigt, welche zwar über den Browser-Standard-Cookie-Mechanismus hinausgeht, jedoch bei weitem nicht die Breite des Themas von Sicherheit in Webanwendungen erfasst. Zum Beispiel ergibt sich eine Fragestellung, wie Sicherheitstoken valide sein sollen und wie sie invalidiert werden. Ferner sind Webanwendungen meistens Mehrbenutzersysteme und bedürfen komplexerer Benutzer- und Rechtelogik.
 
-Eine Thema, welches außer Acht gelassen wurde, ist die Testbarkeit von reichhaltigen Clients. In einer Single Page Webapplikation ergeben sich ebenfalls Besonderheiten im Gegensatz zur nativen Offline-Software wegen der Browserumgebung und des Simulierens der Client-Server-Kommunikation unter Test.
+Ein Thema, welches außer Acht gelassen wurde, ist die Testbarkeit von reichhaltigen Clients. In einer Single Page Webapplikation ergeben sich ebenfalls Besonderheiten im Gegensatz zur nativen Offline-Software wegen der Browserumgebung und des Simulierens der Client-Server-Kommunikation unter Test.
 
 Webanwendungen haben den Vorteil einer on-the-fly Auslieferung und erlauben dem Benutzer, eine komplexe Software ohne eine lokale Installation zu benutzen. Sie haben allerdings Grenzen. Eine weitere Fragestellung ist, wie weit diese Grenzen reichen und welche Szenarien auch mit reichhaltigen Webanwendungen schwer bis gar nicht realisierbar sind.
