@@ -313,7 +313,7 @@ Das obige Vorgehen liefert den Grundsatz einer Lösung auf das in Kapitel \ref{s
 
 Für die konkrete Implementierung existiert eine Reihe von Verfahren. Die einfachste Variante nutzt den Standard Cookie Mechanismus von HTTP, um den Session Token zu speichern. Wenn ein solcher Cookie vom Server gesetzt wurde, ist kein weiterer Client Code erforderlich, um diesen mit nachfolgenden Anfragen zu senden. Folglich ist es auch die ursprüngliche und einzige Variante, um rein serverseitige Webanwendungen zu authentifizieren.
 
-Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigenimplementierte Webclients in aller Regel einen separaten Mechanismus. Der Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Applikationen auf. Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. Vgl. \cite[Kap. 1]{Peyrott:2018}
+Die Cookie Authentifizierung bietet allerdings die meiste Angriffsoberfläche. Aus diesem Grund verwenden eigenimplementierte Webclients in aller Regel einen separaten Mechanismus. Der  RFC 7519 Standard JWT taucht oft in Zusammenhang von Authentifizierung von Single Page Webapplikationen auf. Tatsächlich spezifiziert JWT nur den Aufbau- und Verifizierungsmechanismus der Session Token. Vgl. \cite[Kap. 1]{Peyrott:2018}
 
 Für den tatsächlichen Authentifizierungsablauf bietet es lediglich Richtlinien an. In einfacher Form benötigt der Client kein Wissen darüber, welche Art von Token Standard auf dem Server verwendet wurde. Vgl. \cite[Kap. 2.2]{Peyrott:2018}. Daher zeigt diese Arbeit die Implementierung eines Authentifizierungsverfahrens, welches einer solchen Richtlinie aus dem JWT Standard folgt.
 
@@ -424,7 +424,7 @@ function authenticate($q, $state, $timeout, session) {
 \label{lst:route_authorization}
 \end{listing}
 
-Über das \emph{resolve} Keyword lässt sich in der Router Konfiguration eine \emph{authenticate} Funktion anhängen. Diese wird immer aufgerufen, wenn eine Routeänderung auf die entsprechende Route passiert. Der Rückgabewert dieser Funktion - ein erfolgreich/nicht erfolgreich aufgelöstes Promise Objekt - bestimmt darüber, ob die Routeänderung wirklich durchgeführt werden darf.
+Über das \emph{resolve} Keyword lässt sich in der Router Konfiguration eine \emph{authenticate} Funktion anhängen. Diese wird immer aufgerufen, wenn eine Routeänderung auf die entsprechende Route passiert. Der Rückgabewert dieser Funktion - ein erfolgreich/nicht erfolgreich aufgelöstes \gls{promise} Objekt - bestimmt darüber, ob die Routeänderung wirklich durchgeführt werden darf.
 
 Diese Entscheidung kann die \emph{authenticate} Funktion einfach treffen, indem es die API des injecteten Session Objektes \emph{session.isAuthenticated()} in Anspruch nimmt.
 

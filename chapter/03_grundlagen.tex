@@ -1,4 +1,4 @@
-XML\chapter{Grundlagen}
+\chapter{Grundlagen}
 
 \section{Client-Server-Modell}
 \label{sec:client_server}
@@ -99,9 +99,8 @@ Hierfür wurde das Common Gateway Interface (CGI) spezifiziert. Es entwickelte s
 
 Folgend ist ein exemplarisches CGI \enquote{Hello World} Programm dargestellt. Ein Benutzer namens Doug gibt seinen Namen ein, welcher vom Webserver ausgegeben werden soll. Dabei generiert sein Webclient einen HTTP GET Request an folgende URL:
 
-\begin{minted}{http}
-http://example.com/cgi-bin/hello.pl?username=Doug
-\end{minted}
+\url{http://example.com/cgi-bin/hello.pl?username=Doug}
+
 
 Wenn der Webserver diese Anfrage bekommt, weiß er, wie er die URL in zwei Teile trennt: den Pfad zu dem CGI Perl Programm \emph{hello.pl} und den Teil mit der Benutzereingabe (username=Doug, genannt QUERY\_STRING). Er leitet also diese Anfrage über Sitzungs-Identifikationsnummer an das \emph{hello.pl} Script weiter. Die Aufagbe des Scriptes ist nun, den QUERY\_STRING nach dem Schlüssel \emph{username} zu parsen und dessen Wert über SDTOUT auszugeben. Der Webserver wird wiederum diese Ausgabe an den Client weiterleiten. Das Beispiel \enquote{Hello user} Programm ist in Quellcode \ref{lst:hello_pl} abgebildet.
 

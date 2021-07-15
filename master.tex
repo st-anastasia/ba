@@ -30,7 +30,7 @@
 \newcommand{\zweitpruef}{Prof. Dr. Torsten Edeler}
 
 %\date{vorläufige Fassung vom \today}   % praktisch für Vorab-Versionen.
-\date{\sffamily Hamburg, 15. 7. 2021}  % Abgabedatum!
+\date{\sffamily Hamburg, 16. 7. 2021}  % Abgabedatum!
 
 %--------------------------------------------------------------------------------------
 %----------------------------- hier gehts los! --------------------------------------
@@ -44,26 +44,31 @@
 %------------ Zusammenfassung / Abstract ------------------
 
 \thispagestyle{empty}
+
+\selectlanguage{ngerman}
+\subsection*{Thema der Arbeit}
+Software Architektur Elemente des JavaScript Clients in einer Single Page Webapplikation am Beispiel einer Fotoverwaltungssoftware
+
+
+\subsection*{Stichworte}
+SPA, Client-Side Architecture, Rich Client, MVC, Angular, Responsive Webdesign, Angular, REST, JWT
+
+
+\subsection*{\centering\abstractname}
+Diese Bacherlorarbeit befasst sich mit der Realisierung eines potentiell an Benutzerinteraktionen reichen, nativ ähnlichen Clients einer Webanwendung am Beispiel der Implementierung einer Fotoverwaltungssoftware.
+
 \selectlanguage{english}
 \subsection*{Title of Paper}
-Software Architecture Elements of a JavaScript Client in a Single Page Webapplication
+Software architecture elements of a JavaScript client in a single page webapplication exemplified by a photo editing software
 
 \subsection*{Keywords}
-
+SPA, Clientseitige Architektur, MVC, Rich Client, Responsive Webdesign,
+Angular, REST, JWT
 
 \subsection*{\centering\abstractname}
 This bachelor thesis focuses on the realisation of a potentially user interaction rich, similar to native clients in a webapplication by implementing a photo management software as example.
 
-
 \selectlanguage{ngerman}
-\subsection*{Thema der Arbeit}
-Software Architektur Elemente des JavaScript Clients in einer Single Page Webapplikation
-
-
-\subsection*{Stichworte}
-\subsection*{\centering\abstractname}
-Diese Bacherlorarbeit befasst sich mit der Realisierung eines potentiell an Benutzerinteraktionen reichen, nativ ähnlichen Clients einer Webanwendung am Beispiel der Implementierung einer Fotoverwaltungssoftware.
-
 \newpage
 
 
@@ -81,12 +86,12 @@ Diese Bacherlorarbeit befasst sich mit der Realisierung eines potentiell an Benu
 
 \appendix
 
+\printglossaries
 
 %---------------  ------ VERZEICHNISSE ----------------
 
 \listoffigures % Abbildungsverzeichnis erzeugen
 \listoflistings % Quellcodeverzeichnis erzeugen
-\printglossaries
 
 %--------------------- LITERATURLISTE ---------------
 % Die Einträge sollen alphabetisch sortiert sein.
@@ -94,8 +99,17 @@ Diese Bacherlorarbeit befasst sich mit der Realisierung eines potentiell an Benu
 \bibliographystyle{dinat}
 \bibliography{literature/index}
 
+
 %--------------------- EIGENSTÄNDIGKEITSERKLÄRUNG ---------------
 \clearpage\thispagestyle{empty}
+\chaper{Anhang}
+
+Auf der beigelegten CD befindet sich der komplette Quellcode der entwickelten Single Page Webapplikation zur Einsicht.
+
+Eine Kopie des Quellcodes ist zusätzlich auf \url{https://github.com/st-anastasia/pika} hochgeladen.
+
+\clearpage\thispagestyle{empty}
+
 \eigen  % im header definiert
 %--------------------------------------- ENDE ------------------------------------
 \end{document}
